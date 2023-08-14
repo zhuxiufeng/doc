@@ -1,0 +1,218 @@
+openapi: 3.0.1
+info:
+  title:  Training platform API
+  description: Dataset management and model training
+  version: '1.0'
+servers:
+  - url: http://localhost:5000/dmmt/api/v1
+paths:
+  /datasets:
+    get:
+      summary:  查询数据集列表信息
+      tags:
+        - datasets
+      operationId: gets the list of datasets
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: scene
+          schema:
+            type: string
+      responses:
+        '200':
+          description: got back the list of datasets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/datasets'
+  /datasets/{{id}}:
+    get:
+      summary: 查询数据集详细信息
+      tags:
+        - datasets
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: got back dataset info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataset'
+    post:
+      summary: 创建数据集
+      tags:
+        - datasets
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ' create the specified dataset'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/datasetBody'
+    delete:
+        summary: 删除数据集
+        tags:
+            - datasets
+        parameters:
+            - in: path
+              required: true
+              name: id
+              schema:
+                  type: string
+        responses:
+            '200' :
+              description: ' delete the specified dataset'
+    put:
+        summary: 更新数据集
+        tags:
+            - datasets
+        parameters:
+            - in: path
+              required: true
+              name: id
+              schema:
+                  type: string
+        responses:
+            '200' :
+              description: ' update the specified dataset'
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/datasetBody'
+components:
+  schemas:
+    dataset:
+      type: object
+      required:
+        - id
+        - name
+        - summary
+        - scene
+        - cover
+        - train_set
+        - val_set
+        - reason
+        - status
+        - created
+        - updated
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        summary:
+          type: string
+        scene:
+          type: string
+        cover:
+          type: string
+        trainSet:
+          type: object
+          required:
+            - id
+            - imageCount
+            - classCount
+            - annotationCount
+            - size
+          properties:
+            id:
+              type: string
+            imageCount:
+              type: number
+            classCount:
+              type: number
+            annotationCount:
+              type: number
+            size:
+              type: number
+        valSet:
+          type: object
+          required:
+            - id
+            - imageCount
+            - classCount
+            - annotationCount
+            - size
+          properties:
+            id:
+              type: string
+            imageCount:
+              type: number
+            classCount:
+              type: number
+            annotationCount:
+              type: number
+            size:
+              type: number
+
+
+        reason:
+          type: string
+        status:
+          type: number
+          enum:
+            - 1
+            - 2
+            - 3
+        created:
+          type: number
+        updated:
+          type: number
+    datasets:
+      type: object
+      required:
+        - items
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/dataset'
+        total:
+          type: number
+    datasetBody:
+      type: object
+      required:
+        - name
+        - summary
+        - scene
+        - cover
+        - filename
+        - url
+        - size
+        - hash
+      properties:
+        name:
+          type: string
+        summary:
+          type: string
+        scene:
+          type: string
+        cover:
+          type: string
+        filename:
+          type: string
+        url:
+          type: string
+        size:
+            type: number
+        hash:
+            type: string

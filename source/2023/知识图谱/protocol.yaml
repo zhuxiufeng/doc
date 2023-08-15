@@ -6,6 +6,129 @@ info:
 servers:
   - url: http://localhost:5000/dmmt/api/v1
 paths:
+  /rawDatas:
+    get:
+      summary: 查询原始样本列表信息
+      tags:
+        - rawData
+      operationId: gets the list of rawData
+      parameters:
+        - in: query
+          name : page
+          description: page number default 1
+          schema:
+            type: integer
+        - in: query
+          name : limit
+          description: page size default 10
+          schema:
+            type: integer
+        - in: query
+          name: order
+          description: sort by field
+          schema:
+            type: string
+        - in: query
+          name: source
+          description: 原始样本来源
+          schema:
+              type: string
+        - in: query
+          name: filterIds
+          description: 原始样本id列表
+          schema:
+                type: array
+                items:
+                    type: integer
+        - in: query
+          name: filterStatus
+          description: 原始样本状态
+          schema:
+            type: string
+        - in: query
+          name: filterResolution
+          description: 原始样本分辨率,格式为宽x高,精确匹配
+          schema:
+              type: string
+        - in: query
+          name: likeResolution
+          description: 原始样本分辨率,格式为宽x高,模糊匹配
+          schema:
+              type: string
+        - in: query
+          name: filterBoxId
+          description: 原始样本来源智盒id
+          schema:
+              type: string
+        - in: query
+          name: gteCreated
+          description: 原始样本创建时间大于等于
+          schema:
+              type: string
+        - in: query
+          name: lteCreated
+          description: 原始样本创建时间小于等于
+          schema:
+              type: string
+      responses:
+        '200':
+          description: got back the list of rawData
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rawDatas'
+    delete:
+        summary: 删除原始样本
+        tags:
+            - rawData
+        parameters:
+          - in: query
+            name: ids
+            description: 原始样本id列表
+            schema:
+                type: array
+                items:
+                    type: integer
+        responses:
+          '200':
+            description: ' delete the specified rawData'
+  /rawDatas/import/zipFile:
+    post:
+      summary: 导入原始样本,zip文件
+      tags:
+        - rawData
+      responses:
+        '200':
+          description: ' import the specified rawData'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/rawDataImportBody'
+
+#  /labeledData:
+#    get:
+#      summary: 查询标注数据列表信息
+#      tags:
+#        - labeledData
+#      operationId: gets the list of labeledData
+#      parameters:
+#        - in: query
+#          name: label
+#          schema:
+#            type: string
+#        - in: query
+#          name: scene
+#          schema:
+#            type: string
+#      responses:
+#        '200':
+#          description: got back the list of labeledData
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/labeledDatas'
   /datasets:
     get:
       summary:  查询数据集列表信息
@@ -97,6 +220,7 @@ paths:
                 application/json:
                     schema:
                         $ref: '#/components/schemas/datasetBody'
+
 components:
   schemas:
     dataset:
@@ -208,6 +332,56 @@ components:
           type: string
         cover:
           type: string
+        filename:
+          type: string
+        url:
+          type: string
+        size:
+            type: number
+        hash:
+            type: string
+    rawData:
+        type: object
+        required:
+            - id
+            - resolution
+            - status
+            - source
+            - created
+            - updated
+        properties:
+            id:
+              type: string
+            resolution:
+              type: string
+            status:
+              type: string
+            source:
+              type: string
+            created:
+              type: number
+            updated:
+              type: number
+    rawDatas:
+      type: object
+      required:
+        - items
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/rawData'
+        total:
+          type: number
+    rawDataImportBody:
+      type: object
+      required:
+        - filename
+        - url
+        - size
+        - hash
+      properties:
         filename:
           type: string
         url:

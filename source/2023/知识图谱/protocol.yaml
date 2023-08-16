@@ -392,6 +392,10 @@ paths:
       responses:
         '200':
           description: ' create the specified dataset'
+          content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/result'
       requestBody:
         required: true
         content:
@@ -411,6 +415,10 @@ paths:
         responses:
             '200' :
               description: ' delete the specified dataset'
+              content:
+                  application/json:
+                    schema:
+                        $ref: '#/components/schemas/result'
     put:
         summary: 更新数据集
         tags:
@@ -424,6 +432,10 @@ paths:
         responses:
             '200' :
               description: ' update the specified dataset'
+              content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/result'
         requestBody:
             required: true
             content:

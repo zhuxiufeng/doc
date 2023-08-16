@@ -409,3 +409,11 @@ components:
         - file
         - source
         - sn
+      properties:
+        file:
+          type: string
+          format: binary
+        source:
+          type: string
+        sn:
+          type: string

@@ -10,7 +10,7 @@ paths:
     get:
       summary: 获取预标注样本列表
       tags:
-        - preLabeledData
+        - 样本服务-preLabeledData
       operationId: gets the list of rawData
       parameters:
         - in: query
@@ -88,7 +88,7 @@ paths:
     delete:
         summary: 删除原始样本
         tags:
-            - preLabeledData
+            - 样本服务-preLabeledData
         parameters:
           - in: query
             name: ids
@@ -108,7 +108,7 @@ paths:
     post:
       summary: 导入原始样本压缩包
       tags:
-        - preLabeledData
+        - 样本服务-preLabeledData
       responses:
         '200':
           description: ' import the specified rawData'
@@ -126,7 +126,7 @@ paths:
     post:
       summary: 导入原始样本
       tags:
-        - preLabeledData
+        - 样本服务-preLabeledData
       responses:
         '200':
           description: ' import the specified rawData'
@@ -145,7 +145,7 @@ paths:
     get:
       summary: 查询标注样本列表
       tags:
-        - labeledData
+        - 样本服务-labeledData
       operationId: gets the list of labeledDatas
       parameters:
         - in: query
@@ -235,7 +235,7 @@ paths:
     get:
       summary: 查询标注样本详细信息
       tags:
-        - labeledData
+        - 样本服务-labeledData
       parameters:
         - in: path
           name: id
@@ -252,7 +252,7 @@ paths:
     delete:
         summary: 删除标注样本
         tags:
-            - labeledData
+            - 样本服务-labeledData
         parameters:
           - in: path
             name: id
@@ -269,7 +269,7 @@ paths:
     put:
       summary: 更新标注样本
       tags:
-          - labeledData
+          - 样本服务-labeledData
       parameters:
         - in: path
           name: id
@@ -289,7 +289,7 @@ paths:
     post:
       summary: 导入标注样本压缩包
       tags:
-        - labeledData
+        - 样本服务-labeledData
       responses:
         '200':
           description: ' import the specified labeledData'
@@ -307,7 +307,7 @@ paths:
     post:
       summary: 添加标注样本
       tags:
-        - labeledData
+        - 样本服务-labeledData
       responses:
         '200':
           description: ' add the specified labeledData'
@@ -326,7 +326,7 @@ paths:
     get:
       summary:  查询数据集列表
       tags:
-        - datasets
+        - 样本服务-datasets
       operationId: gets the list of datasets
       parameters:
         - in: query
@@ -365,7 +365,7 @@ paths:
     post:
       summary: 创建数据集
       tags:
-        - datasets
+        - 样本服务-datasets
       responses:
         '200':
           description: ' create the specified dataset'
@@ -383,7 +383,7 @@ paths:
     get:
       summary: 获取数据集详细信息
       tags:
-        - datasets
+        - 样本服务-datasets
       parameters:
         - in: path
           name: id
@@ -400,7 +400,7 @@ paths:
     delete:
         summary: 删除数据集
         tags:
-            - datasets
+            - 样本服务-datasets
         parameters:
             - in: path
               required: true
@@ -417,7 +417,7 @@ paths:
     put:
         summary: 更新数据集
         tags:
-            - datasets
+            - 样本服务-datasets
         parameters:
             - in: path
               required: true
@@ -441,7 +441,7 @@ paths:
     post:
       summary: 添加标注样本到数据集
       tags:
-        - datasets
+        - 样本服务-datasets
       parameters:
         - in: path
           required: true
@@ -465,7 +465,7 @@ paths:
     post:
       summary: 从数据集中移除标注样本
       tags:
-        - datasets
+        - 样本服务-datasets
       parameters:
         - in: path
           required: true
@@ -490,7 +490,7 @@ paths:
     post:
       summary: 杆平台训练调用接口
       tags:
-        - taskCreate
+        - 训练控制服务-taskCreate
       requestBody:
         required: true
         content:
@@ -509,7 +509,7 @@ paths:
     post:
       summary: 杆平台图片采集调用接口
       tags:
-        - taskCreate
+        - 训练控制服务-taskCreate
       requestBody:
         required: true
         content:
@@ -659,6 +659,7 @@ components:
           type: string
         cover:
           type: string
+
     rawData:
         type: object
         required:
@@ -736,6 +737,7 @@ components:
         sn:
           type: string
           description: '图片来源sn'
+
     labeledData:
       type: object
       required:
@@ -915,6 +917,7 @@ components:
               type: number
             height:
               type: number
+
     trainBody:
       type: object
       required:

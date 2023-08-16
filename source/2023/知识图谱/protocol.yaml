@@ -100,6 +100,11 @@ paths:
         responses:
           '200':
             description: ' delete the specified rawData'
+            content:
+                application/json:
+                    schema:
+                      $ref: '#/components/schemas/result'
+
   /rawDatas/import:
     post:
       summary: 导入原始样本, zip文件
@@ -387,6 +392,26 @@ paths:
 
 components:
   schemas:
+    result:
+        type: object
+        required:
+            - code
+            - message
+        properties:
+            code:
+              type: number
+            message:
+              type: string
+    error:
+        type: object
+        required:
+            - code
+            - message
+        properties:
+            code:
+              type: number
+            message:
+              type: string
     dataset:
       type: object
       required:

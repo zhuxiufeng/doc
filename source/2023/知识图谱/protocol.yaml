@@ -4,7 +4,7 @@ info:
   description: Dataset management and model training
   version: '1.1'
 servers:
-  - url: http://localhost:5000/dmmt/api/v1
+  - url: http://localhost:5000/api/v1
 paths:
   /rawDatas:
     get:
@@ -206,8 +206,84 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/labeledDatas'
-
-
+  /labeledDatas/{{id}}:
+    get:
+      summary: 查询标注样本详细信息
+      tags:
+        - labeledDatas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: got back labeledData info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/labeledData'
+    delete:
+        summary: 删除标注样本
+        tags:
+            - labeledData
+        parameters:
+          - in: path
+            name: id
+            required: true
+            schema:
+              type: string
+        responses:
+            '200':
+              description: ' delete the specified labeledData'
+    put:
+      summary: 更新标注样本
+      tags:
+          - labeledData
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/labeledDataUpdateBody'
+      responses:
+        '200':
+          description: ' update the specified labeledData'
+  /labeledDatas/import:
+    post:
+      summary: 导入标注样本
+      tags:
+        - labeledData
+      responses:
+        '200':
+          description: ' import the specified labeledData'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/labeledDataImportBody'
+  /labeledDatas/add:
+    post:
+      summary: 添加标注样本
+      tags:
+        - labeledData
+      responses:
+        '200':
+          description: ' add the specified labeledData'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/labeledDataAddBody'
 
   /datasets:
     get:
@@ -523,6 +599,73 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/labelCategory'
+    labeledDataUpdateBody:
+      type: object
+      required:
+          - id
+          - labelAnnotationList
+      properties:
+        id:
+          type: string
+        labelAnnotationList:
+            type: array
+            items:
+              $ref: '#/components/schemas/labelAnnotation'
+    labeledDataImportBody:
+        type: object
+        required:
+            - filename
+            - url
+            - size
+            - hash
+        properties:
+            filename:
+              type: string
+            url:
+              type: string
+            size:
+                type: number
+            hash:
+                type: string
+    labeledDataAdd:
+      type: object
+      required:
+          - collection
+          - source
+          - sn
+          - imageUrl
+          - labelUrl
+          - labelCategoryList
+          - labelAnnotationList
+      properties:
+        collection:
+          type: string
+        source:
+          type: string
+        sn:
+          type: string
+        imageUrl:
+          type: string
+        labelUrl:
+          type: string
+        labelCategoryList:
+          type: array
+          items:
+            $ref: '#/components/schemas/labelCategory'
+        labelAnnotationList:
+          type: array
+          items:
+            $ref: '#/components/schemas/labelAnnotation'
+    labeledDataAddBody:
+      type: object
+      required:
+          - labeledDataList
+      properties:
+        labeledDataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/labeledDataAddBody'
+
     labeledDatas:
         type: object
         required:

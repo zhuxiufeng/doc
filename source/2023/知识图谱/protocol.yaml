@@ -94,7 +94,7 @@ paths:
             description: ' delete the specified rawData'
   /rawDatas/import/zipFile:
     post:
-      summary: 导入原始样本,zip文件
+      summary: 导入原始样本, zip文件
       tags:
         - rawData
       responses:
@@ -106,7 +106,20 @@ paths:
           application/json:
             schema:
                 $ref: '#/components/schemas/rawDataImportBody'
-
+  /rawDatas/import/picture:
+    post:
+      summary: 导入原始样本, 图片文件
+      tags:
+        - rawData
+      responses:
+        '200':
+          description: ' import the specified rawData'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+                $ref: '#/components/schemas/rawDataImportPictureBody'
 #  /labeledData:
 #    get:
 #      summary: 查询标注数据列表信息
@@ -390,3 +403,9 @@ components:
             type: number
         hash:
             type: string
+    rawDataImportPictureBody:
+      type: object
+      required:
+        - file
+        - source
+        - sn

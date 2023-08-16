@@ -488,7 +488,7 @@ paths:
 
   /taskCreate/train:
     post:
-      summary: 训练调用接口
+      summary: 杆平台训练调用接口
       tags:
         - taskCreate
       requestBody:
@@ -507,7 +507,7 @@ paths:
                     $ref: '#/components/schemas/result'
   /taskCreate/imageGather:
     post:
-      summary: 图片采集调用接口
+      summary: 杆平台图片采集调用接口
       tags:
         - taskCreate
       requestBody:

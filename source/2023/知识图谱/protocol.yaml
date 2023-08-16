@@ -524,6 +524,46 @@ paths:
               application/json:
                 schema:
                     $ref: '#/components/schemas/result'
+  /modelInfos:
+    get:
+        summary: 查询模型列表
+        tags:
+            - 应用测评服务-modelInfos
+        operationId: gets the list of modelInfos
+        parameters:
+            - in: query
+              name : page
+              description: page number, default 1
+              schema:
+                  type: integer
+            - in: query
+              name : limit
+              description: page size, default 10
+              schema:
+                  type: integer
+            - in: query
+              name: order
+              description: sort by field
+              schema:
+                  type: string
+            - in: query
+              name: filterName
+              schema:
+                  type: string
+            - in: query
+              name: filterScene
+              schema:
+                  type: string
+                  enum:
+                  - detection
+                  - classification
+        responses:
+            '200':
+              description: got back the list of modelInfos
+              content:
+                  application/json:
+                    schema:
+                        $ref: '#/components/schemas/modelInfos'
 
 components:
   schemas:
@@ -922,12 +962,27 @@ components:
       type: object
       required:
         - targets
+        - chipset
+        - fps
       properties:
         targets:
           type: array
           description: '训练目标列表'
           items:
             type: string
+        chipset:
+            type: string
+            description: '芯片类型'
+            enum:
+                - rk1808
+                - nvidia
+                - amd
+                - intel
+                - other
+        fps:
+          type: number
+          description: '训练帧率'
+
     imageGatherBody:
       type: object
       required:
@@ -941,3 +996,68 @@ components:
         boxSn:
           type: string
 
+    modelInfo:
+        type: object
+        required:
+            - id
+            - name
+            - description
+            - status
+            - created
+            - chipset
+            - platform
+            - accuracy
+            - recall
+            - precision
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+          description:
+            type: string
+          status:
+            type: string
+            enum:
+              - training
+              - trained
+              - testing
+              - tested
+              - released
+          created:
+            type: number
+          chipset:
+            type: string
+            enum:
+              - rk1808
+              - nvidia
+              - amd
+              - intel
+              - other
+          platform:
+            type: string
+            enum:
+              - tensorflow
+              - pytorch
+              - caffe
+              - mxnet
+              - darknet
+              - other
+          accuracy:
+            type: number
+          recall:
+            type: number
+          precision:
+            type: number
+    modelInfos:
+        type: object
+        required:
+            - items
+            - total
+        properties:
+            items:
+              type: array
+              items:
+                  $ref: '#/components/schemas/modelInfo'
+            total:
+              type: number

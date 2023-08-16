@@ -113,6 +113,10 @@ paths:
       responses:
         '200':
           description: ' import the specified rawData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
       requestBody:
         required: true
         content:
@@ -574,7 +578,6 @@ components:
     rawDataImportZipFileBody:
       type: object
       required:
-        - filename
         - url
         - size
         - hash

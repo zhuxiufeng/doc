@@ -8,19 +8,19 @@ servers:
 paths:
   /rawDatas:
     get:
-      summary: 查询原始样本列表信息
+      summary: 获取预标注样本列表
       tags:
-        - rawData
+        - preLabeledData
       operationId: gets the list of rawData
       parameters:
         - in: query
           name : page
-          description: page number default 1
+          description: page number, default 1
           schema:
             type: integer
         - in: query
           name : limit
-          description: page size default 10
+          description: page size, default 10
           schema:
             type: integer
         - in: query
@@ -80,7 +80,7 @@ paths:
     delete:
         summary: 删除原始样本
         tags:
-            - rawData
+            - preLabeledData
         parameters:
           - in: query
             name: ids
@@ -96,7 +96,7 @@ paths:
     post:
       summary: 导入原始样本, zip文件
       tags:
-        - rawData
+        - preLabeledData
       responses:
         '200':
           description: ' import the specified rawData'
@@ -110,7 +110,7 @@ paths:
     post:
       summary: 导入原始样本, 图片文件
       tags:
-        - rawData
+        - preLabeledData
       responses:
         '200':
           description: ' import the specified rawData'

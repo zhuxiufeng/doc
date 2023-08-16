@@ -92,7 +92,7 @@ paths:
         responses:
           '200':
             description: ' delete the specified rawData'
-  /rawDatas/import/zipFile:
+  /rawDatas/import:
     post:
       summary: 导入原始样本, zip文件
       tags:
@@ -106,7 +106,7 @@ paths:
           application/json:
             schema:
                 $ref: '#/components/schemas/rawDataImportZipFileBody'
-  /rawDatas/import/picture:
+  /rawDatas/add:
     post:
       summary: 导入原始样本, 图片文件
       tags:
@@ -258,7 +258,7 @@ paths:
           description: ' update the specified labeledData'
   /labeledDatas/import:
     post:
-      summary: 导入标注样本
+      summary: 导入标注样本, zip文件
       tags:
         - labeledData
       responses:
@@ -272,7 +272,7 @@ paths:
                 $ref: '#/components/schemas/labeledDataImportBody'
   /labeledDatas/add:
     post:
-      summary: 添加标注样本
+      summary: 添加标注样本, 图片文件列表
       tags:
         - labeledData
       responses:

@@ -105,7 +105,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/rawDataImportBody'
+                $ref: '#/components/schemas/rawDataImportZipFileBody'
   /rawDatas/import/picture:
     post:
       summary: 导入原始样本, 图片文件
@@ -120,28 +120,95 @@ paths:
           multipart/form-data:
             schema:
                 $ref: '#/components/schemas/rawDataImportPictureBody'
-#  /labeledData:
-#    get:
-#      summary: 查询标注数据列表信息
-#      tags:
-#        - labeledData
-#      operationId: gets the list of labeledData
-#      parameters:
-#        - in: query
-#          name: label
-#          schema:
-#            type: string
-#        - in: query
-#          name: scene
-#          schema:
-#            type: string
-#      responses:
-#        '200':
-#          description: got back the list of labeledData
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/labeledDatas'
+  /labeledDatas:
+    get:
+      summary: 查询标注样本列表信息
+      tags:
+        - labeledDatas
+      operationId: gets the list of labeledDatas
+      parameters:
+        - in: query
+          name : page
+          description: page number default 1
+          schema:
+            type: integer
+        - in: query
+          name : limit
+          description: page size default 10
+          schema:
+              type: integer
+        - in: query
+          name: order
+          description: sort by field
+          schema:
+              type: string
+        - in: query
+          name: source
+          description: 标注样本来源
+          schema:
+              type: string
+        - in: query
+          name: filterIds
+          description: 标注样本id列表
+          schema:
+            type: array
+            items:
+                type: integer
+        - in: query
+          name: filterCategorizationIds
+          description: 标注样本分类id列表
+          schema:
+            type: array
+            items:
+                type: string
+        - in: query
+          name: likeCategorizationName
+          description: 标注样本分类名称,模糊匹配
+          schema:
+              type: string
+        - in: query
+          name: filterCollection
+          description: 标注样本集合类型
+          schema:
+              type: string
+              enum:
+                - train
+                - test
+        - in: query
+          name: filterGteCreated
+          description: 标注样本创建时间大于等于
+          schema:
+              type: string
+        - in: query
+          name: filterLteCreated
+          description: 标注样本创建时间小于等于
+          schema:
+              type: string
+        - in: query
+          name: filterGteUpdated
+          description: 标注样本更新时间大于等于
+          schema:
+              type: string
+        - in: query
+          name: filterLteUpdated
+          description: 标注样本更新时间小于等于
+          schema:
+              type: string
+        - in: query
+          name: filterSn
+          description: 标注样本来源sn
+          schema:
+              type: string
+      responses:
+        '200':
+          description: got back the list of labeledDatas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/labeledDatas'
+
+
+
   /datasets:
     get:
       summary:  查询数据集列表信息
@@ -387,7 +454,7 @@ components:
             $ref: '#/components/schemas/rawData'
         total:
           type: number
-    rawDataImportBody:
+    rawDataImportZipFileBody:
       type: object
       required:
         - filename
@@ -415,5 +482,119 @@ components:
           format: binary
         source:
           type: string
+          description: '图片来源'
         sn:
           type: string
+          description: '图片来源sn'
+    labeledData:
+      type: object
+      required:
+        - id
+        - created
+        - updated
+        - size
+        - collection
+        - source
+        - sn
+        - imageUrl
+        - labelUrl
+        - labelCategoryList
+        - labelAnnotationList
+      properties:
+        id:
+          type: string
+        created:
+          type: number
+        updated:
+          type: number
+        size:
+          type: number
+        collection:
+          type: string
+        source:
+          type: string
+        sn:
+          type: string
+        imageUrl:
+          type: string
+        labelUrl:
+          type: string
+        labelCategoryList:
+          type: array
+          items:
+            $ref: '#/components/schemas/labelCategory'
+    labeledDatas:
+        type: object
+        required:
+            - items
+            - total
+        properties:
+            items:
+              type: array
+              items:
+                  $ref: '#/components/schemas/labeledData'
+            total:
+              type: number
+    labelCategory:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - color
+        - created
+        - updated
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        created:
+          type: number
+        updated:
+          type: number
+    labelAnnotationList:
+        type: array
+        items:
+          $ref: '#/components/schemas/labelAnnotation'
+    labelAnnotation:
+        type: object
+        required:
+            - id
+            - category
+            - bbox
+            - created
+            - updated
+        properties:
+            id:
+              type: string
+            category:
+              type: string
+            bbox:
+              type: object
+              required:
+                  - x
+                  - y
+                  - w
+                  - h
+              properties:
+                  x:
+                    type: number
+                  y:
+                    type: number
+                  w:
+                    type: number
+                  h:
+                    type: number
+            created:
+              type: number
+            updated:
+              type: number
+            width:
+              type: number
+            height:
+              type: number

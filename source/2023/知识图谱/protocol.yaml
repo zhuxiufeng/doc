@@ -39,14 +39,14 @@ paths:
                 - other
         - in: query
           name: filterIds
-          description: 原始样本id列表, 精确匹配
+          description: 原始样本id列表
           schema:
                 type: array
                 items:
                     type: integer
         - in: query
           name: filterStatus
-          description: 原始样本状态, 精确匹配
+          description: 原始样本状态
           schema:
             type: string
             enum:
@@ -520,8 +520,16 @@ components:
               type: string
             status:
               type: string
+              enum:
+                - unlabeled
+                - labeled
+                - locked
             source:
               type: string
+              enum:
+                - box
+                - manual
+                - other
             created:
               type: number
             updated:

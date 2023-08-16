@@ -797,7 +797,7 @@ components:
         labeledDataList:
           type: array
           items:
-            $ref: '#/components/schemas/labeledDataAddBody'
+            $ref: '#/components/schemas/labeledDataAdd'
 
     labeledDatas:
         type: object

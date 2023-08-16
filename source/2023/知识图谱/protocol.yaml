@@ -525,7 +525,6 @@ paths:
                 schema:
                     $ref: '#/components/schemas/result'
 
-
 components:
   schemas:
     result:
@@ -923,6 +922,7 @@ components:
       properties:
         targets:
           type: array
+          description: '训练目标列表'
           items:
             type: string
     imageGatherBody:

@@ -140,6 +140,7 @@ paths:
           multipart/form-data:
             schema:
                 $ref: '#/components/schemas/rawDataImportPictureBody'
+
   /labeledDatas:
     get:
       summary: 查询标注样本列表
@@ -484,6 +485,47 @@ paths:
               application/json:
                 schema:
                     $ref: '#/components/schemas/result'
+
+  /taskCreate/train:
+    post:
+      summary: 训练调用接口
+      tags:
+        - taskCreate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/trainBody'
+
+      responses:
+        '200':
+          description: ' train control'
+          content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/result'
+  /taskCreate/imageGather:
+    post:
+      summary: 图片采集调用接口
+      tags:
+        - taskCreate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/imageGatherBody'
+
+      responses:
+        '200':
+          description: ' imageGather control'
+          content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/result'
+
+
 components:
   schemas:
     result:
@@ -874,3 +916,25 @@ components:
               type: number
             height:
               type: number
+    trainBody:
+      type: object
+      required:
+        - targets
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+    imageGatherBody:
+      type: object
+      required:
+        - targets
+        - boxSn
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+        boxSn:
+          type: string
+

@@ -526,7 +526,7 @@ paths:
                     $ref: '#/components/schemas/result'
   /modelInfos:
     get:
-        summary: 查询模型列表
+        summary: 查询/推送模型信息
         tags:
             - 应用测评服务-modelInfos
         operationId: gets the list of modelInfos

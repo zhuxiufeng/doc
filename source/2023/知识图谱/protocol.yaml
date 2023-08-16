@@ -33,18 +33,26 @@ paths:
           description: 原始样本来源
           schema:
               type: string
+              enum:
+                - box
+                - manual
+                - other
         - in: query
           name: filterIds
-          description: 原始样本id列表
+          description: 原始样本id列表, 精确匹配
           schema:
                 type: array
                 items:
                     type: integer
         - in: query
           name: filterStatus
-          description: 原始样本状态
+          description: 原始样本状态, 精确匹配
           schema:
             type: string
+            enum:
+              - unlabeled
+              - labeled
+              - locked
         - in: query
           name: filterResolution
           description: 原始样本分辨率,格式为宽x高,精确匹配
@@ -56,8 +64,8 @@ paths:
           schema:
               type: string
         - in: query
-          name: filterBoxId
-          description: 原始样本来源智盒id
+          name: filterBoxSn
+          description: 原始样本来源智盒sn
           schema:
               type: string
         - in: query

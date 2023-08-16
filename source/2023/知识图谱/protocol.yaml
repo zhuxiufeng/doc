@@ -565,6 +565,24 @@ paths:
                     schema:
                         $ref: '#/components/schemas/modelInfos'
 
+  /models/import:
+    post:
+        summary: 导入模型
+        tags:
+            - 算法服务-models
+        requestBody:
+            required: true
+            content:
+              application/json:
+                  schema:
+                      $ref: '#/components/schemas/modleImportBody'
+        responses:
+            '200':
+              description: ' import the specified model'
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/result'
 components:
   schemas:
     result:
@@ -1061,3 +1079,56 @@ components:
                   $ref: '#/components/schemas/modelInfo'
             total:
               type: number
+
+    modelImportBody:
+      type: object
+      required:
+        - filename
+        - url
+        - size
+        - hash
+        - chipset
+        - platform
+        - accuracy
+        - recall
+        - precision
+        - description
+        - categoryList
+      properties:
+        filename:
+          type: string
+        url:
+          type: string
+        size:
+            type: number
+        hash:
+            type: string
+        chipset:
+            type: string
+            enum:
+              - rk1808
+              - nvidia
+              - amd
+              - intel
+              - other
+        platform:
+            type: string
+            enum:
+              - tensorflow
+              - pytorch
+              - caffe
+              - mxnet
+              - darknet
+              - other
+        accuracy:
+            type: number
+        recall:
+            type: number
+        precision:
+            type: number
+        description:
+            type: string
+        categoryList:
+            type: array
+            items:
+              $ref: '#/components/schemas/labelCategory'

@@ -442,7 +442,54 @@ paths:
                 application/json:
                     schema:
                         $ref: '#/components/schemas/datasetBody'
-
+  /datasets/{{datasetId}}/add/labeledData:
+    post:
+      summary: 添加标注样本到数据集
+      tags:
+        - datasets
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+        - in: query
+          name: labeledDataIds
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: ' add the specified labeledDatas to dataset'
+          content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/result'
+  /datasets/{{id}}/remove/labeledData:
+    post:
+      summary: 从数据集中移除标注样本
+      tags:
+        - datasets
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+        - in: query
+          name: labeledDataIds
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: ' remove the specified labeledDatas from dataset'
+          content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/result'
 components:
   schemas:
     result:
@@ -450,11 +497,14 @@ components:
         required:
             - code
             - message
+            - data
         properties:
             code:
               type: number
             message:
               type: string
+            data:
+                type: object
     error:
         type: object
         required:
@@ -565,10 +615,6 @@ components:
         - summary
         - scene
         - cover
-        - filename
-        - url
-        - size
-        - hash
       properties:
         name:
           type: string
@@ -578,14 +624,6 @@ components:
           type: string
         cover:
           type: string
-        filename:
-          type: string
-        url:
-          type: string
-        size:
-            type: number
-        hash:
-            type: string
     rawData:
         type: object
         required:

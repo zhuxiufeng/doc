@@ -104,7 +104,6 @@ paths:
                 application/json:
                     schema:
                       $ref: '#/components/schemas/result'
-
   /rawDatas/import:
     post:
       summary: 导入原始样本压缩包
@@ -143,19 +142,19 @@ paths:
                 $ref: '#/components/schemas/rawDataImportPictureBody'
   /labeledDatas:
     get:
-      summary: 查询标注样本列表信息
+      summary: 查询标注样本列表
       tags:
         - labeledData
       operationId: gets the list of labeledDatas
       parameters:
         - in: query
           name : page
-          description: page number default 1
+          description: page number, default 1
           schema:
             type: integer
         - in: query
           name : limit
-          description: page size default 10
+          description: page size, default 10
           schema:
               type: integer
         - in: query
@@ -168,6 +167,10 @@ paths:
           description: 标注样本来源
           schema:
               type: string
+              enum:
+                  - box
+                  - manual
+                  - other
         - in: query
           name: filterIds
           description: 标注样本id列表
@@ -258,6 +261,10 @@ paths:
         responses:
             '200':
               description: ' delete the specified labeledData'
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/result'
     put:
       summary: 更新标注样本
       tags:
@@ -279,12 +286,16 @@ paths:
           description: ' update the specified labeledData'
   /labeledDatas/import:
     post:
-      summary: 导入标注样本, zip文件
+      summary: 导入标注样本压缩包
       tags:
         - labeledData
       responses:
         '200':
           description: ' import the specified labeledData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
       requestBody:
         required: true
         content:
@@ -293,12 +304,16 @@ paths:
                 $ref: '#/components/schemas/labeledDataImportBody'
   /labeledDatas/add:
     post:
-      summary: 添加标注样本, 图片文件列表
+      summary: 添加标注样本
       tags:
         - labeledData
       responses:
         '200':
           description: ' add the specified labeledData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
       requestBody:
         required: true
         content:
@@ -308,19 +323,37 @@ paths:
 
   /datasets:
     get:
-      summary:  查询数据集列表信息
+      summary:  查询数据集列表
       tags:
         - datasets
       operationId: gets the list of datasets
       parameters:
         - in: query
-          name: name
+          name : page
+          description: page number, default 1
+          schema:
+            type: integer
+        - in: query
+          name : limit
+          description: page size, default 10
+          schema:
+              type: integer
+        - in: query
+          name: order
+          description: sort by field
+          schema:
+              type: string
+        - in: query
+          name: filterName
           schema:
             type: string
         - in: query
-          name: scene
+          name: filterScene
           schema:
             type: string
+            enum:
+              - detection
+              - classification
       responses:
         '200':
           description: got back the list of datasets
@@ -330,7 +363,7 @@ paths:
                 $ref: '#/components/schemas/datasets'
   /datasets/{{id}}:
     get:
-      summary: 查询数据集详细信息
+      summary: 获取数据集详细信息
       tags:
         - datasets
       parameters:
@@ -443,8 +476,12 @@ components:
           type: string
         scene:
           type: string
+          enum:
+              - detection
+              - classification
         cover:
           type: string
+          description: cover image url
         trainSet:
           type: object
           required:

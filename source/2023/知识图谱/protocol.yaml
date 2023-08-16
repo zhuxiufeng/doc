@@ -124,7 +124,7 @@ paths:
     get:
       summary: 查询标注样本列表信息
       tags:
-        - labeledDatas
+        - labeledData
       operationId: gets the list of labeledDatas
       parameters:
         - in: query
@@ -210,7 +210,7 @@ paths:
     get:
       summary: 查询标注样本详细信息
       tags:
-        - labeledDatas
+        - labeledData
       parameters:
         - in: path
           name: id

@@ -361,6 +361,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/datasets'
+    post:
+      summary: 创建数据集
+      tags:
+        - datasets
+      responses:
+        '200':
+          description: ' create the specified dataset'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/datasetBody'
   /datasets/{{id}}:
     get:
       summary: 获取数据集详细信息
@@ -379,29 +396,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/dataset'
-    post:
-      summary: 创建数据集
-      tags:
-        - datasets
-      parameters:
-        - in: path
-          required: true
-          name: id
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ' create the specified dataset'
-          content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-                $ref: '#/components/schemas/datasetBody'
     delete:
         summary: 删除数据集
         tags:

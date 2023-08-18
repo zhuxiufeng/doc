@@ -565,6 +565,48 @@ paths:
                     schema:
                         $ref: '#/components/schemas/modelInfos'
 
+  /devices:
+    get:
+        summary: 查询设备列表
+        tags:
+            - 设备管理服务-devices
+        operationId: gets the list of devices
+        parameters:
+            - in: query
+              name : page
+              description: page number, default 1
+              schema:
+                  type: integer
+            - in: query
+              name : limit
+              description: page size, default 10
+              schema:
+                  type: integer
+        responses:
+            '200':
+              description: got back the list of devices
+              content:
+                  application/json:
+                    schema:
+                        $ref: '#/components/schemas/devices'
+    post:
+        summary: 创建设备
+        tags:
+            - 设备管理服务-devices
+        requestBody:
+            required: true
+            content:
+              application/json:
+                  schema:
+                      $ref: '#/components/schemas/deviceBody'
+        responses:
+            '200':
+              description: ' create the specified device'
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/result'
+
   /models/import:
     post:
         summary: 导入模型
@@ -1000,12 +1042,13 @@ components:
         fps:
           type: number
           description: '训练帧率'
-
     imageGatherBody:
       type: object
       required:
         - targets
         - boxSn
+        - aiDeviceSn
+        - cameraSn
       properties:
         targets:
           type: array
@@ -1013,6 +1056,10 @@ components:
             type: string
         boxSn:
           type: string
+        aiDeviceSn:
+          type: string
+        cameraSn:
+            type: string
 
     modelInfo:
         type: object
@@ -1079,7 +1126,6 @@ components:
                   $ref: '#/components/schemas/modelInfo'
             total:
               type: number
-
     modelImportBody:
       type: object
       required:
@@ -1132,3 +1178,62 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/labelCategory'
+
+    deviceBody:
+      type: object
+      required:
+        - sn
+        - productId
+        - type
+        - status
+        - subDeviceList
+      properties:
+        sn:
+          type: string
+        type:
+          type: string
+          enum:
+            - camera
+            - box
+            - other
+        chipset:
+          type: string
+          enum:
+            - rk1808
+            - other
+        status:
+          type: string
+          enum:
+            - online
+            - offline
+            - other
+        subDeviceList:
+          type: array
+          items:
+            type: object
+            required:
+              - sn
+              - productId
+            properties:
+                sn:
+                    type: string
+                productId:
+                    type: string
+                status:
+                    type: string
+                    enum:
+                    - online
+                    - offline
+                    - other
+    devices:
+        type: object
+        required:
+            - items
+            - total
+        properties:
+            items:
+              type: array
+              items:
+                  $ref: '#/components/schemas/deviceBody'
+            total:
+              type: number

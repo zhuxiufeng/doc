@@ -570,7 +570,112 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/validation-setBody'
-
+  /validation-set/{{id}}:
+    get:
+      summary: 获取验证集详细信息
+      tags:
+        - 样本服务-validation-set
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: got back validation-set info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validation-set'
+    delete:
+        summary: 删除验证集
+        tags:
+            - 样本服务-validation-set
+        parameters:
+            - in: path
+              required: true
+              name: id
+              schema:
+                  type: string
+        responses:
+            '200' :
+              description: ' delete the specified validation-set'
+              content:
+                  application/json:
+                    schema:
+                        $ref: '#/components/schemas/result'
+    put:
+        summary: 更新验证集
+        tags:
+            - 样本服务-validation-set
+        parameters:
+            - in: path
+              required: true
+              name: id
+              schema:
+                  type: string
+        responses:
+            '200' :
+              description: ' update the specified validation-set'
+              content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/result'
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/validation-setBody'
+  /validation-set/{{validationSetId}}/add/labeledData:
+    post:
+      summary: 添加标注样本到验证集
+      tags:
+        - 样本服务-validation-set
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+        - in: query
+          name: labeledDataIds
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: ' add the specified labeledDatas to validation-set'
+          content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/result'
+  /validation-set/{{id}}/remove/labeledData:
+    post:
+      summary: 从验证集中移除标注样本
+      tags:
+        - 样本服务-validation-set
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+        - in: query
+          name: labeledDataIds
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: ' remove the specified labeledDatas from validation-set'
+          content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/result'
 
   /taskCreate/train:
     post:
@@ -722,7 +827,7 @@ paths:
                     schema:
                         $ref: '#/components/schemas/devices'
     post:
-        summary: 创建设备
+        summary: 添加设备
         tags:
             - 设备管理服务-devices
         requestBody:

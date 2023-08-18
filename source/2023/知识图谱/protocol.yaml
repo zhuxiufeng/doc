@@ -6,7 +6,7 @@ info:
 servers:
   - url: http://localhost:5000/api/v1
 paths:
-  /rawDatas:
+  /raw-datas:
     get:
       summary: 获取预标注样本列表
       tags:
@@ -14,12 +14,12 @@ paths:
       operationId: gets the list of rawData
       parameters:
         - in: query
-          name : page
+          name: page
           description: page number, default 1
           schema:
             type: integer
         - in: query
-          name : limit
+          name: limit
           description: page size, default 10
           schema:
             type: integer
@@ -32,18 +32,18 @@ paths:
           name: source
           description: 原始样本来源
           schema:
-              type: string
-              enum:
-                - box
-                - manual
-                - other
+            type: string
+            enum:
+              - box
+              - manual
+              - other
         - in: query
           name: filterIds
           description: 原始样本id列表
           schema:
-                type: array
-                items:
-                    type: integer
+            type: array
+            items:
+              type: integer
         - in: query
           name: filterStatus
           description: 原始样本状态
@@ -57,27 +57,27 @@ paths:
           name: filterResolution
           description: 原始样本分辨率,格式为宽x高,精确匹配
           schema:
-              type: string
+            type: string
         - in: query
           name: likeResolution
           description: 原始样本分辨率,格式为宽x高,模糊匹配
           schema:
-              type: string
+            type: string
         - in: query
           name: filterBoxSn
           description: 原始样本来源智盒sn
           schema:
-              type: string
+            type: string
         - in: query
           name: gteCreated
           description: 原始样本创建时间大于等于
           schema:
-              type: string
+            type: string
         - in: query
           name: lteCreated
           description: 原始样本创建时间小于等于
           schema:
-              type: string
+            type: string
       responses:
         '200':
           description: got back the list of rawData
@@ -86,25 +86,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/rawDatas'
     delete:
-        summary: 删除原始样本
-        tags:
-            - 样本服务-preLabeledData
-        parameters:
-          - in: query
-            name: ids
-            description: 原始样本id列表
-            schema:
-                type: array
-                items:
-                    type: integer
-        responses:
-          '200':
-            description: ' delete the specified rawData'
-            content:
-                application/json:
-                    schema:
-                      $ref: '#/components/schemas/result'
-  /rawDatas/import:
+      summary: 删除原始样本
+      tags:
+        - 样本服务-preLabeledData
+      parameters:
+        - in: query
+          name: ids
+          description: 原始样本id列表
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        '200':
+          description: ' delete the specified rawData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+  /raw-datas/import:
     post:
       summary: 导入原始样本压缩包
       tags:
@@ -121,8 +121,8 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/rawDataImportZipFileBody'
-  /rawDatas/add:
+              $ref: '#/components/schemas/rawDataImportZipFileBody'
+  /raw-datas/add:
     post:
       summary: 导入原始样本
       tags:
@@ -139,7 +139,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-                $ref: '#/components/schemas/rawDataImportPictureBody'
+              $ref: '#/components/schemas/rawDataImportPictureBody'
 
   /labeledDatas:
     get:
@@ -485,6 +485,92 @@ paths:
               application/json:
                 schema:
                     $ref: '#/components/schemas/result'
+  /datasets/{{id}}/exports:
+    get:
+      summary: 导出数据集
+      tags:
+        - 样本服务-datasets
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum:
+              - json
+              - xml
+              - csv
+              - yaml
+      responses:
+        '200':
+          description: ' export the specified dataset'
+          content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/result'
+
+  /validation-set:
+    get:
+          summary:  查询验证集列表
+          tags:
+            - 样本服务-validation-set
+          operationId: gets the list of validation-set
+          parameters:
+            - in: query
+              name : page
+              description: page number, default 1
+              schema:
+                type: integer
+            - in: query
+              name : limit
+              description: page size, default 10
+              schema:
+                  type: integer
+            - in: query
+              name: order
+              description: sort by field
+              schema:
+                  type: string
+            - in: query
+              name: filterName
+              schema:
+                type: string
+            - in: query
+              name: filterScene
+              schema:
+                type: string
+                enum:
+                  - detection
+                  - classification
+          responses:
+            '200':
+              description: got back the list of validation-set
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/validation-set'
+    post:
+      summary: 创建验证集
+      tags:
+        - 样本服务-validation-set
+      responses:
+        '200':
+          description: ' create the specified validation-set'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/validation-setBody'
+
 
   /taskCreate/train:
     post:
@@ -524,6 +610,7 @@ paths:
               application/json:
                 schema:
                     $ref: '#/components/schemas/result'
+
   /modelInfos:
     get:
         summary: 查询/推送模型信息
@@ -564,6 +651,51 @@ paths:
                   application/json:
                     schema:
                         $ref: '#/components/schemas/modelInfos'
+  /models/import:
+    post:
+      summary: 导入模型
+      tags:
+        - 算法服务-models
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/modelImportBody'
+      responses:
+        '200':
+          description: ' import the specified model'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+  /models/{{id}}/exports:
+    get:
+      summary: 导出模型
+      tags:
+        - 算法服务-models
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum:
+              - json
+              - xml
+              - csv
+              - yaml
+      responses:
+        '200':
+          description: ' export the specified model'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
 
   /devices:
     get:
@@ -607,24 +739,6 @@ paths:
                       schema:
                           $ref: '#/components/schemas/result'
 
-  /models/import:
-    post:
-        summary: 导入模型
-        tags:
-            - 算法服务-models
-        requestBody:
-            required: true
-            content:
-              application/json:
-                  schema:
-                      $ref: '#/components/schemas/modelImportBody'
-        responses:
-            '200':
-              description: ' import the specified model'
-              content:
-                  application/json:
-                      schema:
-                          $ref: '#/components/schemas/result'
 components:
   schemas:
     result:
@@ -760,6 +874,81 @@ components:
         cover:
           type: string
 
+    validation-set:
+        type: object
+        required:
+            - id
+            - name
+            - summary
+            - scene
+            - cover
+            - dataset
+            - reason
+            - status
+            - created
+            - updated
+        properties:
+            id:
+              type: string
+            name:
+              type: string
+            summary:
+              type: string
+            scene:
+              type: string
+              enum:
+                - detection
+                - classification
+            cover:
+              type: string
+              description: cover image url
+            dataset:
+              type: object
+              required:
+                - id
+                - imageCount
+                - classCount
+                - annotationCount
+                - size
+              properties:
+                id:
+                  type: string
+                imageCount:
+                  type: number
+                classCount:
+                  type: number
+                annotationCount:
+                  type: number
+                size:
+                  type: number
+            reason:
+              type: string
+            status:
+              type: number
+              enum:
+                - 1
+                - 2
+                - 3
+            created:
+              type: number
+            updated:
+              type: number
+    validation-setBody:
+        type: object
+        required:
+            - name
+            - summary
+            - scene
+            - cover
+        properties:
+            name:
+              type: string
+            summary:
+              type: string
+            scene:
+              type: string
+            cover:
+              type: string
     rawData:
         type: object
         required:

@@ -6,11 +6,11 @@ info:
 servers:
   - url: http://localhost:5000/api/v1
 paths:
-  /raw-datas:
+  /raw-data/list:
     get:
       summary: 获取预标注样本列表
       tags:
-        - 样本服务-preLabeledData
+        - 样本服务-unlabeledData
       operationId: gets the list of rawData
       parameters:
         - in: query
@@ -24,13 +24,8 @@ paths:
           schema:
             type: integer
         - in: query
-          name: order
-          description: sort by field
-          schema:
-            type: string
-        - in: query
-          name: source
-          description: 原始样本来源
+          name: sourceType
+          description: 原始样本来源类型
           schema:
             type: string
             enum:
@@ -38,14 +33,7 @@ paths:
               - manual
               - other
         - in: query
-          name: filterIds
-          description: 原始样本id列表
-          schema:
-            type: array
-            items:
-              type: integer
-        - in: query
-          name: filterStatus
+          name: status
           description: 原始样本状态
           schema:
             type: string
@@ -54,18 +42,18 @@ paths:
               - labeled
               - locked
         - in: query
-          name: filterResolution
+          name: resolution
           description: 原始样本分辨率,格式为宽x高,精确匹配
           schema:
             type: string
+#        - in: query
+#          name: likeResolution
+#          description: 原始样本分辨率,格式为宽x高,模糊匹配
+#          schema:
+#            type: string
         - in: query
-          name: likeResolution
-          description: 原始样本分辨率,格式为宽x高,模糊匹配
-          schema:
-            type: string
-        - in: query
-          name: filterBoxSn
-          description: 原始样本来源智盒sn
+          name: sourceId
+          description: 原始样本来源id
           schema:
             type: string
         - in: query
@@ -85,26 +73,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/rawDatas'
-    delete:
-      summary: 删除原始样本
-      tags:
-        - 样本服务-preLabeledData
-      parameters:
-        - in: query
-          name: ids
-          description: 原始样本id列表
-          schema:
-            type: array
-            items:
-              type: integer
-      responses:
-        '200':
-          description: ' delete the specified rawData'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-  /raw-datas/import:
+  /raw-data/import:
     post:
       summary: 导入原始样本压缩包
       tags:
@@ -122,11 +91,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/rawDataImportZipFileBody'
-  /raw-datas/add:
+  /raw-data/add:
     post:
       summary: 导入原始样本
       tags:
-        - 样本服务-preLabeledData
+        - 样本服务-unlabeledData
       responses:
         '200':
           description: ' import the specified rawData'
@@ -140,8 +109,33 @@ paths:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/rawDataImportPictureBody'
+  /raw-data/remove:
+    post:
+      summary: 删除原始样本
+      tags:
+        - 样本服务-unlabeledData
+      responses:
+        '200':
+          description: ' remove the specified rawData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: array
+                  items:
+                    type: string
 
-  /labeledDatas:
+  /labeledData:
     get:
       summary: 查询标注样本列表
       tags:
@@ -231,7 +225,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/labeledDatas'
-  /labeledDatas/{{id}}:
+  /labeledData/{{id}}:
     get:
       summary: 查询标注样本详细信息
       tags:
@@ -285,7 +279,7 @@ paths:
       responses:
         '200':
           description: ' update the specified labeledData'
-  /labeledDatas/import:
+  /labeledData/import:
     post:
       summary: 导入标注样本压缩包
       tags:
@@ -303,7 +297,7 @@ paths:
           application/json:
             schema:
                 $ref: '#/components/schemas/labeledDataImportBody'
-  /labeledDatas/add:
+  /labeledData/add:
     post:
       summary: 添加标注样本
       tags:
@@ -1058,9 +1052,11 @@ components:
         type: object
         required:
             - id
+            - filename
             - resolution
             - status
-            - source
+            - source_type
+            - source_id
             - created
             - updated
         properties:
@@ -1074,7 +1070,9 @@ components:
                 - unlabeled
                 - labeled
                 - locked
-            source:
+            source_id:
+                type: integer
+            source_type:
               type: string
               enum:
                 - box
@@ -1140,8 +1138,8 @@ components:
         - updated
         - size
         - collection
-        - source
-        - sn
+        - source_type
+        - source_sn
         - imageUrl
         - labelUrl
         - labelCategoryList
@@ -1157,9 +1155,9 @@ components:
           type: number
         collection:
           type: string
-        source:
+        source_type:
           type: string
-        sn:
+        source_sn:
           type: string
         imageUrl:
           type: string

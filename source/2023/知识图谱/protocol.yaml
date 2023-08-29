@@ -42,27 +42,17 @@ paths:
               - labeled
               - locked
         - in: query
-          name: resolution
-          description: 原始样本分辨率,格式为宽x高,精确匹配
-          schema:
-            type: string
-#        - in: query
-#          name: likeResolution
-#          description: 原始样本分辨率,格式为宽x高,模糊匹配
-#          schema:
-#            type: string
-        - in: query
           name: sourceId
           description: 原始样本来源id
           schema:
             type: string
         - in: query
-          name: gteCreated
+          name: gteCreatedAt
           description: 原始样本创建时间大于等于
           schema:
             type: string
         - in: query
-          name: lteCreated
+          name: lteCreatedAt
           description: 原始样本创建时间小于等于
           schema:
             type: string
@@ -73,27 +63,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/rawDatas'
-  /raw-data/import:
+  /raw-data/save:
     post:
-      summary: 导入原始样本压缩包
-      tags:
-        - 样本服务-preLabeledData
-      responses:
-        '200':
-          description: ' import the specified rawData'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/rawDataImportZipFileBody'
-  /raw-data/add:
-    post:
-      summary: 导入原始样本
+      summary: 添加原始样本
       tags:
         - 样本服务-unlabeledData
       responses:
@@ -108,7 +80,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/rawDataImportPictureBody'
+              $ref: '#/components/schemas/rawDataAddBody'
   /raw-data/remove:
     post:
       summary: 删除原始样本
@@ -134,6 +106,24 @@ paths:
                   type: array
                   items:
                     type: string
+  /raw-data/id/{{id}}:
+    get:
+      summary: 获取原始样本详细信息
+      tags:
+        - 样本服务-unlabeledData
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: got back rawData info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rawData'
 
   /labeledData:
     get:
@@ -1052,48 +1042,60 @@ components:
         type: object
         required:
             - id
-            - filename
-            - resolution
+            - width
+            - height
+            - size
+            - md5
             - status
-            - source_type
-            - source_id
-            - created
-            - updated
+            - sourceType
+            - sourceId
+            - createdAt
+            - updatedAt
         properties:
             id:
               type: string
-            resolution:
-              type: string
+            width:
+                type: integer
+            height:
+                type: integer
+            size:
+                type: integer
             status:
               type: string
               enum:
-                - unlabeled
-                - labeled
-                - locked
-            source_id:
+                - UNLABELED
+                - LABELED
+                - LOCKED
+            sourceId:
                 type: integer
-            source_type:
+            sourceType:
               type: string
               enum:
-                - box
-                - manual
-                - other
-            created:
-              type: number
-            updated:
-              type: number
+                - BOX
+                - MANUAL
+                - OTHER
+            createdAt:
+                type: string
+                format: date-time
+            updatedAt:
+                type: string
+                format: date-time
+
     rawDatas:
       type: object
       required:
-        - items
-        - total
+        - code
+        - data
+        - count
       properties:
-        items:
+        code:
+          type: number
+        data:
           type: array
           items:
             $ref: '#/components/schemas/rawData'
-        total:
-          type: number
+        count:
+          type: integer
     rawDataImportZipFileBody:
       type: object
       required:
@@ -1109,27 +1111,32 @@ components:
             type: number
         hash:
             type: string
-    rawDataImportPictureBody:
+    rawDataAddBody:
       type: object
       required:
-        - file
-        - source
-        - sn
+        - files
+        - sourceType
+        - sourceId
+        - sourceTaskId
+        - annotation
       properties:
-        file:
-          type: string
-          format: binary
-        source:
-          type: string
-          description: '图片来源'
-          enum:
-            - box
-            - manual
-            - other
-        sn:
-          type: string
-          description: '图片来源sn'
-
+        files:
+            type: array
+            items:
+                type: string
+                format: binary
+        sourceType:
+            type: string
+            enum:
+                - BOX
+                - MANUAL
+                - OTHER
+        sourceId:
+            type: string
+        sourceTaskId:
+            type: integer
+        annotation:
+            type: string
     labeledData:
       type: object
       required:

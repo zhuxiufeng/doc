@@ -78,8 +78,8 @@ paths:
       requestBody:
         required: true
         content:
-#          multipart/form-data:
-          application/json:
+          multipart/form-data:
+#          application/json:
             schema:
               $ref: '#/components/schemas/rawDataAddBody'
   /raw-data/remove:

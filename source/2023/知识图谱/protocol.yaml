@@ -1264,6 +1264,7 @@ components:
         - updated
       properties:
         id:
+
           type: string
         name:
           type: string

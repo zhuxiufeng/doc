@@ -1137,6 +1137,10 @@ components:
             type: integer
         annotation:
             type: string
+            description:
+              array of json string
+            example:
+                - [{"xMin": 1, "xMax": 2, "yMin": 3, "yMax": 4, "labelClassKey": "person"}, {"xMin": 2, "xMax": 2, "yMin": 3, "yMax": 4, "labelClassKey": "person"}]
     labeledData:
       type: object
       required:

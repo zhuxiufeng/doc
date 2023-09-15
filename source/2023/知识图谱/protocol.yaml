@@ -1525,10 +1525,6 @@ components:
                                 progress:
                                     type: number
                                     description: 进度百分比
-
-        progress:
-            type: number
-            description: 进度百分比
     trainRuleList:
       type: object
       required:

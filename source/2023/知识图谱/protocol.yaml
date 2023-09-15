@@ -1475,35 +1475,15 @@ components:
         condition:
           type: object
           required:
-            - sampleQuantityThresholdList
-            - modelLabelAccuracyList
+            - sampleQuantityThreshold
+            - numberOfIterations
           properties:
-            sampleQuantityThresholdList:
-              description: 样本数量大于阈值时触发,与模型标签准确率为AND的关系
-              type: array
-              items:
-                type: object
-                required:
-                  - label
-                  - threshold
-                properties:
-                  label:
-                    type: string
-                  threshold:
-                    type: number
-            modelLabelAccuracyList:
-                description: 模型标签准确率小于阈值时触发,与样本数量条件为AND的关系
-                type: array
-                items:
-                  type: object
-                  required:
-                      - label
-                      - accuracy
-                  properties:
-                        label:
-                            type: string
-                        accuracy:
-                            type: number
+            sampleQuantityThreshold:
+              description: 样本数量大于阈值时触发
+              type: integer
+            numberOfIterations:
+              description: 训练次数上限
+              type: integer
         targetList:
           type: array
           items:

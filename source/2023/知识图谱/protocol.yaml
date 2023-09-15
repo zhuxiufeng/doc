@@ -683,7 +683,7 @@ paths:
                     $ref: '#/components/schemas/result'
   /rule/train/list:
     get:
-      summary: 获取训练规则列表
+      summary: 获取模型训练规则列表
       tags:
         - 规则服务-ruleCreate
       operationId: gets the list of trainRule
@@ -717,7 +717,7 @@ paths:
                 $ref: '#/components/schemas/trainRuleList'
   /rule/train/id/{{id}}:
     get:
-      summary: 获取单个训练规则详细信息
+      summary: 获取单个模型训练规则详细信息
       tags:
         - 规则服务-ruleCreate
       parameters:
@@ -754,7 +754,7 @@ paths:
                     $ref: '#/components/schemas/result'
   /rule/dataset/list:
     get:
-      summary: 获取图片采集规则列表
+      summary: 获取样本采集规则列表
       tags:
         - 规则服务-ruleCreate
       operationId: gets the list of datasetRule
@@ -788,7 +788,7 @@ paths:
                 $ref: '#/components/schemas/datasetRuleList'
   /rule/dataset/id/{{id}}:
     get:
-      summary: 获取单个图片采集规则详细信息
+      summary: 获取单个样本采集规则详细信息
       tags:
         - 规则服务-ruleCreate
       parameters:

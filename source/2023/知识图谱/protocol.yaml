@@ -1602,6 +1602,7 @@ components:
                   type: string
                 cameraAiInfo:
                   type: object
+                  description: AI应用信息
                   required:
                     - cameraAIId
                     - interval
@@ -1610,12 +1611,16 @@ components:
                   properties:
                     cameraAIId:
                       type: string
+                      description: AI应用ID
                     interval:
                         type: number
+                        description: 采集间隔
                     objectThresh:
                         type: number
+                        description: 告警目标阈值
                     modelInfoList:
                         type: array
+                        description: 配置模型信息
                         items:
                             type: object
                             required:
@@ -1626,14 +1631,18 @@ components:
                             properties:
                                 index:
                                     type: number
+                                    description: 模型优先级
                                 modelId:
                                     type: string
+                                    description: 模型ID
                                 objLabels:
                                     type: array
+                                    description: 目标标签列表
                                     items:
                                       type: string
                                 operator:
                                     type: string
+                                    description: 操作符 E 检测到所有目标 IN 检测到目标之一
                                     enum:
                                     - IN
     datasetRule:

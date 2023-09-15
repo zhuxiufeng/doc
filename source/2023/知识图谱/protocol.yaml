@@ -662,17 +662,17 @@ paths:
                 schema:
                     $ref: '#/components/schemas/result'
 
-  /taskCreate/train:
+  /rule/train/save:
     post:
-      summary: 杆平台训练调用接口
+      summary: 训练规则添加接口
       tags:
-        - 训练控制服务-taskCreate
+        - 规则服务-ruleCreate
       requestBody:
         required: true
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/trainBody'
+                $ref: '#/components/schemas/trainRuleBody'
 
       responses:
         '200':
@@ -681,17 +681,17 @@ paths:
               application/json:
                 schema:
                     $ref: '#/components/schemas/result'
-  /taskCreate/imageGather:
+  /rule/dataset/save:
     post:
-      summary: 杆平台图片采集调用接口
+      summary: 图片采集规则添加接口
       tags:
-        - 训练控制服务-taskCreate
+        - 规则服务-ruleCreate
       requestBody:
         required: true
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/imageGatherBody'
+                $ref: '#/components/schemas/datasetRuleBody'
 
       responses:
         '200':
@@ -1323,48 +1323,125 @@ components:
             height:
               type: number
 
-    trainBody:
+    trainRuleBody:
       type: object
       required:
-        - targets
-        - chipset
-        - fps
+#        - name
+#        - description
+        - priority
+        - condition
+        - targetList
       properties:
-        targets:
-          type: array
-          description: '训练目标列表'
-          items:
-            type: string
-        chipset:
-            type: string
-            description: '芯片类型'
-            enum:
-                - rk1808
-                - nvidia
-                - amd
-                - intel
-                - other
-        fps:
+        name:
+          type: string
+        description:
+          type: string
+        priority:
           type: number
-          description: '训练帧率'
-    imageGatherBody:
-      type: object
-      required:
-        - targets
-        - boxSn
-        - aiDeviceSn
-        - cameraSn
-      properties:
-        targets:
+        condition:
+          type: object
+          required:
+            - sampleThresholdList
+            - modelAccuracyList
+          properties:
+            sampleThresholdList:
+              type: array
+              items:
+                type: object
+                required:
+                  - label
+                  - threshold
+                properties:
+                  label:
+                    type: string
+                  threshold:
+                    type: number
+            labelAccuracyList:
+                type: array
+                items:
+                  type: object
+                  required:
+                      - label
+                      - accuracy
+                  properties:
+                        label:
+                            type: string
+                        accuracy:
+                            type: number
+        targetList:
           type: array
           items:
             type: string
-        boxSn:
+            description: label key list
+    datasetRuleBody:
+      type: object
+      required:
+        - name
+        - description
+        - sourceList
+#        - boxSn
+#        - aiDeviceSn
+#        - cameraSn
+      properties:
+        name:
           type: string
-        aiDeviceSn:
+        description:
           type: string
-        cameraSn:
-            type: string
+        sourceList:
+          type: array
+          items:
+              type: object
+              required:
+                - startTime
+                - endTime
+                - aiMqttTopic
+                - cameraId
+                - cameraAIInfo
+              properties:
+                startTime:
+                  type: string
+                endTime:
+                    type: string
+                aiMqttTopic:
+                  type: string
+                cameraId:
+                  type: string
+                cameraAiInfo:
+                  type: object
+                  required:
+                    - cameraAIId
+                    - interval
+                    - objectThresh
+                    - modelInfoList
+                  properties:
+                    cameraAIId:
+                      type: string
+                    interval:
+                        type: number
+                    objectThresh:
+                        type: number
+                    modelInfoList:
+                        type: array
+                        items:
+                            type: object
+                            required:
+                              - index
+                              - modelId
+                              - objLabels
+                              - operator
+                            properties:
+                                index:
+                                    type: number
+                                modelId:
+                                    type: string
+                                objLabels:
+                                    type: array
+                                    items:
+                                      type: string
+                                operator:
+                                    type: string
+                                    enum:
+                                    - IN
 
     modelInfo:
         type: object

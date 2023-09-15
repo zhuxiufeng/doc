@@ -1440,7 +1440,6 @@ components:
         - createdAt
         - updatedAt
         - status
-        - progress
         - effectiveDatatime
       properties:
         id:
@@ -1455,6 +1454,19 @@ components:
             - endTime
             - startDate
             - endDate
+          properties:
+            startTime:
+              type: string
+              description: 开始时间
+            endTime:
+              type: string
+              description: 结束时间
+            startDate:
+              type: string
+              description: 开始日期
+            endDate:
+              type: string
+              description: 结束日期
         description:
           type: string
         priority:
@@ -1589,7 +1601,7 @@ components:
               description: 样本数量大于阈值时触发
               type: integer
             numberOfIterations:
-              description: 迭代次数大于阈值时不会触发
+              description: 训练次数上限
               type: integer
         targetList:
           type: array
@@ -1604,6 +1616,19 @@ components:
             - endTime
             - startDate
             - endDate
+          properties:
+            startTime:
+              type: string
+              description: 开始时间
+            endTime:
+              type: string
+              description: 结束时间
+            startDate:
+              type: string
+              description: 开始日期
+            endDate:
+              type: string
+              description: 结束日期
     datasetRuleBody:
       type: object
       required:
@@ -1624,6 +1649,19 @@ components:
             - endTime
             - startDate
             - endDate
+          properties:
+            startTime:
+              type: string
+              description: 开始时间
+            endTime:
+              type: string
+              description: 结束时间
+            startDate:
+              type: string
+              description: 开始日期
+            endDate:
+              type: string
+              description: 结束日期
         sourceList:
           type: array
           items:
@@ -1782,6 +1820,19 @@ components:
               - endTime
               - startDate
               - endDate
+            properties:
+                startTime:
+                    type: string
+                    description: 开始时间
+                endTime:
+                    type: string
+                    description: 结束时间
+                startDate:
+                    type: string
+                    description: 开始日期
+                endDate:
+                    type: string
+                    description: 结束日期
     datasetRuleList:
       type: object
       required:

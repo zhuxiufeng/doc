@@ -1521,6 +1521,7 @@ components:
                                       - RUNNING
                                       - SUCCESS
                                       - FAILED
+                                      - FINISHED
                                 progress:
                                     type: number
                                     description: 进度百分比
@@ -1792,6 +1793,7 @@ components:
                             - RUNNING
                             - SUCCESS
                             - FAILED
+                            - FINISHED
           effectiveDatatime:
             type: object
             description: 规则生效时间

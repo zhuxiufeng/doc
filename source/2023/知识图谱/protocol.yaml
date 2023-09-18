@@ -1573,7 +1573,7 @@ components:
             - numberOfIterations
           properties:
             sampleQuantityThreshold:
-              description: 样本增量大于阈值时触发
+              description: 距上次迭代样本增量大于阈值时触发
               type: integer
             numberOfIterations:
               description: 训练次数上限

@@ -1440,7 +1440,7 @@ components:
         - createdAt
         - updatedAt
         - status
-        - effectiveDatatime
+#        - effectiveDatatime
       properties:
         id:
           type: string
@@ -1547,7 +1547,7 @@ components:
         - priority
         - condition
         - targetList
-        - effectiveDatatime
+#        - effectiveDatatime
       properties:
         name:
           type: string
@@ -1610,7 +1610,7 @@ components:
         - name
         - description
         - sourceList
-        - effectiveDatatime
+#        - effectiveDatatime
       properties:
         name:
           type: string
@@ -1705,7 +1705,7 @@ components:
         - createdAt
         - updatedAt
         - progressList
-        - effectiveDatatime
+#        - effectiveDatatime
        properties:
           id:
             type: string

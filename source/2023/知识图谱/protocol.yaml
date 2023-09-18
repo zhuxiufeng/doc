@@ -1479,7 +1479,7 @@ components:
             - numberOfIterations
           properties:
             sampleQuantityThreshold:
-              description: 样本数量大于阈值时触发
+              description: 样本增量大于阈值时触发
               type: integer
             numberOfIterations:
               description: 训练次数上限
@@ -1503,28 +1503,26 @@ components:
                 properties:
                     iterationNumber:
                         type: number
-                    models:
-                        type: array
-                        items:
-                            type: object
-                            required:
-                                - modelName
-                                - status
-                                - progress
-                            properties:
-                                modelName:
-                                    type: string
-                                status:
-                                    type: string
-                                    enum:
-                                      - PENDING
-                                      - RUNNING
-                                      - SUCCESS
-                                      - FAILED
-                                      - FINISHED
-                                progress:
-                                    type: number
-                                    description: 进度百分比
+                    model:
+                        type: object
+                        required:
+                            - modelName
+                            - status
+                            - progress
+                        properties:
+                            modelName:
+                                type: string
+                            status:
+                                type: string
+                                enum:
+                                  - PENDING
+                                  - RUNNING
+                                  - SUCCESS
+                                  - FAILED
+                                  - FINISHED
+                            progress:
+                                type: number
+                                description: 进度百分比
     trainRuleList:
       type: object
       required:
@@ -1575,7 +1573,7 @@ components:
             - numberOfIterations
           properties:
             sampleQuantityThreshold:
-              description: 样本数量大于阈值时触发
+              description: 样本增量大于阈值时触发
               type: integer
             numberOfIterations:
               description: 训练次数上限
@@ -1644,11 +1642,11 @@ components:
           items:
               type: object
               required:
-                - aiMqttTopic
+                - aiSn
                 - cameraId
                 - cameraAIInfo
               properties:
-                aiMqttTopic:
+                aiSn:
                   type: string
                 cameraId:
                   type: string
@@ -1720,11 +1718,11 @@ components:
             items:
                 type: object
                 required:
-                  - aiMqttIdentity
+                  - aiSn
                   - cameraId
                   - cameraAIInfo
                 properties:
-                  aiMqttIdentity:
+                  aiSn:
                     type: string
                   cameraId:
                     type: string
@@ -1774,11 +1772,11 @@ components:
               items:
                   type: object
                   required:
-                    - aiMqttIdentity
+                    - aiSn
                     - sampleQuantity
                     - status
                   properties:
-                    aiMqttIdentity:
+                    aiSn:
                       type: string
                     sampleQuantity:
                       type: number

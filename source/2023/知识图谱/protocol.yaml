@@ -1607,8 +1607,8 @@ components:
     datasetRuleBody:
       type: object
       required:
-        - name
-        - description
+#        - name
+#        - description
         - sourceList
 #        - effectiveDatatime
       properties:

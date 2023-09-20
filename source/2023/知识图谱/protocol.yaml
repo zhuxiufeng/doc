@@ -1642,10 +1642,13 @@ components:
           items:
               type: object
               required:
+                - brokerAddress
                 - aiSn
                 - cameraId
                 - cameraAIInfo
               properties:
+                brokerAddress:
+                  type: string
                 aiSn:
                   type: string
                 cameraId:
@@ -1718,10 +1721,13 @@ components:
             items:
                 type: object
                 required:
+                  - brokerAddress
                   - aiSn
                   - cameraId
                   - cameraAIInfo
                 properties:
+                  brokerAddress:
+                    type: string
                   aiSn:
                     type: string
                   cameraId:
@@ -1772,10 +1778,13 @@ components:
               items:
                   type: object
                   required:
+                    - brokerAddress
                     - aiSn
                     - sampleQuantity
                     - status
                   properties:
+                    brokerAddress:
+                      type: string
                     aiSn:
                       type: string
                     sampleQuantity:

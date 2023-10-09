@@ -1437,8 +1437,8 @@ components:
         - priority
         - condition
         - targetList
-        - createdAt
-        - updatedAt
+#        - createdAt
+#        - updatedAt
         - progressList
 #        - effectiveDatatime
       properties:
@@ -1489,10 +1489,6 @@ components:
           items:
             type: string
             description: label key list
-        created:
-          type: number
-        updated:
-          type: number
         progressList:
             type: array
             items:
@@ -1506,12 +1502,12 @@ components:
                     model:
                         type: object
                         required:
-                            - modelName
+                            - modelId
                             - status
                             - progress
                         properties:
-                            modelName:
-                                type: string
+                            modelId:
+                                type: integer
                             status:
                                 type: string
                                 enum:
@@ -1528,10 +1524,13 @@ components:
       required:
         - code
         - data
+        - msg
         - count
       properties:
         code:
           type: number
+        msg:
+          type: string
         data:
           type: array
           items:
@@ -1822,11 +1821,14 @@ components:
       type: object
       required:
         - code
+        - msg
         - data
         - count
       properties:
         code:
           type: number
+        msg:
+          type: string
         data:
           type: array
           items:

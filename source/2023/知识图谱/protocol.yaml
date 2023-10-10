@@ -804,7 +804,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/datasetRule'
-
+  /rule/train/status:
+    post:
+        summary: 模型训练规则状态修改接口
+        tags:
+            - 规则服务-ruleCreate
+        requestBody:
+            required: true
+            content:
+              application/json:
+                  schema:
+                      $ref: '#/components/schemas/trainRuleStatusBody'
+        responses:
+            '200':
+                description: ' train control'
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/result'
   /modelInfos:
     get:
         summary: 查询/推送模型信息
@@ -1537,7 +1554,39 @@ components:
             $ref: '#/components/schemas/trainRule'
         count:
           type: integer
-
+    trainRuleStatusBody:
+        type: object
+        required:
+            - ruleId
+            - status
+            - progress
+            - phase
+            - remainingTime
+        properties:
+            ruleId:
+                type: integer
+            status:
+                type: string
+                enum:
+                  - PENDING
+                  - RUNNING
+                  - SUCCESS
+                  - FAILED
+                  - FINISHED
+            progress:
+                type: number
+                description: 进度百分比
+            phase:
+                type: string
+                description: 训练阶段
+                enum:
+                  - PREPARE
+                  - TRAIN
+                  - EVALUATE
+                  - FINISH
+            remainingTime:
+                type: number
+                description: 剩余时间
     trainRuleBody:
       type: object
       required:

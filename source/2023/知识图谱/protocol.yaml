@@ -1559,7 +1559,7 @@ components:
         required:
             - ruleId
             - status
-            - progress
+#            - progress
             - phase
             - remainingTime
         properties:

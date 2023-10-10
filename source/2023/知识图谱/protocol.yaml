@@ -1572,7 +1572,7 @@ components:
                   - RUNNING
                   - SUCCESS
                   - FAILED
-                  - FINISHED
+#                  - FINISHED
             progress:
                 type: number
                 description: 进度百分比
@@ -1583,6 +1583,7 @@ components:
                   - PREPARE
                   - TRAIN
                   - EVALUATE
+                  - QUALITY
                   - FINISH
             remainingTime:
                 type: number

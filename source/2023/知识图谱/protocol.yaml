@@ -79,7 +79,7 @@ paths:
         required: true
         content:
           multipart/form-data:
-#          application/json:
+            #          application/json:
             schema:
               $ref: '#/components/schemas/rawDataAddBody'
   /raw-data/remove:
@@ -142,73 +142,73 @@ paths:
           name : limit
           description: page size, default 10
           schema:
-              type: integer
+            type: integer
         - in: query
           name: order
           description: sort by field
           schema:
-              type: string
+            type: string
         - in: query
           name: source
           description: 标注样本来源
           schema:
-              type: string
-              enum:
-                  - box
-                  - manual
-                  - other
+            type: string
+            enum:
+              - box
+              - manual
+              - other
         - in: query
           name: filterIds
           description: 标注样本id列表
           schema:
             type: array
             items:
-                type: integer
+              type: integer
         - in: query
           name: filterCategorizationIds
           description: 标注样本分类id列表
           schema:
             type: array
             items:
-                type: string
+              type: string
         - in: query
           name: likeCategorizationName
           description: 标注样本分类名称,模糊匹配
           schema:
-              type: string
+            type: string
         - in: query
           name: filterCollection
           description: 标注样本集合类型
           schema:
-              type: string
-              enum:
-                - train
-                - test
+            type: string
+            enum:
+              - train
+              - test
         - in: query
           name: filterGteCreated
           description: 标注样本创建时间大于等于
           schema:
-              type: string
+            type: string
         - in: query
           name: filterLteCreated
           description: 标注样本创建时间小于等于
           schema:
-              type: string
+            type: string
         - in: query
           name: filterGteUpdated
           description: 标注样本更新时间大于等于
           schema:
-              type: string
+            type: string
         - in: query
           name: filterLteUpdated
           description: 标注样本更新时间小于等于
           schema:
-              type: string
+            type: string
         - in: query
           name: filterSn
           description: 标注样本来源sn
           schema:
-              type: string
+            type: string
       responses:
         '200':
           description: got back the list of labeledDatas
@@ -235,26 +235,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/labeledData'
     delete:
-        summary: 删除标注样本
-        tags:
-            - 样本服务-labeledData
-        parameters:
-          - in: path
-            name: id
-            required: true
-            schema:
-              type: string
-        responses:
-            '200':
-              description: ' delete the specified labeledData'
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schemas/result'
+      summary: 删除标注样本
+      tags:
+        - 样本服务-labeledData
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ' delete the specified labeledData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
     put:
       summary: 更新标注样本
       tags:
-          - 样本服务-labeledData
+        - 样本服务-labeledData
       parameters:
         - in: path
           name: id
@@ -266,7 +266,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/labeledDataUpdateBody'
+              $ref: '#/components/schemas/labeledDataUpdateBody'
       responses:
         '200':
           description: ' update the specified labeledData'
@@ -287,7 +287,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/labeledDataImportBody'
+              $ref: '#/components/schemas/labeledDataImportBody'
   /labeledData/add:
     post:
       summary: 添加标注样本
@@ -305,7 +305,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/labeledDataAddBody'
+              $ref: '#/components/schemas/labeledDataAddBody'
 
   /datasets:
     get:
@@ -323,12 +323,12 @@ paths:
           name : limit
           description: page size, default 10
           schema:
-              type: integer
+            type: integer
         - in: query
           name: order
           description: sort by field
           schema:
-              type: string
+            type: string
         - in: query
           name: filterName
           schema:
@@ -383,45 +383,45 @@ paths:
               schema:
                 $ref: '#/components/schemas/dataset'
     delete:
-        summary: 删除数据集
-        tags:
-            - 样本服务-datasets
-        parameters:
-            - in: path
-              required: true
-              name: id
+      summary: 删除数据集
+      tags:
+        - 样本服务-datasets
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        '200' :
+          description: ' delete the specified dataset'
+          content:
+            application/json:
               schema:
-                  type: string
-        responses:
-            '200' :
-              description: ' delete the specified dataset'
-              content:
-                  application/json:
-                    schema:
-                        $ref: '#/components/schemas/result'
+                $ref: '#/components/schemas/result'
     put:
-        summary: 更新数据集
-        tags:
-            - 样本服务-datasets
-        parameters:
-            - in: path
-              required: true
-              name: id
+      summary: 更新数据集
+      tags:
+        - 样本服务-datasets
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        '200' :
+          description: ' update the specified dataset'
+          content:
+            application/json:
               schema:
-                  type: string
-        responses:
-            '200' :
-              description: ' update the specified dataset'
-              content:
-                  application/json:
-                    schema:
-                      $ref: '#/components/schemas/result'
-        requestBody:
-            required: true
-            content:
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/datasetBody'
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/datasetBody'
   /datasets/{{datasetId}}/add/labeledData:
     post:
       summary: 添加标注样本到数据集
@@ -443,9 +443,9 @@ paths:
         '200':
           description: ' add the specified labeledDatas to dataset'
           content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
   /datasets/{{id}}/remove/labeledData:
     post:
       summary: 从数据集中移除标注样本
@@ -467,9 +467,9 @@ paths:
         '200':
           description: ' remove the specified labeledDatas from dataset'
           content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
   /datasets/{{id}}/exports:
     get:
       summary: 导出数据集
@@ -494,50 +494,50 @@ paths:
         '200':
           description: ' export the specified dataset'
           content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
 
   /validation-set:
     get:
-          summary:  查询验证集列表
-          tags:
-            - 样本服务-validation-set
-          operationId: gets the list of validation-set
-          parameters:
-            - in: query
-              name : page
-              description: page number, default 1
+      summary:  查询验证集列表
+      tags:
+        - 样本服务-validation-set
+      operationId: gets the list of validation-set
+      parameters:
+        - in: query
+          name : page
+          description: page number, default 1
+          schema:
+            type: integer
+        - in: query
+          name : limit
+          description: page size, default 10
+          schema:
+            type: integer
+        - in: query
+          name: order
+          description: sort by field
+          schema:
+            type: string
+        - in: query
+          name: filterName
+          schema:
+            type: string
+        - in: query
+          name: filterScene
+          schema:
+            type: string
+            enum:
+              - detection
+              - classification
+      responses:
+        '200':
+          description: got back the list of validation-set
+          content:
+            application/json:
               schema:
-                type: integer
-            - in: query
-              name : limit
-              description: page size, default 10
-              schema:
-                  type: integer
-            - in: query
-              name: order
-              description: sort by field
-              schema:
-                  type: string
-            - in: query
-              name: filterName
-              schema:
-                type: string
-            - in: query
-              name: filterScene
-              schema:
-                type: string
-                enum:
-                  - detection
-                  - classification
-          responses:
-            '200':
-              description: got back the list of validation-set
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schemas/validation-set'
+                $ref: '#/components/schemas/validation-set'
     post:
       summary: 创建验证集
       tags:
@@ -574,45 +574,45 @@ paths:
               schema:
                 $ref: '#/components/schemas/validation-set'
     delete:
-        summary: 删除验证集
-        tags:
-            - 样本服务-validation-set
-        parameters:
-            - in: path
-              required: true
-              name: id
+      summary: 删除验证集
+      tags:
+        - 样本服务-validation-set
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        '200' :
+          description: ' delete the specified validation-set'
+          content:
+            application/json:
               schema:
-                  type: string
-        responses:
-            '200' :
-              description: ' delete the specified validation-set'
-              content:
-                  application/json:
-                    schema:
-                        $ref: '#/components/schemas/result'
+                $ref: '#/components/schemas/result'
     put:
-        summary: 更新验证集
-        tags:
-            - 样本服务-validation-set
-        parameters:
-            - in: path
-              required: true
-              name: id
+      summary: 更新验证集
+      tags:
+        - 样本服务-validation-set
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        '200' :
+          description: ' update the specified validation-set'
+          content:
+            application/json:
               schema:
-                  type: string
-        responses:
-            '200' :
-              description: ' update the specified validation-set'
-              content:
-                  application/json:
-                    schema:
-                      $ref: '#/components/schemas/result'
-        requestBody:
-            required: true
-            content:
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/validation-setBody'
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/validation-setBody'
   /validation-set/{{validationSetId}}/add/labeledData:
     post:
       summary: 添加标注样本到验证集
@@ -634,9 +634,9 @@ paths:
         '200':
           description: ' add the specified labeledDatas to validation-set'
           content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
   /validation-set/{{id}}/remove/labeledData:
     post:
       summary: 从验证集中移除标注样本
@@ -658,9 +658,9 @@ paths:
         '200':
           description: ' remove the specified labeledDatas from validation-set'
           content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
 
   /rule/train/save:
     post:
@@ -672,15 +672,15 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/trainRuleBody'
+              $ref: '#/components/schemas/trainRuleBody'
 
       responses:
         '200':
           description: ' train control'
           content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
   /rule/train/list:
     get:
       summary: 获取模型训练规则列表
@@ -697,12 +697,12 @@ paths:
           name : limit
           description: page size, default 10
           schema:
-              type: integer
+            type: integer
         - in: query
           name: name
           description: 规则名称
           schema:
-              type: string
+            type: string
         - in: query
           name: target
           description: 训练目标,模糊匹配
@@ -743,15 +743,15 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/datasetRuleBody'
+              $ref: '#/components/schemas/datasetRuleBody'
 
       responses:
         '200':
           description: ' imageGather control'
           content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
   /rule/dataset/list:
     get:
       summary: 获取样本采集规则列表
@@ -768,12 +768,12 @@ paths:
           name : limit
           description: page size, default 10
           schema:
-              type: integer
+            type: integer
         - in: query
           name: name
           description: 规则名称
           schema:
-              type: string
+            type: string
         - in: query
           name: target
           description: 采集目标,模糊匹配
@@ -806,62 +806,62 @@ paths:
                 $ref: '#/components/schemas/datasetRule'
   /rule/train/status:
     post:
-        summary: 模型训练规则状态修改接口
-        tags:
-            - 规则服务-ruleCreate
-        requestBody:
-            required: true
-            content:
-              application/json:
-                  schema:
-                      $ref: '#/components/schemas/trainRuleStatusBody'
-        responses:
-            '200':
-                description: ' train control'
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/result'
+      summary: 模型训练规则状态修改接口
+      tags:
+        - 规则服务-ruleCreate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trainRuleStatusBody'
+      responses:
+        '200':
+          description: ' train control'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
   /modelInfos:
     get:
-        summary: 查询/推送模型信息
-        tags:
-            - 应用测评服务-modelInfos
-        operationId: gets the list of modelInfos
-        parameters:
-            - in: query
-              name : page
-              description: page number, default 1
+      summary: 查询/推送模型信息
+      tags:
+        - 应用测评服务-modelInfos
+      operationId: gets the list of modelInfos
+      parameters:
+        - in: query
+          name : page
+          description: page number, default 1
+          schema:
+            type: integer
+        - in: query
+          name : limit
+          description: page size, default 10
+          schema:
+            type: integer
+        - in: query
+          name: order
+          description: sort by field
+          schema:
+            type: string
+        - in: query
+          name: filterName
+          schema:
+            type: string
+        - in: query
+          name: filterScene
+          schema:
+            type: string
+            enum:
+              - detection
+              - classification
+      responses:
+        '200':
+          description: got back the list of modelInfos
+          content:
+            application/json:
               schema:
-                  type: integer
-            - in: query
-              name : limit
-              description: page size, default 10
-              schema:
-                  type: integer
-            - in: query
-              name: order
-              description: sort by field
-              schema:
-                  type: string
-            - in: query
-              name: filterName
-              schema:
-                  type: string
-            - in: query
-              name: filterScene
-              schema:
-                  type: string
-                  enum:
-                  - detection
-                  - classification
-        responses:
-            '200':
-              description: got back the list of modelInfos
-              content:
-                  application/json:
-                    schema:
-                        $ref: '#/components/schemas/modelInfos'
+                $ref: '#/components/schemas/modelInfos'
   /models/import:
     post:
       summary: 导入模型
@@ -910,71 +910,71 @@ paths:
 
   /devices:
     get:
-        summary: 查询设备列表
-        tags:
-            - 设备管理服务-devices
-        operationId: gets the list of devices
-        parameters:
-            - in: query
-              name : page
-              description: page number, default 1
+      summary: 查询设备列表
+      tags:
+        - 设备管理服务-devices
+      operationId: gets the list of devices
+      parameters:
+        - in: query
+          name : page
+          description: page number, default 1
+          schema:
+            type: integer
+        - in: query
+          name : limit
+          description: page size, default 10
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: got back the list of devices
+          content:
+            application/json:
               schema:
-                  type: integer
-            - in: query
-              name : limit
-              description: page size, default 10
-              schema:
-                  type: integer
-        responses:
-            '200':
-              description: got back the list of devices
-              content:
-                  application/json:
-                    schema:
-                        $ref: '#/components/schemas/devices'
+                $ref: '#/components/schemas/devices'
     post:
-        summary: 添加设备
-        tags:
-            - 设备管理服务-devices
-        requestBody:
-            required: true
-            content:
-              application/json:
-                  schema:
-                      $ref: '#/components/schemas/deviceBody'
-        responses:
-            '200':
-              description: ' create the specified device'
-              content:
-                  application/json:
-                      schema:
-                          $ref: '#/components/schemas/result'
+      summary: 添加设备
+      tags:
+        - 设备管理服务-devices
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deviceBody'
+      responses:
+        '200':
+          description: ' create the specified device'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
 
 components:
   schemas:
     result:
-        type: object
-        required:
-            - code
-            - message
-            - data
-        properties:
-            code:
-              type: number
-            message:
-              type: string
-            data:
-                type: object
+      type: object
+      required:
+        - code
+        - message
+        - data
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        data:
+          type: object
     error:
-        type: object
-        required:
-            - code
-            - message
-        properties:
-            code:
-              type: number
-            message:
-              type: string
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: number
+        message:
+          type: string
     dataset:
       type: object
       required:
@@ -999,8 +999,8 @@ components:
         scene:
           type: string
           enum:
-              - detection
-              - classification
+            - detection
+            - classification
         cover:
           type: string
           description: cover image url
@@ -1086,122 +1086,122 @@ components:
           type: string
 
     validation-set:
-        type: object
-        required:
+      type: object
+      required:
+        - id
+        - name
+        - summary
+        - scene
+        - cover
+        - dataset
+        - reason
+        - status
+        - created
+        - updated
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        summary:
+          type: string
+        scene:
+          type: string
+          enum:
+            - detection
+            - classification
+        cover:
+          type: string
+          description: cover image url
+        dataset:
+          type: object
+          required:
             - id
-            - name
-            - summary
-            - scene
-            - cover
-            - dataset
-            - reason
-            - status
-            - created
-            - updated
-        properties:
-            id:
-              type: string
-            name:
-              type: string
-            summary:
-              type: string
-            scene:
-              type: string
-              enum:
-                - detection
-                - classification
-            cover:
-              type: string
-              description: cover image url
-            dataset:
-              type: object
-              required:
-                - id
-                - imageCount
-                - classCount
-                - annotationCount
-                - size
-              properties:
-                id:
-                  type: string
-                imageCount:
-                  type: number
-                classCount:
-                  type: number
-                annotationCount:
-                  type: number
-                size:
-                  type: number
-            reason:
-              type: string
-            status:
-              type: number
-              enum:
-                - 1
-                - 2
-                - 3
-            created:
-              type: number
-            updated:
-              type: number
-    validation-setBody:
-        type: object
-        required:
-            - name
-            - summary
-            - scene
-            - cover
-        properties:
-            name:
-              type: string
-            summary:
-              type: string
-            scene:
-              type: string
-            cover:
-              type: string
-    rawData:
-        type: object
-        required:
-            - id
-            - width
-            - height
+            - imageCount
+            - classCount
+            - annotationCount
             - size
-            - md5
-            - status
-            - sourceType
-            - sourceId
-            - createdAt
-            - updatedAt
-        properties:
+          properties:
             id:
               type: string
-            width:
-                type: integer
-            height:
-                type: integer
+            imageCount:
+              type: number
+            classCount:
+              type: number
+            annotationCount:
+              type: number
             size:
-                type: integer
-            status:
-              type: string
-              enum:
-                - UNLABELED
-                - LABELED
-                - LOCKED
-            sourceId:
-                type: integer
-            sourceType:
-              type: string
-              enum:
-                - BOX
-                - MANUAL
-                - OTHER
-            createdAt:
-                type: string
-                format: date-time
-            updatedAt:
-                type: string
-                format: date-time
+              type: number
+        reason:
+          type: string
+        status:
+          type: number
+          enum:
+            - 1
+            - 2
+            - 3
+        created:
+          type: number
+        updated:
+          type: number
+    validation-setBody:
+      type: object
+      required:
+        - name
+        - summary
+        - scene
+        - cover
+      properties:
+        name:
+          type: string
+        summary:
+          type: string
+        scene:
+          type: string
+        cover:
+          type: string
+    rawData:
+      type: object
+      required:
+        - id
+        - width
+        - height
+        - size
+        - md5
+        - status
+        - sourceType
+        - sourceId
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+        width:
+          type: integer
+        height:
+          type: integer
+        size:
+          type: integer
+        status:
+          type: string
+          enum:
+            - UNLABELED
+            - LABELED
+            - LOCKED
+        sourceId:
+          type: integer
+        sourceType:
+          type: string
+          enum:
+            - BOX
+            - MANUAL
+            - OTHER
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
 
     rawDatas:
       type: object
@@ -1230,9 +1230,9 @@ components:
         url:
           type: string
         size:
-            type: number
+          type: number
         hash:
-            type: string
+          type: string
     rawDataAddBody:
       type: object
       required:
@@ -1243,26 +1243,26 @@ components:
         - annotation
       properties:
         files:
-            type: array
-            items:
-                type: string
-                format: binary
+          type: array
+          items:
+            type: string
+            format: binary
         sourceType:
-            type: string
-            enum:
-                - BOX
-                - MANUAL
-                - OTHER
+          type: string
+          enum:
+            - BOX
+            - MANUAL
+            - OTHER
         sourceId:
-            type: string
+          type: string
         sourceTaskId:
-            type: integer
+          type: integer
         annotation:
-            type: string
-            description:
-              array of json string
-            example:
-                - [{"xMin": 1, "xMax": 2, "yMin": 3, "yMax": 4, "labelClassKey": "person"}, {"xMin": 2, "xMax": 2, "yMin": 3, "yMax": 4, "labelClassKey": "person"}]
+          type: string
+          description:
+            array of json string
+          example:
+            - [{"xMin": 1, "xMax": 2, "yMin": 3, "yMax": 4, "labelClassKey": "person"}, {"xMin": 2, "xMax": 2, "yMin": 3, "yMax": 4, "labelClassKey": "person"}]
     labeledData:
       type: object
       required:
@@ -1303,41 +1303,41 @@ components:
     labeledDataUpdateBody:
       type: object
       required:
-          - id
-          - labelAnnotationList
+        - id
+        - labelAnnotationList
       properties:
         id:
           type: string
         labelAnnotationList:
-            type: array
-            items:
-              $ref: '#/components/schemas/labelAnnotation'
+          type: array
+          items:
+            $ref: '#/components/schemas/labelAnnotation'
     labeledDataImportBody:
-        type: object
-        required:
-            - filename
-            - url
-            - size
-            - hash
-        properties:
-            filename:
-              type: string
-            url:
-              type: string
-            size:
-                type: number
-            hash:
-                type: string
+      type: object
+      required:
+        - filename
+        - url
+        - size
+        - hash
+      properties:
+        filename:
+          type: string
+        url:
+          type: string
+        size:
+          type: number
+        hash:
+          type: string
     labeledDataAdd:
       type: object
       required:
-          - collection
-          - source
-          - sn
-          - imageUrl
-          - labelUrl
-          - labelCategoryList
-          - labelAnnotationList
+        - collection
+        - source
+        - sn
+        - imageUrl
+        - labelUrl
+        - labelCategoryList
+        - labelAnnotationList
       properties:
         collection:
           type: string
@@ -1360,7 +1360,7 @@ components:
     labeledDataAddBody:
       type: object
       required:
-          - labeledDataList
+        - labeledDataList
       properties:
         labeledDataList:
           type: array
@@ -1368,17 +1368,17 @@ components:
             $ref: '#/components/schemas/labeledDataAdd'
 
     labeledDatas:
-        type: object
-        required:
-            - items
-            - total
-        properties:
-            items:
-              type: array
-              items:
-                  $ref: '#/components/schemas/labeledData'
-            total:
-              type: number
+      type: object
+      required:
+        - items
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/labeledData'
+        total:
+          type: number
     labelCategory:
       type: object
       required:
@@ -1403,46 +1403,46 @@ components:
         updated:
           type: number
     labelAnnotationList:
-        type: array
-        items:
-          $ref: '#/components/schemas/labelAnnotation'
+      type: array
+      items:
+        $ref: '#/components/schemas/labelAnnotation'
     labelAnnotation:
-        type: object
-        required:
-            - id
-            - category
-            - bbox
-            - created
-            - updated
-        properties:
-            id:
-              type: string
-            category:
-              type: string
-            bbox:
-              type: object
-              required:
-                  - x
-                  - y
-                  - w
-                  - h
-              properties:
-                  x:
-                    type: number
-                  y:
-                    type: number
-                  w:
-                    type: number
-                  h:
-                    type: number
-            created:
+      type: object
+      required:
+        - id
+        - category
+        - bbox
+        - created
+        - updated
+      properties:
+        id:
+          type: string
+        category:
+          type: string
+        bbox:
+          type: object
+          required:
+            - x
+            - y
+            - w
+            - h
+          properties:
+            x:
               type: number
-            updated:
+            y:
               type: number
-            width:
+            w:
               type: number
-            height:
+            h:
               type: number
+        created:
+          type: number
+        updated:
+          type: number
+        width:
+          type: number
+        height:
+          type: number
 
 
     trainRule:
@@ -1454,10 +1454,10 @@ components:
         - priority
         - condition
         - targetList
-#        - createdAt
-#        - updatedAt
+        #        - createdAt
+        #        - updatedAt
         - progressList
-#        - effectiveDatatime
+      #        - effectiveDatatime
       properties:
         id:
           type: string
@@ -1507,35 +1507,35 @@ components:
             type: string
             description: label key list
         progressList:
-            type: array
-            items:
+          type: array
+          items:
+            type: object
+            required:
+              - iterationNumber
+              - models
+            properties:
+              iterationNumber:
+                type: number
+              model:
                 type: object
                 required:
-                    - iterationNumber
-                    - models
+                  - modelId
+                  - status
+                  - progress
                 properties:
-                    iterationNumber:
-                        type: number
-                    model:
-                        type: object
-                        required:
-                            - modelId
-                            - status
-                            - progress
-                        properties:
-                            modelId:
-                                type: integer
-                            status:
-                                type: string
-                                enum:
-                                  - PENDING
-                                  - RUNNING
-                                  - SUCCESS
-                                  - FAILED
-                                  - FINISHED
-                            progress:
-                                type: number
-                                description: 进度百分比
+                  modelId:
+                    type: integer
+                  status:
+                    type: string
+                    enum:
+                      - PENDING
+                      - RUNNING
+                      - SUCCESS
+                      - FAILED
+                      - FINISHED
+                  progress:
+                    type: number
+                    description: 进度百分比
     trainRuleList:
       type: object
       required:
@@ -1555,48 +1555,48 @@ components:
         count:
           type: integer
     trainRuleStatusBody:
-        type: object
-        required:
-            - ruleId
-            - status
-#            - progress
-            - phase
-            - remainingTime
-        properties:
-            ruleId:
-                type: integer
-            status:
-                type: string
-                enum:
-                  - PENDING
-                  - RUNNING
-                  - SUCCESS
-                  - FAILED
-#                  - FINISHED
-            progress:
-                type: number
-                description: 进度百分比
-            phase:
-                type: string
-                description: 训练阶段
-                enum:
-                  - PREPARE
-                  - TRAIN
-                  - EVALUATE
-                  - QUALITY
-                  - FINISH
-            remainingTime:
-                type: number
-                description: 剩余时间
+      type: object
+      required:
+        - ruleId
+        - status
+        #            - progress
+        - phase
+        - remainingTime
+      properties:
+        ruleId:
+          type: integer
+        status:
+          type: string
+          enum:
+            - PENDING
+            - RUNNING
+            - SUCCESS
+            - FAILED
+        #                  - FINISHED
+        progress:
+          type: number
+          description: 进度百分比
+        phase:
+          type: string
+          description: 训练阶段
+          enum:
+            - PREPARE
+            - TRAIN
+            - EVALUATE
+            - QUALITY
+            - FINISH
+        remainingTime:
+          type: number
+          description: 剩余时间
     trainRuleBody:
       type: object
       required:
-#        - name
-#        - description
+        #        - name
+        #        - description
         - priority
         - condition
         - targetList
-#        - effectiveDatatime
+      #        - effectiveDatatime
       properties:
         name:
           type: string
@@ -1605,13 +1605,13 @@ components:
         engineInfo:
           type: object
           required:
-              - engineId
-              - targetChip
+            - engineId
+            - targetChip
           properties:
-                engineId:
-                    type: integer
-                targetChip:
-                    type: string
+            engineId:
+              type: integer
+            targetChip:
+              type: string
         priority:
           type: integer
           description: 优先级1-100
@@ -1656,10 +1656,10 @@ components:
     datasetRuleBody:
       type: object
       required:
-#        - name
-#        - description
+        #        - name
+        #        - description
         - sourceList
-#        - effectiveDatatime
+      #        - effectiveDatatime
       properties:
         name:
           type: string
@@ -1689,67 +1689,67 @@ components:
         sourceList:
           type: array
           items:
-              type: object
-              required:
-                - brokerAddress
-                - aiSn
-                - cameraId
-                - cameraAIInfo
-              properties:
-                brokerAddress:
-                  type: string
-                aiSn:
-                  type: string
-                cameraId:
-                  type: string
-                cameraAiInfo:
-                  type: object
-                  description: AI应用信息
-                  required:
-                    - cameraAIId
-                    - interval
-                    - objectThresh
-                    - modelInfoList
-                  properties:
-                    cameraAIId:
-                      type: string
-                      description: AI应用ID
-                    interval:
-                        type: number
-                        description: 采集间隔
-                    objectThresh:
-                        type: number
-                        description: 告警目标阈值
-                    modelInfoList:
-                        type: array
-                        description: 配置模型信息
-                        items:
-                            type: object
-                            required:
-                              - index
-                              - modelId
-                              - objLabels
-                              - operator
-                            properties:
-                                index:
-                                    type: number
-                                    description: 模型优先级
-                                modelId:
-                                    type: string
-                                    description: 模型ID
-                                objLabels:
-                                    type: array
-                                    description: 目标标签列表
-                                    items:
-                                      type: string
-                                operator:
-                                    type: string
-                                    description: 操作符 E 检测到所有目标 IN 检测到目标之一
-                                    enum:
-                                    - IN
+            type: object
+            required:
+              - brokerAddress
+              - aiSn
+              - cameraId
+              - cameraAIInfo
+            properties:
+              brokerAddress:
+                type: string
+              aiSn:
+                type: string
+              cameraId:
+                type: string
+              cameraAiInfo:
+                type: object
+                description: AI应用信息
+                required:
+                  - cameraAIId
+                  - interval
+                  - objectThresh
+                  - modelInfoList
+                properties:
+                  cameraAIId:
+                    type: string
+                    description: AI应用ID
+                  interval:
+                    type: number
+                    description: 采集间隔
+                  objectThresh:
+                    type: number
+                    description: 告警目标阈值
+                  modelInfoList:
+                    type: array
+                    description: 配置模型信息
+                    items:
+                      type: object
+                      required:
+                        - index
+                        - modelId
+                        - objLabels
+                        - operator
+                      properties:
+                        index:
+                          type: number
+                          description: 模型优先级
+                        modelId:
+                          type: string
+                          description: 模型ID
+                        objLabels:
+                          type: array
+                          description: 目标标签列表
+                          items:
+                            type: string
+                        operator:
+                          type: string
+                          description: 操作符 E 检测到所有目标 IN 检测到目标之一
+                          enum:
+                            - IN
     datasetRule:
-       type: object
-       required:
+      type: object
+      required:
         - id
         - name
         - description
@@ -1757,116 +1757,116 @@ components:
         - createdAt
         - updatedAt
         - progressList
-#        - effectiveDatatime
-       properties:
-          id:
-            type: string
-          name:
-            type: string
-          description:
-            type: string
-          sourceList:
-            type: array
-            items:
+      #        - effectiveDatatime
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        sourceList:
+          type: array
+          items:
+            type: object
+            required:
+              - brokerAddress
+              - aiSn
+              - cameraId
+              - cameraAIInfo
+            properties:
+              brokerAddress:
+                type: string
+              aiSn:
+                type: string
+              cameraId:
+                type: string
+              cameraAiInfo:
                 type: object
                 required:
-                  - brokerAddress
-                  - aiSn
-                  - cameraId
-                  - cameraAIInfo
+                  - cameraAIId
+                  - interval
+                  - objectThresh
+                  - modelInfoList
                 properties:
-                  brokerAddress:
+                  cameraAIId:
                     type: string
-                  aiSn:
-                    type: string
-                  cameraId:
-                    type: string
-                  cameraAiInfo:
-                    type: object
-                    required:
-                      - cameraAIId
-                      - interval
-                      - objectThresh
-                      - modelInfoList
-                    properties:
-                      cameraAIId:
-                        type: string
-                      interval:
+                  interval:
+                    type: number
+                  objectThresh:
+                    type: number
+                  modelInfoList:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - index
+                        - modelId
+                        - objLabels
+                        - operator
+                      properties:
+                        index:
                           type: number
-                      objectThresh:
-                          type: number
-                      modelInfoList:
+                        modelId:
+                          type: string
+                        objLabels:
                           type: array
                           items:
-                              type: object
-                              required:
-                                - index
-                                - modelId
-                                - objLabels
-                                - operator
-                              properties:
-                                  index:
-                                      type: number
-                                  modelId:
-                                      type: string
-                                  objLabels:
-                                      type: array
-                                      items:
-                                        type: string
-                                  operator:
-                                      type: string
-                                      enum:
-                                      - IN
-          created:
-            type: number
-          updated:
-            type: number
-          progressList:
-              type: array
-              description: 每个source的进度情况
-              items:
-                  type: object
-                  required:
-                    - brokerAddress
-                    - aiSn
-                    - sampleQuantity
-                    - status
-                  properties:
-                    brokerAddress:
-                      type: string
-                    aiSn:
-                      type: string
-                    sampleQuantity:
-                      type: number
-                    status:
-                        type: string
-                        enum:
-                            - PENDING
-                            - RUNNING
-                            - SUCCESS
-                            - FAILED
-                            - FINISHED
-          effectiveDatatime:
+                            type: string
+                        operator:
+                          type: string
+                          enum:
+                            - IN
+        created:
+          type: number
+        updated:
+          type: number
+        progressList:
+          type: array
+          description: 每个source的进度情况
+          items:
             type: object
-            description: 规则生效时间
             required:
-              - startTime
-              - endTime
-              - startDate
-              - endDate
+              - brokerAddress
+              - aiSn
+              - sampleQuantity
+              - status
             properties:
-                startTime:
-                    type: string
-                    description: 开始时间
-                endTime:
-                    type: string
-                    description: 结束时间
-                startDate:
-                    type: string
-                    description: 开始日期
-                endDate:
-                    type: string
-                    description: 结束日期
+              brokerAddress:
+                type: string
+              aiSn:
+                type: string
+              sampleQuantity:
+                type: number
+              status:
+                type: string
+                enum:
+                  - PENDING
+                  - RUNNING
+                  - SUCCESS
+                  - FAILED
+                  - FINISHED
+        effectiveDatatime:
+          type: object
+          description: 规则生效时间
+          required:
+            - startTime
+            - endTime
+            - startDate
+            - endDate
+          properties:
+            startTime:
+              type: string
+              description: 开始时间
+            endTime:
+              type: string
+              description: 结束时间
+            startDate:
+              type: string
+              description: 开始日期
+            endDate:
+              type: string
+              description: 结束日期
     datasetRuleList:
       type: object
       required:
@@ -1889,70 +1889,70 @@ components:
 
 
     modelInfo:
-        type: object
-        required:
-            - id
-            - name
-            - description
-            - status
-            - created
-            - chipset
-            - platform
-            - accuracy
-            - recall
-            - precision
-        properties:
-          id:
-            type: string
-          name:
-            type: string
-          description:
-            type: string
-          status:
-            type: string
-            enum:
-              - training
-              - trained
-              - testing
-              - tested
-              - released
-          created:
-            type: number
-          chipset:
-            type: string
-            enum:
-              - rk1808
-              - nvidia
-              - amd
-              - intel
-              - other
-          platform:
-            type: string
-            enum:
-              - tensorflow
-              - pytorch
-              - caffe
-              - mxnet
-              - darknet
-              - other
-          accuracy:
-            type: number
-          recall:
-            type: number
-          precision:
-            type: number
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - status
+        - created
+        - chipset
+        - platform
+        - accuracy
+        - recall
+        - precision
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+            - training
+            - trained
+            - testing
+            - tested
+            - released
+        created:
+          type: number
+        chipset:
+          type: string
+          enum:
+            - rk1808
+            - nvidia
+            - amd
+            - intel
+            - other
+        platform:
+          type: string
+          enum:
+            - tensorflow
+            - pytorch
+            - caffe
+            - mxnet
+            - darknet
+            - other
+        accuracy:
+          type: number
+        recall:
+          type: number
+        precision:
+          type: number
     modelInfos:
-        type: object
-        required:
-            - items
-            - total
-        properties:
-            items:
-              type: array
-              items:
-                  $ref: '#/components/schemas/modelInfo'
-            total:
-              type: number
+      type: object
+      required:
+        - items
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/modelInfo'
+        total:
+          type: number
     modelImportBody:
       type: object
       required:
@@ -1973,38 +1973,38 @@ components:
         url:
           type: string
         size:
-            type: number
+          type: number
         hash:
-            type: string
+          type: string
         chipset:
-            type: string
-            enum:
-              - rk1808
-              - nvidia
-              - amd
-              - intel
-              - other
+          type: string
+          enum:
+            - rk1808
+            - nvidia
+            - amd
+            - intel
+            - other
         platform:
-            type: string
-            enum:
-              - tensorflow
-              - pytorch
-              - caffe
-              - mxnet
-              - darknet
-              - other
+          type: string
+          enum:
+            - tensorflow
+            - pytorch
+            - caffe
+            - mxnet
+            - darknet
+            - other
         accuracy:
-            type: number
+          type: number
         recall:
-            type: number
+          type: number
         precision:
-            type: number
+          type: number
         description:
-            type: string
+          type: string
         categoryList:
-            type: array
-            items:
-              $ref: '#/components/schemas/labelCategory'
+          type: array
+          items:
+            $ref: '#/components/schemas/labelCategory'
 
     deviceBody:
       type: object
@@ -2042,25 +2042,25 @@ components:
               - sn
               - productId
             properties:
-                sn:
-                    type: string
-                productId:
-                    type: string
-                status:
-                    type: string
-                    enum:
-                    - online
-                    - offline
-                    - other
+              sn:
+                type: string
+              productId:
+                type: string
+              status:
+                type: string
+                enum:
+                  - online
+                  - offline
+                  - other
     devices:
-        type: object
-        required:
-            - items
-            - total
-        properties:
-            items:
-              type: array
-              items:
-                  $ref: '#/components/schemas/deviceBody'
-            total:
-              type: number
+      type: object
+      required:
+        - items
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/deviceBody'
+        total:
+          type: number

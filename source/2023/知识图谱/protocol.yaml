@@ -762,7 +762,7 @@ paths:
           name: id
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: got back rule info
@@ -2117,6 +2117,8 @@ components:
         required:
             - id
         properties:
+          id:
+            type: integer
           name:
             type: string
             description: 规则名称
@@ -2194,7 +2196,7 @@ components:
         - datasetProgressList
       properties:
         id:
-            type: string
+            type: integer
         name:
             type: string
         description:

@@ -932,6 +932,7 @@ paths:
           description: 样本采集规则id
           schema:
               type: string
+
   /rule/dataset/id/{{id}}:
     get:
       summary: 获取单个样本采集规则详细信息

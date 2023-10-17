@@ -750,7 +750,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/rule'
+                $ref: '#/components/schemas/ruleResponse'
 
   /rule/train/save:
     post:
@@ -822,7 +822,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/trainRule'
+                $ref: '#/components/schemas/trainRuleResponse'
   /rule/train/remove:
     post:
       summary: 删除模型训练规则
@@ -949,7 +949,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/datasetRule'
+                $ref: '#/components/schemas/datasetRuleResponse'
 
   /modelInfos:
     get:
@@ -2133,6 +2133,7 @@ components:
               type: string
               description: 结束日期
 
+
     ruleList:
       type: object
       required:
@@ -2151,6 +2152,19 @@ components:
             $ref: '#/components/schemas/rule'
         count:
           type: integer
+    ruleResponse:
+      type: object
+      required:
+        - code
+        - msg
+        - data
+      properties:
+        code:
+          type: number
+        msg:
+          type: string
+        data:
+          $ref: '#/components/schemas/rule'
     rule:
       type: object
       required:
@@ -2273,6 +2287,32 @@ components:
                 endDate:
                     type: string
                     description: 结束日期
+    trainRuleResponse:
+      type: object
+      required:
+        - code
+        - msg
+        - data
+      properties:
+        code:
+          type: number
+        msg:
+          type: string
+        data:
+          $ref: '#/components/schemas/trainRule'
+    datasetRuleResponse:
+      type: object
+      required:
+          - code
+          - msg
+          - data
+      properties:
+            code:
+                type: number
+            msg:
+                type: string
+            data:
+                $ref: '#/components/schemas/datasetRule'
 
     modelInfo:
         type: object

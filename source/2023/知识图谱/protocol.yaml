@@ -666,7 +666,7 @@ paths:
     post:
       summary: 训练聚合任务添加
       tags:
-        - 规则聚合服务-ruleCreate
+        - 规则聚合服务
       requestBody:
         required: true
         content:
@@ -719,7 +719,7 @@ paths:
     post:
       summary: 删除训练聚合任务
       tags:
-        - 规则聚合服务-ruleCreate
+        - 规则聚合服务
       responses:
         '200':
           description: ' remove the specified rule'
@@ -737,7 +737,7 @@ paths:
     get:
       summary: 获取单个训练聚合任务详细信息
       tags:
-        - 规则聚合服务-ruleCreate
+        - 规则聚合服务
       parameters:
         - in: path
           name: id
@@ -756,7 +756,7 @@ paths:
     post:
       summary: 模型训练规则添加
       tags:
-        - 规则服务-ruleCreate
+        - 规则服务
       requestBody:
         required: true
         content:
@@ -775,7 +775,7 @@ paths:
     get:
       summary: 获取模型训练规则列表
       tags:
-        - 规则服务-ruleCreate
+        - 规则服务
       operationId: gets the list of trainRule
       parameters:
         - in: query
@@ -809,7 +809,7 @@ paths:
     get:
       summary: 获取单个模型训练规则详细信息
       tags:
-        - 规则服务-ruleCreate
+        - 规则服务
       parameters:
         - in: path
           name: id
@@ -827,7 +827,7 @@ paths:
     post:
       summary: 删除模型训练规则
       tags:
-        - 规则服务-ruleCreate
+        - 规则服务
       responses:
         '200':
           description: ' remove the specified trainRule'
@@ -846,7 +846,7 @@ paths:
     post:
       summary: 模型训练规则状态修改接口
       tags:
-        - 规则服务-ruleCreate
+        - 规则服务
       requestBody:
         required: true
         content:
@@ -865,7 +865,7 @@ paths:
     post:
       summary: 样本采集规则添加
       tags:
-        - 规则服务-ruleCreate
+        - 规则服务
       requestBody:
         required: true
         content:

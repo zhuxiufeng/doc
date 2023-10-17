@@ -2132,22 +2132,22 @@ components:
                 numberOfIterations:
                     description: 训练次数上限
                     type: integer
-                event:
-                    type: string
-                    description: 任务关联事件
-                effectiveDatetime:
-                    type: object
-                    description: 规则生效时间
-                    required:
-                        - startDate
-                        - endDate
-                    properties:
-                        startDate:
-                            type: string
-                            description: 开始日期
-                        endDate:
-                            type: string
-                            description: 结束日期
+          event:
+              type: string
+              description: 任务关联事件
+          effectiveDatetime:
+              type: object
+              description: 规则生效时间
+              required:
+                  - startDate
+                  - endDate
+              properties:
+                  startDate:
+                      type: string
+                      description: 开始日期
+                  endDate:
+                      type: string
+                      description: 结束日期
     ruleList:
       type: object
       required:

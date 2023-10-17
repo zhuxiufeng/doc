@@ -1638,33 +1638,8 @@ components:
         progressList:
             type: array
             items:
-                type: object
-                required:
-                    - iterationNumber
-                    - models
-                properties:
-                    iterationNumber:
-                        type: number
-                    model:
-                        type: object
-                        required:
-                            - modelId
-                            - status
-                            - progress
-                        properties:
-                            modelId:
-                                type: integer
-                            status:
-                                type: string
-                                enum:
-                                  - PENDING
-                                  - RUNNING
-                                  - SUCCESS
-                                  - FAILED
-                                  - FINISHED
-                            progress:
-                                type: number
-                                description: 进度百分比
+              $ref: '#/components/schemas/modelProgress'
+
     trainRuleList:
       type: object
       required:
@@ -1954,27 +1929,7 @@ components:
               type: array
               description: 每个source的进度情况
               items:
-                  type: object
-                  required:
-                    - brokerAddress
-                    - aiSn
-                    - sampleQuantity
-                    - status
-                  properties:
-                    brokerAddress:
-                      type: string
-                    aiSn:
-                      type: string
-                    sampleQuantity:
-                      type: number
-                    status:
-                        type: string
-                        enum:
-                            - PENDING
-                            - RUNNING
-                            - SUCCESS
-                            - FAILED
-                            - FINISHED
+                $ref: '#/components/schemas/datasetProgress'
           effectiveDatatime:
             type: object
             description: 规则生效时间
@@ -2176,6 +2131,8 @@ components:
         - targetList
         - sourceList
         - effectiveDatetime
+        - modelProgressList
+        - datasetProgressList
       properties:
         id:
             type: string
@@ -2287,6 +2244,16 @@ components:
                 endDate:
                     type: string
                     description: 结束日期
+        modelProgressList:
+            type: array
+            description: 每个source的进度情况
+            items:
+              $ref: '#/components/schemas/modelProgress'
+        datasetProgressList:
+            type: array
+            description: 每个source的进度情况
+            items:
+              $ref: '#/components/schemas/datasetProgress'
     trainRuleResponse:
       type: object
       required:
@@ -2313,6 +2280,60 @@ components:
                 type: string
             data:
                 $ref: '#/components/schemas/datasetRule'
+    modelProgress:
+      type: object
+      required:
+        - iterationNumber
+        - models
+      properties:
+        iterationNumber:
+          type: number
+        model:
+          type: object
+          required:
+            - modelId
+            - status
+            - progress
+          properties:
+            modelId:
+              type: integer
+            status:
+              type: string
+              enum:
+                - PENDING
+                - RUNNING
+                - SUCCESS
+                - FAILED
+                - FINISHED
+            progress:
+              type: number
+              description: 进度百分比
+
+    datasetProgress:
+      type: array
+      description: 每个source的进度情况
+      items:
+        type: object
+        required:
+          - brokerAddress
+          - aiSn
+          - sampleQuantity
+          - status
+        properties:
+          brokerAddress:
+            type: string
+          aiSn:
+            type: string
+          sampleQuantity:
+            type: number
+          status:
+            type: string
+            enum:
+              - PENDING
+              - RUNNING
+              - SUCCESS
+              - FAILED
+              - FINISHED
 
     modelInfo:
         type: object

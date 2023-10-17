@@ -666,7 +666,7 @@ paths:
     post:
       summary: 训练聚合任务添加
       tags:
-        - 规则服务-ruleCreate
+        - 规则聚合服务-ruleCreate
       requestBody:
         required: true
         content:
@@ -685,7 +685,7 @@ paths:
     get:
       summary: 获取训练聚合任务列表
       tags:
-        - 规则服务-ruleCreate
+        - 规则聚合服务-ruleCreate
       operationId: gets the list of rule
       parameters:
         - in: query
@@ -719,7 +719,7 @@ paths:
     post:
       summary: 删除训练聚合任务
       tags:
-        - 规则服务-ruleCreate
+        - 规则聚合服务-ruleCreate
       responses:
         '200':
           description: ' remove the specified rule'
@@ -737,7 +737,7 @@ paths:
     get:
       summary: 获取单个训练聚合任务详细信息
       tags:
-        - 规则服务-ruleCreate
+        - 规则聚合服务-ruleCreate
       parameters:
         - in: path
           name: id
@@ -1974,113 +1974,118 @@ components:
       required:
         - name
         - description
-        - priority
+#        - priority
         - condition
-        - targetList
-        - sourceList
-        - effectiveDatatime
+#        - targetList
+#        - sourceList
+        - event
+        - effectiveDatetime
       properties:
         name:
           type: string
         description:
           type: string
-        priority:
-          type: integer
-          description: 优先级1-100
+#        priority:
+#          type: integer
+#          description: 优先级1-100
         condition:
           type: object
           required:
             - sampleQuantityThreshold
             - numberOfIterations
-          properties:
-            sampleQuantityThreshold:
-              description: 样本增量大于阈值时触发
-              type: integer
-            numberOfIterations:
-              description: 训练次数上限
-              type: integer
-        targetList:
-          type: array
-          items:
-            type: string
-            description: label key list
-        sourceList:
-          type: array
-          items:
-              type: object
-              required:
-                - brokerAddress
-                - aiSn
-                - cameraId
-                - cameraAIInfo
-              properties:
-                brokerAddress:
-                  type: string
-                aiSn:
-                  type: string
-                cameraId:
-                  type: string
-                cameraAiInfo:
-                  type: object
-                  description: AI应用信息
-                  required:
-                    - cameraAIId
-                    - interval
-                    - objectThresh
-                    - modelInfoList
-                  properties:
-                    cameraAIId:
-                      type: string
-                      description: AI应用ID
-                    interval:
-                        type: number
-                        description: 采集间隔
-                    objectThresh:
-                        type: number
-                        description: 告警目标阈值
-                    modelInfoList:
-                        type: array
-                        description: 配置模型信息
-                        items:
-                            type: object
-                            required:
-                              - index
-                              - modelId
-                              - objLabels
-                              - operator
-                            properties:
-                                index:
-                                    type: number
-                                    description: 模型优先级
-                                modelId:
-                                    type: string
-                                    description: 模型ID
-                                objLabels:
-                                    type: array
-                                    description: 目标标签列表
-                                    items:
-                                      type: string
-                                operator:
-                                    type: string
-                                    description: 操作符 E 检测到所有目标 IN 检测到目标之一
-                                    enum:
-                                    - IN
-                                    - E
-        effectiveDatatime:
+#          properties:
+#            sampleQuantityThreshold:
+#              description: 样本增量大于阈值时触发
+#              type: integer
+#            numberOfIterations:
+#              description: 训练次数上限
+#              type: integer
+        event:
+          type: string
+          description: 任务关联事件
+
+#        targetList:
+#          type: array
+#          items:
+#            type: string
+#            description: label key list
+#        sourceList:
+#          type: array
+#          items:
+#              type: object
+#              required:
+#                - brokerAddress
+#                - aiSn
+#                - cameraId
+#                - cameraAIInfo
+#              properties:
+#                brokerAddress:
+#                  type: string
+#                aiSn:
+#                  type: string
+#                cameraId:
+#                  type: string
+#                cameraAiInfo:
+#                  type: object
+#                  description: AI应用信息
+#                  required:
+#                    - cameraAIId
+#                    - interval
+#                    - objectThresh
+#                    - modelInfoList
+#                  properties:
+#                    cameraAIId:
+#                      type: string
+#                      description: AI应用ID
+#                    interval:
+#                        type: number
+#                        description: 采集间隔
+#                    objectThresh:
+#                        type: number
+#                        description: 告警目标阈值
+#                    modelInfoList:
+#                        type: array
+#                        description: 配置模型信息
+#                        items:
+#                            type: object
+#                            required:
+#                              - index
+#                              - modelId
+#                              - objLabels
+#                              - operator
+#                            properties:
+#                                index:
+#                                    type: number
+#                                    description: 模型优先级
+#                                modelId:
+#                                    type: string
+#                                    description: 模型ID
+#                                objLabels:
+#                                    type: array
+#                                    description: 目标标签列表
+#                                    items:
+#                                      type: string
+#                                operator:
+#                                    type: string
+#                                    description: 操作符 E 检测到所有目标 IN 检测到目标之一
+#                                    enum:
+#                                    - IN
+#                                    - E
+        effectiveDatetime:
           type: object
           description: 规则生效时间
           required:
-            - startTime
-            - endTime
+#            - startTime
+#            - endTime
             - startDate
             - endDate
           properties:
-            startTime:
-              type: string
-              description: 开始时间
-            endTime:
-              type: string
-              description: 结束时间
+#            startTime:
+#              type: string
+#              description: 开始时间
+#            endTime:
+#              type: string
+#              description: 结束时间
             startDate:
               type: string
               description: 开始日期
@@ -2126,10 +2131,10 @@ components:
         - id
         - name
         - description
-        - priority
+#        - priority
         - condition
-        - targetList
-        - sourceList
+#        - targetList
+#        - sourceList
         - effectiveDatetime
         - modelProgressList
         - datasetProgressList
@@ -2140,9 +2145,6 @@ components:
             type: string
         description:
             type: string
-        priority:
-            type: integer
-            description: 优先级1-100
         condition:
             type: object
             required:
@@ -2155,89 +2157,89 @@ components:
                 numberOfIterations:
                     description: 训练次数上限
                     type: integer
-        targetList:
-            type: array
-            items:
-                type: string
-                description: label key list
-        sourceList:
-            type: array
-            items:
-                type: object
-                required:
-                    - brokerAddress
-                    - aiSn
-                    - cameraId
-                    - cameraAIInfo
-                properties:
-                    brokerAddress:
-                        type: string
-                    aiSn:
-                        type: string
-                    cameraId:
-                        type: string
-                    cameraAiInfo:
-                        type: object
-                        description: AI应用信息
-                        required:
-                            - cameraAIId
-                            - interval
-                            - objectThresh
-                            - modelInfoList
-                        properties:
-                            cameraAIId:
-                                type: string
-                                description: AI应用ID
-                            interval:
-                                type: number
-                                description: 采集间隔
-                            objectThresh:
-                                type: number
-                                description: 告警目标阈值
-                            modelInfoList:
-                                type: array
-                                description: 配置模型信息
-                                items:
-                                    type: object
-                                    required:
-                                        - index
-                                        - modelId
-                                        - objLabels
-                                        - operator
-                                    properties:
-                                        index:
-                                            type: number
-                                            description: 模型优先级
-                                        modelId:
-                                            type: string
-                                            description: 模型ID
-                                        objLabels:
-                                            type: array
-                                            description: 目标标签列表
-                                            items:
-                                                type: string
-                                        operator:
-                                            type: string
-                                            description: 操作符 E 检测到所有目标 IN 检测到目标之一
-                                            enum:
-                                                - IN
-                                                - E
+#        targetList:
+#            type: array
+#            items:
+#                type: string
+#                description: label key list
+#        sourceList:
+#            type: array
+#            items:
+#                type: object
+#                required:
+#                    - brokerAddress
+#                    - aiSn
+#                    - cameraId
+#                    - cameraAIInfo
+#                properties:
+#                    brokerAddress:
+#                        type: string
+#                    aiSn:
+#                        type: string
+#                    cameraId:
+#                        type: string
+#                    cameraAiInfo:
+#                        type: object
+#                        description: AI应用信息
+#                        required:
+#                            - cameraAIId
+#                            - interval
+#                            - objectThresh
+#                            - modelInfoList
+#                        properties:
+#                            cameraAIId:
+#                                type: string
+#                                description: AI应用ID
+#                            interval:
+#                                type: number
+#                                description: 采集间隔
+#                            objectThresh:
+#                                type: number
+#                                description: 告警目标阈值
+#                            modelInfoList:
+#                                type: array
+#                                description: 配置模型信息
+#                                items:
+#                                    type: object
+#                                    required:
+#                                        - index
+#                                        - modelId
+#                                        - objLabels
+#                                        - operator
+#                                    properties:
+#                                        index:
+#                                            type: number
+#                                            description: 模型优先级
+#                                        modelId:
+#                                            type: string
+#                                            description: 模型ID
+#                                        objLabels:
+#                                            type: array
+#                                            description: 目标标签列表
+#                                            items:
+#                                                type: string
+#                                        operator:
+#                                            type: string
+#                                            description: 操作符 E 检测到所有目标 IN 检测到目标之一
+#                                            enum:
+#                                                - IN
+#                                                - E
 
         effectiveDatetime:
             type: object
             description: 规则生效时间
             required:
-                - startTime
-                - endTime
+#                - startTime
+#                - endTime
                 - startDate
                 - endDate
             properties:
-                startTime:
-                    type: string
-                    description: 开始时间
-                endTime:
-                    type: string
-                    description: 结束时间
+#                startTime:
+#                    type: string
+#                    description: 开始时间
+#                endTime:
+#                    type: string
+#                    description: 结束时间
                 startDate:
                     type: string
                     description: 开始日期
@@ -2304,7 +2306,7 @@ components:
                 - RUNNING
                 - SUCCESS
                 - FAILED
-                - FINISHED
+#                - FINISHED
             progress:
               type: number
               description: 进度百分比
@@ -2333,7 +2335,7 @@ components:
               - RUNNING
               - SUCCESS
               - FAILED
-              - FINISHED
+#              - FINISHED
 
     modelInfo:
         type: object

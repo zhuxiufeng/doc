@@ -2006,6 +2006,7 @@ components:
           description: 规则名称
         description:
           type: string
+          description: 规则描述
 #        priority:
 #          type: integer
 #          description: 优先级1-100

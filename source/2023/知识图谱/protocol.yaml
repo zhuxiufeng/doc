@@ -698,16 +698,16 @@ paths:
           description: page size, default 10
           schema:
               type: integer
-        - in: query
-          name: name
-          description: 规则名称
-          schema:
-              type: string
-        - in: query
-          name: target
-          description: 训练目标,模糊匹配
-          schema:
-            type: string
+#        - in: query
+#          name: name
+#          description: 规则名称
+#          schema:
+#              type: string
+#        - in: query
+#          name: target
+#          description: 训练目标,模糊匹配
+#          schema:
+#            type: string
       responses:
         '200':
           description: got back the list of trainRule
@@ -788,16 +788,16 @@ paths:
           description: page size, default 10
           schema:
               type: integer
-        - in: query
-          name: name
-          description: 规则名称
-          schema:
-              type: string
-        - in: query
-          name: target
-          description: 训练目标,模糊匹配
-          schema:
-            type: string
+#        - in: query
+#          name: name
+#          description: 规则名称
+#          schema:
+#              type: string
+#        - in: query
+#          name: target
+#          description: 训练目标,模糊匹配
+#          schema:
+#            type: string
       responses:
         '200':
           description: got back the list of rule
@@ -877,16 +877,16 @@ paths:
           description: page size, default 10
           schema:
               type: integer
-        - in: query
-          name: name
-          description: 规则名称
-          schema:
-              type: string
-        - in: query
-          name: target
-          description: 采集目标,模糊匹配
-          schema:
-            type: string
+#        - in: query
+#          name: name
+#          description: 规则名称
+#          schema:
+#              type: string
+#        - in: query
+#          name: target
+#          description: 采集目标,模糊匹配
+#          schema:
+#            type: string
       responses:
         '200':
           description: got back the list of datasetRule

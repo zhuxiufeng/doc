@@ -1087,14 +1087,14 @@ components:
         required:
             - code
             - message
-            - data
+#            - data
         properties:
             code:
               type: number
             message:
               type: string
-            data:
-                type: object
+#            data:
+#                type: object
     error:
         type: object
         required:

@@ -664,7 +664,7 @@ paths:
 
   /rule/train/save:
     post:
-      summary: 模型训练规则添加接口
+      summary: 模型训练规则添加
       tags:
         - 规则服务-ruleCreate
       requestBody:
@@ -754,7 +754,7 @@ paths:
 
   /rule/save:
     post:
-      summary: 训练聚合任务添加接口
+      summary: 训练聚合任务添加
       tags:
         - 规则服务-ruleCreate
       requestBody:
@@ -841,9 +841,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/rule'
+
   /rule/dataset/save:
     post:
-      summary: 样本采集规则添加接口
+      summary: 样本采集规则添加
       tags:
         - 规则服务-ruleCreate
       requestBody:
@@ -948,6 +949,7 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/result'
+
   /modelInfos:
     get:
         summary: 查询/推送模型信息

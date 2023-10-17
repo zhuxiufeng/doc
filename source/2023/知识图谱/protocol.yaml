@@ -2013,13 +2013,13 @@ components:
           required:
             - sampleQuantityThreshold
             - numberOfIterations
-#          properties:
-#            sampleQuantityThreshold:
-#              description: 样本增量大于阈值时触发
-#              type: integer
-#            numberOfIterations:
-#              description: 训练次数上限
-#              type: integer
+          properties:
+            sampleQuantityThreshold:
+              description: 样本增量大于阈值时触发
+              type: integer
+            numberOfIterations:
+              description: 训练次数上限
+              type: integer
         event:
           type: string
           description: 任务关联事件

@@ -681,6 +681,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/result'
+  /rule/update:
+    post:
+      summary: 训练聚合任务更新
+      tags:
+        - 规则聚合服务
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ruleUpdateBody'
+
+      responses:
+        '200':
+          description: ' rule control'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
   /rule/list:
     get:
       summary: 获取训练聚合任务列表
@@ -1973,8 +1992,8 @@ components:
     ruleBody:
       type: object
       required:
-        - name
-        - description
+#        - name
+#        - description
 #        - priority
         - condition
 #        - targetList
@@ -2093,8 +2112,42 @@ components:
             endDate:
               type: string
               description: 结束日期
-
-
+    ruleUpdateBody:
+        type: object
+        required:
+            - id
+        properties:
+          name:
+            type: string
+            description: 规则名称
+          condition:
+            type: object
+            required:
+                - sampleQuantityThreshold
+                - numberOfIterations
+            properties:
+                sampleQuantityThreshold:
+                    description: 样本增量大于阈值时触发
+                    type: integer
+                numberOfIterations:
+                    description: 训练次数上限
+                    type: integer
+                event:
+                    type: string
+                    description: 任务关联事件
+                effectiveDatetime:
+                    type: object
+                    description: 规则生效时间
+                    required:
+                        - startDate
+                        - endDate
+                    properties:
+                        startDate:
+                            type: string
+                            description: 开始日期
+                        endDate:
+                            type: string
+                            description: 结束日期
     ruleList:
       type: object
       required:

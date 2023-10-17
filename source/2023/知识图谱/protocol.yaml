@@ -662,6 +662,96 @@ paths:
                 schema:
                     $ref: '#/components/schemas/result'
 
+  /rule/save:
+    post:
+      summary: 训练聚合任务添加
+      tags:
+        - 规则服务-ruleCreate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ruleBody'
+
+      responses:
+        '200':
+          description: ' rule control'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+  /rule/list:
+    get:
+      summary: 获取训练聚合任务列表
+      tags:
+        - 规则服务-ruleCreate
+      operationId: gets the list of rule
+      parameters:
+        - in: query
+          name : page
+          description: page number, default 1
+          schema:
+            type: integer
+        - in: query
+          name : limit
+          description: page size, default 10
+          schema:
+            type: integer
+      #        - in: query
+      #          name: name
+      #          description: 规则名称
+      #          schema:
+      #              type: string
+      #        - in: query
+      #          name: target
+      #          description: 训练目标,模糊匹配
+      #          schema:
+      #            type: string
+      responses:
+        '200':
+          description: got back the list of rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ruleList'
+  /rule/remove:
+    post:
+      summary: 删除训练聚合任务
+      tags:
+        - 规则服务-ruleCreate
+      responses:
+        '200':
+          description: ' remove the specified rule'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      parameters:
+        - in: query
+          name: id
+          description: 训练聚合任务id
+          schema:
+            type: string
+  /rule/id/{{id}}:
+    get:
+      summary: 获取单个训练聚合任务详细信息
+      tags:
+        - 规则服务-ruleCreate
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: got back rule info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rule'
+
   /rule/train/save:
     post:
       summary: 模型训练规则添加
@@ -752,9 +842,9 @@ paths:
           schema:
               type: string
 
-  /rule/save:
+  /rule/train/status:
     post:
-      summary: 训练聚合任务添加
+      summary: 模型训练规则状态修改接口
       tags:
         - 规则服务-ruleCreate
       requestBody:
@@ -762,85 +852,14 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/ruleBody'
-
+              $ref: '#/components/schemas/trainRuleStatusBody'
       responses:
         '200':
-          description: ' rule control'
-          content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
-  /rule/list:
-    get:
-      summary: 获取训练聚合任务列表
-      tags:
-        - 规则服务-ruleCreate
-      operationId: gets the list of rule
-      parameters:
-        - in: query
-          name : page
-          description: page number, default 1
-          schema:
-            type: integer
-        - in: query
-          name : limit
-          description: page size, default 10
-          schema:
-              type: integer
-#        - in: query
-#          name: name
-#          description: 规则名称
-#          schema:
-#              type: string
-#        - in: query
-#          name: target
-#          description: 训练目标,模糊匹配
-#          schema:
-#            type: string
-      responses:
-        '200':
-          description: got back the list of rule
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ruleList'
-  /rule/remove:
-    post:
-      summary: 删除训练聚合任务
-      tags:
-        - 规则服务-ruleCreate
-      responses:
-        '200':
-          description: ' remove the specified rule'
+          description: ' train control'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/result'
-      parameters:
-        - in: query
-          name: id
-          description: 训练聚合任务id
-          schema:
-              type: string
-  /rule/id/{{id}}:
-    get:
-      summary: 获取单个训练聚合任务详细信息
-      tags:
-        - 规则服务-ruleCreate
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: got back rule info
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rule'
 
   /rule/dataset/save:
     post:
@@ -931,24 +950,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/datasetRule'
-  /rule/train/status:
-    post:
-        summary: 模型训练规则状态修改接口
-        tags:
-            - 规则服务-ruleCreate
-        requestBody:
-            required: true
-            content:
-              application/json:
-                  schema:
-                      $ref: '#/components/schemas/trainRuleStatusBody'
-        responses:
-            '200':
-                description: ' train control'
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/result'
 
   /modelInfos:
     get:

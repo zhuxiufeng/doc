@@ -2003,6 +2003,7 @@ components:
       properties:
         name:
           type: string
+          description: 规则名称
         description:
           type: string
 #        priority:
@@ -2010,6 +2011,7 @@ components:
 #          description: 优先级1-100
         condition:
           type: object
+          description: 规则条件
           required:
             - sampleQuantityThreshold
             - numberOfIterations
@@ -2119,6 +2121,7 @@ components:
         properties:
           id:
             type: integer
+            description: 规则ID
           name:
             type: string
             description: 规则名称
@@ -2197,12 +2200,16 @@ components:
       properties:
         id:
             type: integer
+            description: 规则ID
         name:
             type: string
+            description: 规则名称
         description:
             type: string
+            description: 规则描述
         condition:
             type: object
+            description: 规则条件
             required:
                 - sampleQuantityThreshold
                 - numberOfIterations
@@ -2346,8 +2353,10 @@ components:
       properties:
         iterationNumber:
           type: number
+          description: 迭代次数
         model:
           type: object
+          description: 模型信息
           required:
             - modelId
             - status
@@ -2355,8 +2364,10 @@ components:
           properties:
             modelId:
               type: integer
+              description: 模型ID
             status:
               type: string
+              description: 模型状态
               enum:
                 - PENDING
                 - RUNNING
@@ -2373,19 +2384,23 @@ components:
       items:
         type: object
         required:
-          - brokerAddress
+#          - brokerAddress
           - aiSn
           - sampleQuantity
           - status
         properties:
-          brokerAddress:
-            type: string
+#          brokerAddress:
+#            type: string
+#            description: broker地址
           aiSn:
             type: string
+            description: AI设备SN
           sampleQuantity:
             type: number
+            description: 样本采集数量
           status:
             type: string
+            description: 采集状态
             enum:
               - PENDING
               - RUNNING

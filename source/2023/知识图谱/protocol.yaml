@@ -751,7 +751,7 @@ paths:
           name: id
           description: 训练聚合任务id
           schema:
-            type: string
+            type: integer
   /rule/id/{{id}}:
     get:
       summary: 获取单个训练聚合任务详细信息

@@ -664,7 +664,7 @@ paths:
 
   /rule/save:
     post:
-      summary: 训练聚合任务添加
+      summary: 任务添加
       tags:
         - 规则聚合服务
       requestBody:
@@ -683,7 +683,7 @@ paths:
                 $ref: '#/components/schemas/result'
   /rule/update:
     post:
-      summary: 训练聚合任务更新
+      summary: 任务更新
       tags:
         - 规则聚合服务
       requestBody:
@@ -702,7 +702,7 @@ paths:
                 $ref: '#/components/schemas/result'
   /rule/list:
     get:
-      summary: 获取训练聚合任务列表
+      summary: 获取任务列表
       tags:
         - 规则聚合服务
       operationId: gets the list of rule
@@ -736,7 +736,7 @@ paths:
                 $ref: '#/components/schemas/ruleList'
   /rule/remove:
     post:
-      summary: 删除训练聚合任务
+      summary: 删除任务
       tags:
         - 规则聚合服务
       responses:
@@ -754,7 +754,7 @@ paths:
             type: integer
   /rule/id/{{id}}:
     get:
-      summary: 获取单个训练聚合任务详细信息
+      summary: 获取任务详细信息
       tags:
         - 规则聚合服务
       parameters:
@@ -2218,14 +2218,14 @@ components:
                     description: 结束日期
         progress:
             type: object
-            description: 进度情况
+            description: 训练进度情况
             required:
                 - remainSampleQuantity
                 - modelInfos
             properties:
                 remainSampleQuantity:
                     type: integer
-                    description: 下载讯练剩余样本数量
+                    description: 下次训练剩余样本数量
                 modelInfos:
                     type: array
                     description: 模型进度信息

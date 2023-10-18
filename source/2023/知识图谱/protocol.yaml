@@ -2432,6 +2432,9 @@ components:
                 duration:
                     type: integer
                     description: 训练时长
+                md5:
+                    type: string
+                    description: 模型md5
                 downloadUrl:
                     type: string
                     description: 模型下载地址

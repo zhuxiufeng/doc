@@ -769,12 +769,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/result'
-      parameters:
-        - in: query
-          name: id
-          description: 训练聚合任务id
-          schema:
-            type: integer
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: string
+                  description: 规则id
   /rule/id/{{id}}:
     get:
       summary: 获取任务详细信息
@@ -2022,73 +2028,6 @@ components:
           type: string
           description: 任务关联事件
 
-#        targetList:
-#          type: array
-#          items:
-#            type: string
-#            description: label key list
-#        sourceList:
-#          type: array
-#          items:
-#              type: object
-#              required:
-#                - brokerAddress
-#                - aiSn
-#                - cameraId
-#                - cameraAIInfo
-#              properties:
-#                brokerAddress:
-#                  type: string
-#                aiSn:
-#                  type: string
-#                cameraId:
-#                  type: string
-#                cameraAiInfo:
-#                  type: object
-#                  description: AI应用信息
-#                  required:
-#                    - cameraAIId
-#                    - interval
-#                    - objectThresh
-#                    - modelInfoList
-#                  properties:
-#                    cameraAIId:
-#                      type: string
-#                      description: AI应用ID
-#                    interval:
-#                        type: number
-#                        description: 采集间隔
-#                    objectThresh:
-#                        type: number
-#                        description: 告警目标阈值
-#                    modelInfoList:
-#                        type: array
-#                        description: 配置模型信息
-#                        items:
-#                            type: object
-#                            required:
-#                              - index
-#                              - modelId
-#                              - objLabels
-#                              - operator
-#                            properties:
-#                                index:
-#                                    type: number
-#                                    description: 模型优先级
-#                                modelId:
-#                                    type: string
-#                                    description: 模型ID
-#                                objLabels:
-#                                    type: array
-#                                    description: 目标标签列表
-#                                    items:
-#                                      type: string
-#                                operator:
-#                                    type: string
-#                                    description: 操作符 E 检测到所有目标 IN 检测到目标之一
-#                                    enum:
-#                                    - IN
-#                                    - E
         effectiveDatetime:
           type: object
           description: 规则生效时间

@@ -2385,6 +2385,7 @@ components:
             $ref: '#/components/schemas/modelInfo'
         count:
           type: integer
+          description: 总数
     modelInfo:
         type: object
         required:
@@ -2399,6 +2400,7 @@ components:
             - datasetId
             - duration
             - labelClassSetObjInfo
+            - downloadUrl
         properties:
                 id:
                     type: integer
@@ -2430,6 +2432,9 @@ components:
                 duration:
                     type: integer
                     description: 训练时长
+                downloadUrl:
+                    type: string
+                    description: 模型下载地址
                 labelClassSetObjInfo:
                     type: object
                     description: 训练标签类别信息

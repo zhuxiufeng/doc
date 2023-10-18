@@ -2361,7 +2361,7 @@ components:
           required:
             - modelId
             - status
-            - progress
+#            - progress
           properties:
             modelId:
               type: integer
@@ -2375,9 +2375,9 @@ components:
                 - SUCCESS
                 - FAILED
 #                - FINISHED
-            progress:
-              type: number
-              description: 进度百分比
+#            progress:
+#              type: number
+#              description: 进度百分比
 
     datasetProgress:
       type: array
@@ -2388,7 +2388,7 @@ components:
 #          - brokerAddress
           - aiSn
           - sampleQuantity
-          - status
+#          - status
         properties:
 #          brokerAddress:
 #            type: string
@@ -2399,14 +2399,14 @@ components:
           sampleQuantity:
             type: number
             description: 样本采集数量
-          status:
-            type: string
-            description: 采集状态
-            enum:
-              - PENDING
-              - RUNNING
-              - SUCCESS
-              - FAILED
+#          status:
+#            type: string
+#            description: 采集状态
+#            enum:
+#              - PENDING
+#              - RUNNING
+#              - SUCCESS
+#              - FAILED
 #              - FINISHED
 
     modelInfo:

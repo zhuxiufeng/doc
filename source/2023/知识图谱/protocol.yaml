@@ -816,30 +816,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ruleResponse'
-
-
-
-
-
-
-
-    post:
-      summary: 启用任务
-      tags:
-        - 规则聚合服务
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: ' enable the specified rule'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
   /rule/enable/{{id}}:
     post:
       summary: 启用任务

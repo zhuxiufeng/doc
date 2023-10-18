@@ -2015,13 +2015,13 @@ components:
           description: 规则条件
           required:
             - sampleQuantityThreshold
-            - numberOfIterations
+#            - numberOfIterations
           properties:
             sampleQuantityThreshold:
               description: 样本增量大于阈值时触发
               type: integer
             numberOfIterations:
-              description: 训练次数上限
+              description: 训练次数上限, 默认0 不限制
               type: integer
         event:
           type: string

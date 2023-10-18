@@ -2061,42 +2061,30 @@ components:
       type: object
       required:
         - name
-        - condition
+#        - condition
+        - sampleQuantityThreshold
         - event
-        - effectiveDatetime
+#        - effectiveDatetime
+        - startDate
+        - endDate
       properties:
         name:
           type: string
           description: 规则名称
-        condition:
-          type: object
-          description: 规则条件
-          required:
-            - sampleQuantityThreshold
-          properties:
-            sampleQuantityThreshold:
-              description: 样本增量大于阈值时触发
-              type: integer
-            numberOfIterations:
-              description: 训练次数上限, 默认0 不限制
-              type: integer
+        sampleQuantityThreshold:
+          description: 样本增量阈值
+          type: integer
         event:
           type: string
           description: 任务关联事件
-
-        effectiveDatetime:
-          type: object
-          description: 规则生效时间
-          required:
-            - startDate
-            - endDate
-          properties:
-            startDate:
-              type: string
-              description: 开始日期
-            endDate:
-              type: string
-              description: 结束日期
+        startDate:
+          type: string
+          description: 开始日期
+          format: date-time
+        endDate:
+            type: string
+            description: 结束日期
+            format: date-time
     ruleUpdateBody:
         type: object
         required:
@@ -2108,34 +2096,20 @@ components:
           name:
             type: string
             description: 规则名称
-          condition:
-            type: object
-            required:
-                - sampleQuantityThreshold
-                - numberOfIterations
-            properties:
-                sampleQuantityThreshold:
-                    description: 样本增量大于阈值时触发
-                    type: integer
-                numberOfIterations:
-                    description: 训练次数上限
-                    type: integer
+          sampleQuantityThreshold:
+            description: 样本增量阈值
+            type: integer
           event:
               type: string
               description: 任务关联事件
-          effectiveDatetime:
-              type: object
-              description: 规则生效时间
-              required:
-                  - startDate
-                  - endDate
-              properties:
-                  startDate:
-                      type: string
-                      description: 开始日期
-                  endDate:
-                      type: string
-                      description: 结束日期
+          startDate:
+            type: string
+            description: 开始日期
+            format: date-time
+          endDate:
+              type: string
+              description: 结束日期
+              format: date-time
     ruleList:
       type: object
       required:
@@ -2175,8 +2149,11 @@ components:
         - name
         - enabled
         - createdAt
-        - condition
-        - effectiveDatetime
+        - sampleQuantityThreshold
+        - startDate
+        - endDate
+#        - condition
+#        - effectiveDatetime
         - progress
       properties:
         id:
@@ -2185,66 +2162,22 @@ components:
         name:
             type: string
             description: 规则名称
-        description:
+        sampleQuantityThreshold:
+            description: 样本增量阈值
+            type: integer
+        event:
             type: string
-            description: 规则描述
-        condition:
-            type: object
-            description: 规则条件
-            required:
-                - sampleQuantityThreshold
-                - numberOfIterations
-            properties:
-                sampleQuantityThreshold:
-                    description: 样本增量大于阈值时触发
-                    type: integer
-                numberOfIterations:
-                    description: 训练次数上限
-                    type: integer
-
-        effectiveDatetime:
-            type: object
-            description: 规则生效时间
-            required:
-                - startDate
-                - endDate
-            properties:
-                startDate:
-                    type: string
-                    description: 开始日期
-                endDate:
-                    type: string
-                    description: 结束日期
-        progress:
-            type: object
-            description: 训练进度情况
-            required:
-                - remainSampleQuantity
-                - modelInfos
-            properties:
-                remainSampleQuantity:
-                    type: integer
-                    description: 下次训练剩余样本数量
-                modelInfos:
-                    type: array
-                    description: 模型进度信息
-                    items:
-                        type: object
-                        required:
-                            - modelId
-                            - status
-                        properties:
-                            modelId:
-                                type: integer
-                                description: 模型ID
-                            status:
-                                type: string
-                                description: 模型状态
-                                enum:
-                                    - PENDING
-                                    - RUNNING
-                                    - SUCCESS
-                                    - FAILED
+            description: 任务关联事件
+        status:
+            type: string
+            description: 规则状态,PENDING 待命中, RUNNING 运行中, STOPPED 停止, EXPIRED 过期, FINISHED 完成, FAILED 失败
+            enum:
+                - PENDING
+                - RUNNING
+                - STOPPED
+                - EXPIRED
+                - FINISHED
+                - FAILED
         createdAt:
             type: integer
             description: 创建时间

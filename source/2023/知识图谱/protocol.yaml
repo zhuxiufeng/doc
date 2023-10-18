@@ -2172,6 +2172,7 @@ components:
             $ref: '#/components/schemas/rule'
         count:
           type: integer
+          description: 总数
     ruleResponse:
       type: object
       required:

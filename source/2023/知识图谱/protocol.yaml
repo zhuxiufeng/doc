@@ -661,7 +661,30 @@ paths:
               application/json:
                 schema:
                     $ref: '#/components/schemas/result'
-
+  /model/list:
+    get:
+      summary: 获取模型列表
+      tags:
+        - 模型服务
+      operationId: gets the list of model
+      parameters:
+        - in: query
+          name : page
+          description: page number, default 1
+          schema:
+            type: integer
+        - in: query
+          name : limit
+          description: page size, default 10
+          schema:
+              type: integer
+      responses:
+        '200':
+          description: got back the list of model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modelList'
   /rule/save:
     post:
       summary: 任务添加
@@ -2344,59 +2367,87 @@ components:
 #              - FAILED
 #              - FINISHED
 
+    modelList:
+      type: object
+      required:
+        - code
+        - msg
+        - data
+        - count
+      properties:
+        code:
+          type: number
+        msg:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/modelInfo'
+        count:
+          type: integer
     modelInfo:
         type: object
         required:
             - id
             - name
-            - description
-            - status
-            - created
+            - ruleId
+            - iteratorNumber
+            - createdAt
             - chipset
-            - platform
-            - accuracy
-            - recall
-            - precision
+            - engineId
+            - algorithmType
+            - datasetId
+            - duration
+            - labelClassSetObjInfo
         properties:
-          id:
-            type: string
-          name:
-            type: string
-          description:
-            type: string
-          status:
-            type: string
-            enum:
-              - training
-              - trained
-              - testing
-              - tested
-              - released
-          created:
-            type: number
-          chipset:
-            type: string
-            enum:
-              - rk1808
-              - nvidia
-              - amd
-              - intel
-              - other
-          platform:
-            type: string
-            enum:
-              - tensorflow
-              - pytorch
-              - caffe
-              - mxnet
-              - darknet
-              - other
-          accuracy:
-            type: number
-          recall:
-            type: number
-          precision:
-            type: number
+                id:
+                    type: integer
+                name:
+                    type: string
+                ruleId:
+                    type: integer
+                    description: 训练任务Id
+                iteratorNumber:
+                    type: integer
+                    description: 迭代次数
+                createdAt:
+                    type: integer
+                chipset:
+                    type: string
+                    enum:
+                        - rk1808
+                        - other
+                engineId:
+                    type: integer
+                algorithmType:
+                    type: string
+                    enum:
+                        - detection
+                        - classification
+                datasetId:
+                    type: integer
+                    description: 训练数据集Id
+                duration:
+                    type: integer
+                    description: 训练时长
+                labelClassSetObjInfo:
+                    type: object
+                    description: 训练标签类别信息
+                    required:
+                        - labelClassId
+                        - labelClassKey
+                        - labelClassName
+                        - accuracy
+                    properties:
+                        labelClassId:
+                            type: integer
+                        labelClassKey:
+                            type: string
+                        labelClassName:
+                            type: string
+                        accuracy:
+                            type: number
+
     modelInfos:
         type: object
         required:

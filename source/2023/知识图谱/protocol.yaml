@@ -760,12 +760,12 @@ paths:
           name: gteCreatedAt
           description: 创建时间戳大于
           schema:
-            type: string
+            type: integer
         - in: query
           name: ltCreatedAt
           description: 创建时间戳小于
           schema:
-            type: string
+            type: integer
 
       responses:
         '200':

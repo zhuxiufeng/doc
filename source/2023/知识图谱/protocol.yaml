@@ -2074,6 +2074,9 @@ components:
         sampleQuantityThreshold:
           description: 样本增量阈值
           type: integer
+          minimum: 500
+          maximum: 100000
+
         event:
           type: string
           description: 任务关联事件

@@ -758,12 +758,12 @@ paths:
             type: string
         - in: query
           name: gteCreatedAt
-          description: 创建时间戳大于
+          description: 秒级时间戳,创建时间大于等于
           schema:
             type: integer
         - in: query
           name: ltCreatedAt
-          description: 创建时间戳小于
+          description: 秒级时间戳,创建时间小于
           schema:
             type: integer
 
@@ -2184,7 +2184,7 @@ components:
             description: 样本增量
         createdAt:
             type: integer
-            description: 创建时间
+            description: 创建时间戳,秒级
         enabled:
             type: integer
             description: 是否启用 0 否 1 是

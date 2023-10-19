@@ -853,7 +853,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/result'
 
-
   /rule/train/save:
     post:
       summary: 模型训练规则添加
@@ -943,7 +942,6 @@ paths:
           description: 模型训练规则id
           schema:
               type: string
-
   /rule/train/status:
     post:
       summary: 模型训练规则状态修改接口
@@ -1034,7 +1032,6 @@ paths:
           description: 样本采集规则id
           schema:
               type: string
-
   /rule/dataset/id/{{id}}:
     get:
       summary: 获取单个样本采集规则详细信息
@@ -2155,9 +2152,10 @@ components:
         - sampleQuantityThreshold
         - startDate
         - endDate
-#        - condition
-#        - effectiveDatetime
         - progress
+        - event
+        - status
+        - sampleQuantityIncrement
       properties:
         id:
             type: integer
@@ -2181,6 +2179,9 @@ components:
                 - EXPIRED
                 - FINISHED
                 - FAILED
+        sampleQuantityIncrement:
+            type: integer
+            description: 样本增量
         createdAt:
             type: integer
             description: 创建时间
@@ -2190,7 +2191,14 @@ components:
             enum:
                 - 0
                 - 1
-
+        startDate:
+            type: string
+            description: 开始日期
+            format: date-time
+        endDate:
+            type: string
+            description: 结束日期
+            format: date-time
     trainRuleResponse:
       type: object
       required:

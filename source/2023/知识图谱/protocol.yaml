@@ -2452,19 +2452,31 @@ components:
         - code
         - msg
         - data
-        - count
+#        - count
       properties:
         code:
           type: number
         msg:
           type: string
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/modelInfo'
-        count:
-          type: integer
-          description: 总数
+          type: object
+          required:
+              - list
+              - count
+          properties:
+                list:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/modelInfo'
+                count:
+                    type: integer
+                    description: 总数
+#          type: array
+#          items:
+#            $ref: '#/components/schemas/modelInfo'
+#        count:
+#          type: integer
+#          description: 总数
     modelInfo:
         type: object
         required:

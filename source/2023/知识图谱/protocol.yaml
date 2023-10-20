@@ -774,6 +774,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ruleList'
+  /rule/event/save:
+    post:
+      summary: AI知识事件添加
+      tags:
+        - 规则聚合服务
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ruleEventBody'
+
+      responses:
+        '200':
+          description: ' rule control'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
   /rule/remove:
     post:
       summary: 删除任务
@@ -2184,7 +2203,74 @@ components:
           endDate:
               type: string
               description: 结束日期
-              format: date-time
+#              format: date-time
+    ruleEventBody:
+          type: object
+          required:
+              - event
+          properties:
+            event:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - eventIdentifier
+                    - eventName
+                    - aiAppType
+                    - type
+                    - classificationList
+                    - eventHoldTime
+                    - knowledgePropertyList
+                  properties:
+                    eventIdentifier:
+                      type: string
+                      description: 事件标识符
+                    eventName:
+                      type: string
+                      description: 事件名称
+                    aiAppType:
+                      type: string
+                      description: AI应用类型
+                    type:
+                      type: string
+                      description: 事件类型
+                    classificationList:
+                      type: array
+                      description: 事件分类列表
+                      items:
+                        type: object
+                        required:
+                          - classification
+                          - classificationName
+                        properties:
+                          classification:
+                            type: string
+                            description: 事件分类
+                          classificationName:
+                            type: string
+                            description: 事件分类名称
+                    eventHoldTime:
+                      type: integer
+                      description: 事件持续时间
+                    knowledgePropertyList:
+                      type: array
+                      description: 知识属性列表
+                      items:
+                        type: object
+                        required:
+                          - property
+                          - operator
+                          - value
+                        properties:
+                          property:
+                            type: string
+                            description: 知识属性
+                          operator:
+                            type: string
+                            description: 操作符
+                          value:
+                            type: string
+                            description: 值
     ruleList:
       type: object
       required:

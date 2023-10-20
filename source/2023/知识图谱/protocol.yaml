@@ -816,7 +816,7 @@ paths:
               properties:
                 id:
                   type: string
-                  description: 规则id
+                  description: 规则id,多个用逗号分隔
   /rule/id/{{id}}:
     get:
       summary: 获取任务详细信息
@@ -2355,7 +2355,6 @@ components:
         startDate:
             type: string
             description: 开始日期,格式:yyyy-MM-dd
-#            format: date-time
         endDate:
             type: string
             description: 结束日期,格式:yyyy-MM-dd

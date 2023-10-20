@@ -2079,6 +2079,7 @@ components:
         - name
         - sampleQuantityThreshold
         - event
+#        - enabled
         - deviceInfo
         - startDate
         - endDate
@@ -2171,10 +2172,15 @@ components:
                       model:
                         type: string
                         description: AI型号
-
         event:
           type: string
           description: 任务关联事件
+        enabled:
+            type: integer
+            description: 是否启用 0 否 1 是,默认1
+            enum:
+                - 0
+                - 1
         startDate:
           type: string
           description: 开始日期,格式:yyyy-MM-dd

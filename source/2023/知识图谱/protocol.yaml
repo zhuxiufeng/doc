@@ -1204,12 +1204,12 @@ components:
         type: object
         required:
             - code
-            - message
+            - msg
 #            - data
         properties:
             code:
               type: number
-            message:
+            msg:
               type: string
 #            data:
 #                type: object
@@ -1217,22 +1217,22 @@ components:
         type: object
         required:
             - code
-            - message
+            - msg
         properties:
             code:
               type: number
-            message:
+            msg:
               type: string
     resultData:
         type: object
         required:
             - code
-            - message
+            - msg
             - data
         properties:
             code:
               type: number
-            message:
+            msg:
               type: string
             data:
                 type: object

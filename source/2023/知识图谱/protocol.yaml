@@ -2058,10 +2058,9 @@ components:
       type: object
       required:
         - name
-#        - condition
         - sampleQuantityThreshold
         - event
-#        - effectiveDatetime
+        - deviceInfo
         - startDate
         - endDate
       properties:
@@ -2073,6 +2072,78 @@ components:
           type: integer
           minimum: 500
           maximum: 100000
+        deviceInfo:
+          type: array
+          description: 设备信息
+          items:
+            type: object
+            required:
+              - box
+              - camera
+              - AI
+            properties:
+              box:
+                type: object
+                required:
+                  - sn
+                  - productId
+                  - online
+                properties:
+                    sn:
+                        type: string
+                        description: 盒子SN
+                    productId:
+                        type: string
+                        description: 盒子产品ID
+                    online:
+                        type: integer
+                        description: 盒子是否在线 0 否 1 是
+                        enum:
+                            - 0
+                            - 1
+              camera:
+                type: object
+                required:
+                  - sn
+                  - productId
+                  - online
+                properties:
+                    sn:
+                        type: string
+                        description: 摄像头SN
+                    productId:
+                        type: string
+                        description: 摄像头产品ID
+
+                    online:
+                        type: integer
+                        description: 摄像头是否在线 0 否 1 是
+                        enum:
+                            - 0
+                            - 1
+              AI:
+                type: object
+                required:
+                  - sn
+                  - productId
+                  - online
+                  - model
+                properties:
+                    sn:
+                        type: string
+                        description: AI设备SN
+                    productId:
+                        type: string
+                        description: AI设备产品ID
+                    online:
+                        type: integer
+                        description: AI设备是否在线 0 否 1 是
+                        enum:
+                            - 0
+                            - 1
+                    model:
+                      type: string
+                      description: AI型号
 
         event:
           type: string
@@ -2183,8 +2254,8 @@ components:
             type: integer
             description: 样本增量
         createdAt:
-            type: integer
-            description: 创建时间戳,秒级
+            type: string
+            description: 创建时间,格式:yyyy-MM-dd HH:mm:ss
         enabled:
             type: integer
             description: 是否启用 0 否 1 是
@@ -2193,11 +2264,11 @@ components:
                 - 1
         startDate:
             type: string
-            description: 开始日期
-            format: date-time
+            description: 开始日期,格式:yyyy-MM-dd HH:mm:ss
+#            format: date-time
         endDate:
             type: string
-            description: 结束日期
+            description: 结束日期,格式:yyyy-MM-dd HH:mm:ss
             format: date-time
     trainRuleResponse:
       type: object

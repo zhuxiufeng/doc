@@ -1205,14 +1205,11 @@ components:
         required:
             - code
             - msg
-#            - data
         properties:
             code:
               type: number
             msg:
               type: string
-#            data:
-#                type: object
     error:
         type: object
         required:
@@ -2073,13 +2070,89 @@ components:
         count:
           type: integer
 
+    device:
+      type: object
+      required:
+        - box
+        - camera
+        - ai
+      properties:
+        box:
+          type: object
+          required:
+            - sn
+            - productId
+            - online
+            - ip
+          properties:
+              sn:
+                  type: string
+                  description: 盒子SN
+              productId:
+                  type: string
+                  description: 盒子产品ID
+              online:
+                  type: integer
+                  description: 盒子是否在线 0 否 1 是
+                  enum:
+                      - 0
+                      - 1
+              ip:
+                  type: string
+                  description: 盒子IP
+        camera:
+          type: array
+          items:
+            type: object
+            required:
+              - sn
+              - productId
+              - online
+            properties:
+                sn:
+                    type: string
+                    description: 摄像头SN
+                productId:
+                    type: string
+                    description: 摄像头产品ID
+
+                online:
+                    type: integer
+                    description: 摄像头是否在线 0 否 1 是
+                    enum:
+                        - 0
+                        - 1
+        ai:
+          type: array
+          items:
+            type: object
+            required:
+              - sn
+              - productId
+              - online
+              - model
+            properties:
+                sn:
+                    type: string
+                    description: AI设备SN
+                productId:
+                    type: string
+                    description: AI设备产品ID
+                online:
+                    type: integer
+                    description: AI设备是否在线 0 否 1 是
+                    enum:
+                        - 0
+                        - 1
+                model:
+                  type: string
+                  description: AI型号
     ruleBody:
       type: object
       required:
         - name
         - sampleQuantityThreshold
         - event
-#        - enabled
         - deviceInfo
         - startDate
         - endDate
@@ -2096,82 +2169,7 @@ components:
           type: array
           description: 设备信息
           items:
-            type: object
-            required:
-              - box
-              - camera
-              - ai
-            properties:
-              box:
-                type: object
-                required:
-                  - sn
-                  - productId
-                  - online
-                  - ip
-                properties:
-                    sn:
-                        type: string
-                        description: 盒子SN
-                    productId:
-                        type: string
-                        description: 盒子产品ID
-                    online:
-                        type: integer
-                        description: 盒子是否在线 0 否 1 是
-                        enum:
-                            - 0
-                            - 1
-                    ip:
-                        type: string
-                        description: 盒子IP
-              camera:
-                type: array
-                items:
-                  type: object
-                  required:
-                    - sn
-                    - productId
-                    - online
-                  properties:
-                      sn:
-                          type: string
-                          description: 摄像头SN
-                      productId:
-                          type: string
-                          description: 摄像头产品ID
-
-                      online:
-                          type: integer
-                          description: 摄像头是否在线 0 否 1 是
-                          enum:
-                              - 0
-                              - 1
-              ai:
-                type: array
-                items:
-                  type: object
-                  required:
-                    - sn
-                    - productId
-                    - online
-                    - model
-                  properties:
-                      sn:
-                          type: string
-                          description: AI设备SN
-                      productId:
-                          type: string
-                          description: AI设备产品ID
-                      online:
-                          type: integer
-                          description: AI设备是否在线 0 否 1 是
-                          enum:
-                              - 0
-                              - 1
-                      model:
-                        type: string
-                        description: AI型号
+            $ref: '#/components/schemas/device'
         event:
           type: string
           description: 任务关联事件
@@ -2204,6 +2202,11 @@ components:
           event:
               type: string
               description: 任务关联事件
+          deviceInfo:
+           type: array
+           description: 设备信息
+           items:
+             $ref: '#/components/schemas/device'
           startDate:
             type: string
             description: 开始日期,格式:yyyy-MM-dd
@@ -2471,12 +2474,6 @@ components:
                 count:
                     type: integer
                     description: 总数
-#          type: array
-#          items:
-#            $ref: '#/components/schemas/modelInfo'
-#        count:
-#          type: integer
-#          description: 总数
     modelInfo:
         type: object
         required:

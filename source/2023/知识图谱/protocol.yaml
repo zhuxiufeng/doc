@@ -2177,12 +2177,10 @@ components:
           description: 任务关联事件
         startDate:
           type: string
-          description: 开始日期
-          format: date-time
+          description: 开始日期,格式:yyyy-MM-dd
         endDate:
             type: string
-            description: 结束日期
-            format: date-time
+            description: 结束日期,格式:yyyy-MM-dd
     ruleUpdateBody:
         type: object
         required:
@@ -2202,12 +2200,10 @@ components:
               description: 任务关联事件
           startDate:
             type: string
-            description: 开始日期
-            format: date-time
+            description: 开始日期,格式:yyyy-MM-dd
           endDate:
               type: string
-              description: 结束日期
-#              format: date-time
+              description: 结束日期,格式:yyyy-MM-dd
     ruleEventBody:
           type: object
           required:
@@ -2358,12 +2354,11 @@ components:
                 - 1
         startDate:
             type: string
-            description: 开始日期,格式:yyyy-MM-dd HH:mm:ss
+            description: 开始日期,格式:yyyy-MM-dd
 #            format: date-time
         endDate:
             type: string
-            description: 结束日期,格式:yyyy-MM-dd HH:mm:ss
-            format: date-time
+            description: 结束日期,格式:yyyy-MM-dd
     trainRuleResponse:
       type: object
       required:

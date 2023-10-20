@@ -774,9 +774,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ruleList'
-  /rule/event/save:
+  /rule/event/sync:
     post:
-      summary: AI知识事件添加
+      summary: AI知识事件同步
       tags:
         - 规则聚合服务
       requestBody:

@@ -2283,19 +2283,24 @@ components:
         - code
         - msg
         - data
-        - count
+#        - count
       properties:
         code:
           type: number
         msg:
           type: string
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/rule'
-        count:
-          type: integer
-          description: 总数
+          type: object
+          required:
+              - list
+              - count
+          properties:
+            list:
+              type: array
+              items:
+                $ref: '#/components/schemas/rule'
+            count:
+                type: integer
     ruleResponse:
       type: object
       required:

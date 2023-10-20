@@ -808,16 +808,10 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
-              type: object
-              required:
-                - id
-              properties:
-                id:
-                  type: string
-                  description: 规则id,多个用逗号分隔
-  /rule/id/{{id}}:
+              $ref: '#/components/schemas/ruleRemoveBody'
+  /rule/get/{{id}}:
     get:
       summary: 获取任务详细信息
       tags:
@@ -1314,6 +1308,7 @@ components:
           type: string
         cover:
           type: string
+
 
     validation-set:
         type: object
@@ -2213,6 +2208,16 @@ components:
           endDate:
               type: string
               description: 结束日期,格式:yyyy-MM-dd
+    ruleRemoveBody:
+      type: object
+      required:
+        - ids
+      properties:
+        ids:
+          type: array
+          items:
+            type: integer
+            description: 规则ID
     ruleEventBody:
           type: object
           required:

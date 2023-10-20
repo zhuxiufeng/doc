@@ -2125,48 +2125,52 @@ components:
                         type: string
                         description: 盒子IP
               camera:
-                type: object
-                required:
-                  - sn
-                  - productId
-                  - online
-                properties:
-                    sn:
-                        type: string
-                        description: 摄像头SN
-                    productId:
-                        type: string
-                        description: 摄像头产品ID
+                type: array
+                items:
+                  type: object
+                  required:
+                    - sn
+                    - productId
+                    - online
+                  properties:
+                      sn:
+                          type: string
+                          description: 摄像头SN
+                      productId:
+                          type: string
+                          description: 摄像头产品ID
 
-                    online:
-                        type: integer
-                        description: 摄像头是否在线 0 否 1 是
-                        enum:
-                            - 0
-                            - 1
-              AI:
-                type: object
-                required:
-                  - sn
-                  - productId
-                  - online
-                  - model
-                properties:
-                    sn:
+                      online:
+                          type: integer
+                          description: 摄像头是否在线 0 否 1 是
+                          enum:
+                              - 0
+                              - 1
+              ai:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - sn
+                    - productId
+                    - online
+                    - model
+                  properties:
+                      sn:
+                          type: string
+                          description: AI设备SN
+                      productId:
+                          type: string
+                          description: AI设备产品ID
+                      online:
+                          type: integer
+                          description: AI设备是否在线 0 否 1 是
+                          enum:
+                              - 0
+                              - 1
+                      model:
                         type: string
-                        description: AI设备SN
-                    productId:
-                        type: string
-                        description: AI设备产品ID
-                    online:
-                        type: integer
-                        description: AI设备是否在线 0 否 1 是
-                        enum:
-                            - 0
-                            - 1
-                    model:
-                      type: string
-                      description: AI型号
+                        description: AI型号
 
         event:
           type: string

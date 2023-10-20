@@ -2099,7 +2099,7 @@ components:
             required:
               - box
               - camera
-              - AI
+              - ai
             properties:
               box:
                 type: object

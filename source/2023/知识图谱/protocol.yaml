@@ -2088,6 +2088,7 @@ components:
                   - sn
                   - productId
                   - online
+                  - ip
                 properties:
                     sn:
                         type: string
@@ -2101,6 +2102,9 @@ components:
                         enum:
                             - 0
                             - 1
+                    ip:
+                        type: string
+                        description: 盒子IP
               camera:
                 type: object
                 required:

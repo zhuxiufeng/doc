@@ -746,7 +746,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/result'
-  /rule/api/v1 /rule/list:
+  /rule/api/v1/rule/list:
     get:
       summary: 获取任务列表
       tags:

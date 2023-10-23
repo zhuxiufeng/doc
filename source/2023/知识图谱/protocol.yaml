@@ -664,7 +664,7 @@ paths:
               application/json:
                 schema:
                     $ref: '#/components/schemas/result'
-  /data-engine/model/list:
+  /data-engine/api/v1/data-engine/model/list:
     get:
       summary: 获取模型列表
       tags:
@@ -2499,12 +2499,13 @@ components:
             - ruleId
             - iteratorNumber
             - createdAt
-            - chipset
+            - chipType
             - engineId
             - algorithmType
             - datasetId
             - duration
             - labelClassSetObjInfo
+            - evolutionSetObjInfo
             - downloadUrl
             - md5
         properties:
@@ -2520,7 +2521,7 @@ components:
                     description: 迭代次数
                 createdAt:
                     type: integer
-                chipset:
+                chipType:
                     type: string
                     enum:
                         - rk1808
@@ -2545,23 +2546,51 @@ components:
                     type: string
                     description: 模型下载地址
                 labelClassSetObjInfo:
-                    type: object
+                    type: array
                     description: 训练标签类别信息
-                    required:
-                        - labelClassId
-                        - labelClassKey
-                        - labelClassName
-                        - accuracy
-                    properties:
-                        labelClassId:
-                            type: integer
-                        labelClassKey:
-                            type: string
-                        labelClassName:
-                            type: string
-                        accuracy:
-                            type: number
-
+                    items:
+                      type: object
+                      required:
+                          - id
+                          - key
+                          - name
+                          - accuracy
+                      properties:
+                          id:
+                              type: integer
+                              description: 标签类别Id
+                          key:
+                              type: string
+                              description: 标签类别key
+                          name:
+                              type: string
+                              description: 标签类别名称
+                          accuracy:
+                              type: number
+                              description: 标签类别准确率
+                evolutionSetObjInfo:
+                    type: array
+                    description: 进化集信息
+                    items:
+                      type: object
+                      required:
+                          - id
+                          - key
+                          - name
+                          - accuracy
+                      properties:
+                          id:
+                              type: integer
+                              description: 进化集Id
+                          key:
+                              type: string
+                              description: 进化集key
+                          name:
+                              type: string
+                              description: 进化集名称
+                          accuracy:
+                              type: number
+                              description: 进化集准确率
     modelInfos:
         type: object
         required:

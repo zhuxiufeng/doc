@@ -664,7 +664,7 @@ paths:
               application/json:
                 schema:
                     $ref: '#/components/schemas/result'
-  /model/list:
+  /data-engine/model/list:
     get:
       summary: 获取模型列表
       tags:

@@ -4,7 +4,10 @@ info:
   description: Dataset management and model training
   version: '1.1'
 servers:
-  - url: http://localhost:5000/api/v1
+  - url: http://localhost:5000/
+    description: Local server
+#  - url: http://localhost:5000/
+#    description: Local server
 paths:
   /raw-data/list:
     get:
@@ -686,7 +689,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/modelList'
 
-  /rule/save:
+  /knowledge/api/v1/aiEvent/sync:
+    post:
+      summary: AI知识事件同步
+      tags:
+        - 规则聚合服务
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ruleEventBody'
+
+      responses:
+        '200':
+          description: ' rule control'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+  /rule/api/v1/rule/save:
     post:
       summary: 任务添加
       tags:
@@ -705,7 +727,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/resultData'
-  /rule/update:
+  /rule/api/v1/rule/update:
     post:
       summary: 任务更新
       tags:
@@ -724,7 +746,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/result'
-  /rule/list:
+  /rule/api/v1 /rule/list:
     get:
       summary: 获取任务列表
       tags:
@@ -774,26 +796,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ruleList'
-  /rule/event/sync:
-    post:
-      summary: AI知识事件同步
-      tags:
-        - 规则聚合服务
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ruleEventBody'
-
-      responses:
-        '200':
-          description: ' rule control'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-  /rule/remove:
+  /rule/api/v1/rule/remove:
     post:
       summary: 删除任务
       tags:
@@ -811,7 +814,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ruleRemoveBody'
-  /rule/get/{{id}}:
+  /rule/api/v1/rule/get/{{id}}:
     get:
       summary: 获取任务详细信息
       tags:
@@ -829,7 +832,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ruleResponse'
-  /rule/enable/{{id}}:
+  /rule/api/v1 /rule/enable/{{id}}:
     post:
       summary: 启用任务
       tags:
@@ -847,7 +850,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/result'
-  /rule/disable/{{id}}:
+  /rule/api/v1/rule/disable/{{id}}:
     post:
       summary: 禁用任务
       tags:

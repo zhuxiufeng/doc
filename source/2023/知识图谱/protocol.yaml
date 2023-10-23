@@ -788,6 +788,27 @@ paths:
           description: 秒级时间戳,创建时间小于
           schema:
             type: integer
+        - in: query
+          name: gteStartAt
+          description: 秒级时间戳,开始时间大于等于
+          schema:
+              type: integer
+        - in: query
+          name: ltStartAt
+          description: 秒级时间戳,开始时间小于
+          schema:
+              type: integer
+        - in: query
+          name: gteEndAt
+          description: 秒级时间戳,结束时间大于等于
+          schema:
+              type: integer
+        - in: query
+          name: ltEndAt
+          description: 秒级时间戳,结束时间小于
+          schema:
+              type: integer
+
 
       responses:
         '200':

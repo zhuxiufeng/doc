@@ -2340,6 +2340,8 @@ components:
         - event
         - status
         - sampleQuantityIncrement
+        - iteratorCount
+        - trainedSampleQuantity
       properties:
         id:
             type: integer
@@ -2355,9 +2357,10 @@ components:
             description: 任务关联事件
         status:
             type: string
-            description: 规则状态,PENDING 待命中, RUNNING 运行中, STOPPED 停止, EXPIRED 过期, FINISHED 完成, FAILED 失败
+            description: 规则状态,PENDING 待命中, QUEUE 排队中, RUNNING 运行中, STOPPED 停止, EXPIRED 过期, FINISHED 完成, FAILED 失败
             enum:
                 - PENDING
+                - QUEUE
                 - RUNNING
                 - STOPPED
                 - EXPIRED
@@ -2366,6 +2369,12 @@ components:
         sampleQuantityIncrement:
             type: integer
             description: 样本增量
+        iteratorCount:
+            type: integer
+            description: 迭代次数
+        trainedSampleQuantity:
+            type: integer
+            description: 已训练样本数量
         createdAt:
             type: string
             description: 创建时间,格式:yyyy-MM-dd HH:mm:ss

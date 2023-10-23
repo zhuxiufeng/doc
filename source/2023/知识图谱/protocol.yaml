@@ -832,7 +832,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ruleResponse'
-  /rule/api/v1 /rule/enable/{{id}}:
+  /rule/api/v1/rule/enable/{{id}}:
     post:
       summary: 启用任务
       tags:

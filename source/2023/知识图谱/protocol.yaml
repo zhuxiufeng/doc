@@ -664,7 +664,7 @@ paths:
               application/json:
                 schema:
                     $ref: '#/components/schemas/result'
-  /data-engine/api/v1/data-engine/model/list:
+  /data-engine/api/v1/model/list:
     get:
       summary: 获取模型列表
       tags:
@@ -2451,14 +2451,9 @@ components:
       items:
         type: object
         required:
-#          - brokerAddress
           - aiSn
           - sampleQuantity
-#          - status
         properties:
-#          brokerAddress:
-#            type: string
-#            description: broker地址
           aiSn:
             type: string
             description: AI设备SN

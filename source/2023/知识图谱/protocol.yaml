@@ -2540,15 +2540,20 @@ components:
                 chipType:
                     type: string
                     enum:
-                        - rk1808
-                        - other
+                        - Rockchip,1808,NPU
+                        - SOPHGO,SE5,NPU
                 engineId:
                     type: integer
+                    description: 引擎Id 1:共达地  0:7G
+                    enum:
+                      - 1
+                      - 0
                 algorithmType:
                     type: string
                     enum:
-                        - detection
-                        - classification
+                        - Detection
+                        - Compare
+                        - Structuration
                 datasetId:
                     type: integer
                     description: 训练数据集Id
@@ -2561,6 +2566,7 @@ components:
                 downloadUrl:
                     type: string
                     description: 模型下载地址
+
                 labelClassSetObjInfo:
                     type: array
                     description: 训练标签类别信息
@@ -2586,27 +2592,47 @@ components:
                               description: 标签类别准确率
                 evolutionSetObjInfo:
                     type: array
-                    description: 进化集信息
+                    description: 进化信息
                     items:
                       type: object
                       required:
                           - id
                           - key
                           - name
-                          - accuracy
+                          - labelClassAccuracy
                       properties:
                           id:
                               type: integer
-                              description: 进化集Id
+                              description: 模型Id
                           key:
                               type: string
-                              description: 进化集key
+                              description: 标签类别key
                           name:
                               type: string
                               description: 进化集名称
-                          accuracy:
-                              type: number
-                              description: 进化集准确率
+                          labelClassAccuracy:
+                              type: object
+                              description: 模型准确率
+                              required:
+                                  - key
+                                  - accuracy
+                                  - name
+                                  - id
+                              properties:
+                                    key:
+                                        type: string
+                                        description: 标签类别key
+                                    accuracy:
+                                        type: number
+                                        description: 标签类别准确率
+                                    name:
+                                        type: string
+                                        description: 标签类别名称
+                                    id:
+                                        type: integer
+                                        description: 标签类别Id
+
+
     modelInfos:
         type: object
         required:

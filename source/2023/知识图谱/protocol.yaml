@@ -273,14 +273,14 @@ paths:
       responses:
         '200':
           description: ' update the specified labeledData'
-  /labeledData/import:
+  /labeledData/checkBigFile:
     post:
-      summary: 导入标注样本压缩包
+      summary: 检查校验大文件压缩包数据
       tags:
         - 样本服务-labeledData
       responses:
         '200':
-          description: ' import the specified labeledData'
+          description: ' check the specified labeledData'
           content:
             application/json:
               schema:
@@ -290,7 +290,43 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/labeledDataImportBody'
+                $ref: '#/components/schemas/labeledDataCheckBody'
+  /labeledData/uploadBigFile:
+    post:
+      summary: 上传切片后的大文件压缩包数据
+      tags:
+        - 样本服务-labeledData
+      responses:
+        '200':
+          description: ' upload the specified labeledData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/labeledDataUploadBody'
+  /labeledData/mergeBigFile:
+    post:
+      summary: 合并大文件压缩包数据
+      tags:
+        - 样本服务-labeledData
+      responses:
+        '200':
+          description: ' upload the specified labeledData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/labeledDataMergeBody'
   /labeledData/add:
     post:
       summary: 添加标注样本
@@ -1562,22 +1598,53 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/labelAnnotation'
-    labeledDataImportBody:
+    labeledDataCheckBody:
         type: object
         required:
-            - filename
-            - url
-            - size
-            - hash
+            - fileName
+            - fileMd5
+            - fileSize
+            - chunkSize
+            - builder
         properties:
-            filename:
+            fileName:
               type: string
-            url:
+            fileMd5:
               type: string
-            size:
+            fileSize:
                 type: number
-            hash:
+            chunkSize:
                 type: string
+    labeledDataUploadBody:
+        type: object
+        required:
+            - chunk
+            - fileMd5
+            - chunkMd5
+            - file
+        properties:
+            chunk:
+                type: integer
+            fileMd5:
+                type: string
+            chunkMd5:
+                type: string
+            # The property name 'file' will be used for all files.
+            file:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    labeledDataMergeBody:
+        type: object
+        required:
+            - fileMd5
+            - fileName
+        properties:
+            fileMd5:
+              type: string
+            fileName:
+              type: string
     labeledDataAdd:
       type: object
       required:

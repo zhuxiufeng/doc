@@ -2103,6 +2103,7 @@ components:
             - productId
             - online
             - ip
+            - mqttInfo
           properties:
               sn:
                   type: string
@@ -2119,6 +2120,23 @@ components:
               ip:
                   type: string
                   description: 盒子IP
+              mqttInfo:
+                type: object
+                required:
+                  - brokerAddress
+                  - username
+                  - password
+                properties:
+                    brokerAddress:
+                        type: string
+                        description: broker地址tcp://137.184.18.36:1883
+                    username:
+                        type: string
+                        description: 用户名
+                    password:
+                        type: string
+                        description: 密码
+
         camera:
           type: array
           items:

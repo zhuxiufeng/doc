@@ -1307,14 +1307,17 @@ components:
     datasets:
       type: object
       required:
-        - items
-        - total
+        - code
+        - data
+        - count
       properties:
-        items:
+        code:
+          type: number
+        data:
           type: array
           items:
             $ref: '#/components/schemas/dataset'
-        total:
+        count:
           type: number
     datasetBody:
       type: object
@@ -1535,15 +1538,13 @@ components:
           type: number
         size:
           type: number
-        collection:
+        sourceType:
           type: string
-        source_type:
+        sourceId:
           type: string
-        source_sn:
+        labeledFilepath:
           type: string
-        imageUrl:
-          type: string
-        labelUrl:
+        labeledImageFilepath:
           type: string
         labelCategoryList:
           type: array
@@ -1619,24 +1620,24 @@ components:
     labeledDatas:
         type: object
         required:
-            - items
-            - total
+        - code
+        - data
+        - count
         properties:
-            items:
+            code:
+              type: number
+            data:
               type: array
               items:
                   $ref: '#/components/schemas/labeledData'
-            total:
+            count:
               type: number
     labelCategory:
       type: object
       required:
         - id
-        - name
-        - description
+        - labelName
         - color
-        - created
-        - updated
       properties:
         id:
 

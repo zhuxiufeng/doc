@@ -316,7 +316,7 @@ paths:
         - 样本服务-labeledData
       responses:
         '200':
-          description: ' upload the specified labeledData'
+          description: ' merge the specified labeledData'
           content:
             application/json:
               schema:
@@ -327,6 +327,24 @@ paths:
           application/json:
             schema:
                 $ref: '#/components/schemas/labeledDataMergeBody'
+  /labeledData/loadBigFile:
+    post:
+      summary: 获取大文件压缩包数据
+      tags:
+        - 样本服务-labeledData
+      responses:
+        '200':
+          description: ' load the specified labeledData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/labeledDataLoadBody'
   /labeledData/add:
     post:
       summary: 添加标注样本
@@ -1642,6 +1660,16 @@ components:
             - fileName
         properties:
             fileMd5:
+              type: string
+            fileName:
+              type: string
+    labeledDataLoadBody:
+        type: object
+        required:
+            - filePath
+            - fileName
+        properties:
+            filePath:
               type: string
             fileName:
               type: string

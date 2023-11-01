@@ -345,6 +345,25 @@ paths:
           application/json:
             schema:
                 $ref: '#/components/schemas/labeledDataLoadBody'
+  /labeledData/{{id}}/exports:
+    post:
+      summary: 导出标注样本压缩包
+      tags:
+        - 样本服务-labeledData
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ' exports the specified labeledData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultData'
+
   /labeledData/add:
     post:
       summary: 添加标注样本

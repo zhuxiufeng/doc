@@ -2124,17 +2124,21 @@ components:
               mqttInfo:
                 type: object
                 required:
-                  - brokerAddress
+                  - host
+                  - port
                   - username
                   - password
                 properties:
-                    brokerAddress:
+                    host:
                         type: string
-                        description: broker地址tcp://137.184.18.36:1883
-                    username:
+                        description: mqtt host
+                    port:
+                        type: integer
+                        description: mqtt port
+                    userName:
                         type: string
                         description: 用户名
-                    password:
+                    passwd:
                         type: string
                         description: 密码
 

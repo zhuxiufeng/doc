@@ -9,112 +9,52 @@ servers:
 #  - url: http://localhost:5000/
 #    description: Local server
 paths:
-  /raw-data/list:
+  /labelClass/list:
     get:
-      summary: 获取预标注样本列表
+      summary: 获取标注类别列表
       tags:
-        - 样本服务-unlabeledData
-      operationId: gets the list of rawData
+        - 标签管理
+      operationId: gets the list of labelClass
       parameters:
         - in: query
-          name: page
+          name : page
           description: page number, default 1
           schema:
             type: integer
         - in: query
-          name: limit
+          name : limit
           description: page size, default 10
           schema:
-            type: integer
-        - in: query
-          name: sourceType
-          description: 原始样本来源类型
-          schema:
-            type: string
-            enum:
-              - box
-              - manual
-              - other
-        - in: query
-          name: status
-          description: 原始样本状态
-          schema:
-            type: string
-            enum:
-              - unlabeled
-              - labeled
-              - locked
-        - in: query
-          name: sourceId
-          description: 原始样本来源id
-          schema:
-            type: string
+              type: integer
         - in: query
           name: gteCreatedAt
-          description: 原始样本创建时间大于等于
+          description: 标注类别创建时间
           schema:
-            type: string
+              type: integer
+              description: 秒级时间戳,创建时间大于等于
         - in: query
-          name: lteCreatedAt
-          description: 原始样本创建时间小于等于
+          name: ltCreatedAt
+          description: 标注类别创建时间
+          schema:
+              type: integer
+              description: 秒级时间戳,创建时间小于
+        - in: query
+          name: labelName
+          description: 标注类别名称,模糊匹配
           schema:
             type: string
       responses:
         '200':
-          description: got back the list of rawData
+          description: got back the list of labelClass
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/rawDatas'
-  /raw-data/save:
-    post:
-      summary: 添加原始样本
-      tags:
-        - 样本服务-unlabeledData
-      responses:
-        '200':
-          description: ' import the specified rawData'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-#          application/json:
-            schema:
-              $ref: '#/components/schemas/rawDataAddBody'
-  /raw-data/remove:
-    post:
-      summary: 删除原始样本
-      tags:
-        - 样本服务-unlabeledData
-      responses:
-        '200':
-          description: ' remove the specified rawData'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              required:
-                - id
-              properties:
-                id:
-                  type: array
-                  items:
-                    type: string
-  /raw-data/id/{{id}}:
+                $ref: '#/components/schemas/labelClasses'
+  /labelClass/get/{{id}}:
     get:
-      summary: 获取原始样本详细信息
+      summary: 获取标注类别详细信息
       tags:
-        - 样本服务-unlabeledData
+        - 标签管理
       parameters:
         - in: path
           name: id
@@ -123,17 +63,77 @@ paths:
             type: string
       responses:
         '200':
-          description: got back rawData info
+          description: got back labelClass info
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/rawData'
+                $ref: '#/components/schemas/labelClassBody'
+  /labelClass/save:
+    post:
+      summary: 添加标注类别
+      tags:
+        - 标签管理
+      responses:
+        '200':
+          description: ' add the specified labelClass'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/labelClassAddBody'
+  /labelClass/remove:
+    post:
+      summary: 删除标注类别
+      tags:
+        - 标签管理
+      responses:
+        '200':
+          description: ' remove the specified labelClass'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/labelClassRemoveBody'
+  /labelClass/update/{{id}}:
+    post:
+      summary: 更新标注类别
+      tags:
+        - 标签管理
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ' update the specified labelClass'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/labelClassUpdateBody'
 
-  /labeledData:
+  /labeledData/list:
     get:
       summary: 查询标注样本列表
       tags:
-        - 样本服务-labeledData
+        - 样本管理
       operationId: gets the list of labeledDatas
       parameters:
         - in: query
@@ -147,69 +147,28 @@ paths:
           schema:
               type: integer
         - in: query
-          name: order
-          description: sort by field
-          schema:
-              type: string
-        - in: query
           name: source
           description: 标注样本来源
           schema:
-              type: string
-              enum:
-                  - box
-                  - manual
-                  - other
+              type: integer
         - in: query
-          name: filterIds
-          description: 标注样本id列表
+          name: datasetsId
+          description: 标注样本所属数据集
           schema:
-            type: array
-            items:
-                type: integer
+              type: integer
         - in: query
-          name: filterCategorizationIds
-          description: 标注样本分类id列表
-          schema:
-            type: array
-            items:
-                type: string
-        - in: query
-          name: likeCategorizationName
-          description: 标注样本分类名称,模糊匹配
+          name: labelClassId
+          description: 根据标注类别的 id 过滤，支持数组同时过滤多个
           schema:
               type: string
         - in: query
-          name: filterCollection
-          description: 标注样本集合类型
-          schema:
-              type: string
-              enum:
-                - train
-                - test
-        - in: query
-          name: filterGteCreated
-          description: 标注样本创建时间大于等于
+          name: gteCreatedAt
+          description: 秒级时间戳,创建时间大于等于
           schema:
               type: string
         - in: query
-          name: filterLteCreated
-          description: 标注样本创建时间小于等于
-          schema:
-              type: string
-        - in: query
-          name: filterGteUpdated
-          description: 标注样本更新时间大于等于
-          schema:
-              type: string
-        - in: query
-          name: filterLteUpdated
-          description: 标注样本更新时间小于等于
-          schema:
-              type: string
-        - in: query
-          name: filterSn
-          description: 标注样本来源sn
+          name: ltCreatedAt
+          description: 秒级时间戳,创建时间小于
           schema:
               type: string
       responses:
@@ -219,11 +178,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/labeledDatas'
-  /labeledData/{{id}}:
+  /labeledData/get/{{id}}:
     get:
       summary: 查询标注样本详细信息
       tags:
-        - 样本服务-labeledData
+        - 样本管理
       parameters:
         - in: path
           name: id
@@ -236,48 +195,72 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/labeledData'
-    delete:
-        summary: 删除标注样本
-        tags:
-            - 样本服务-labeledData
-        parameters:
-          - in: path
-            name: id
-            required: true
-            schema:
-              type: string
-        responses:
-            '200':
-              description: ' delete the specified labeledData'
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schemas/result'
-    put:
+                $ref: '#/components/schemas/labeledDataGetBody'
+  /labeledData/update:
+    post:
       summary: 更新标注样本
       tags:
-          - 样本服务-labeledData
+        - 样本管理
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: string
+      responses:
+        '200':
+          description: ' update the specified labeledData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
       requestBody:
         required: true
         content:
           application/json:
             schema:
                 $ref: '#/components/schemas/labeledDataUpdateBody'
+  /labeledData/remove:
+    post:
+      summary: 删除标注样本
+      tags:
+        - 样本管理
       responses:
         '200':
-          description: ' update the specified labeledData'
-  /labeledData/checkBigFile:
+          description: ' delete the specified labeledData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/labeledDataRemoveBody'
+  /labeledData/save:
     post:
-      summary: 检查校验大文件压缩包数据
+      summary: 添加标注样本
       tags:
-        - 样本服务-labeledData
+        - 样本管理
+      responses:
+        '200':
+          description: ' add the specified labeledData'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/labeledDataAddBody'
+  /labeledData/import/checkBigFile:
+    post:
+      summary: 校验压缩包数据
+      tags:
+        - 样本管理
       responses:
         '200':
           description: ' check the specified labeledData'
@@ -291,11 +274,11 @@ paths:
           application/json:
             schema:
                 $ref: '#/components/schemas/labeledDataCheckBody'
-  /labeledData/uploadBigFile:
+  /labeledData/import/uploadBigFile:
     post:
-      summary: 上传切片后的大文件压缩包数据
+      summary: 上传压缩包切片数据
       tags:
-        - 样本服务-labeledData
+        - 样本管理
       responses:
         '200':
           description: ' upload the specified labeledData'
@@ -309,11 +292,11 @@ paths:
           application/json:
             schema:
                 $ref: '#/components/schemas/labeledDataUploadBody'
-  /labeledData/mergeBigFile:
+  /labeledData/import/mergeBigFile:
     post:
-      summary: 合并大文件压缩包数据
+      summary: 合并压缩包切片数据
       tags:
-        - 样本服务-labeledData
+        - 样本管理
       responses:
         '200':
           description: ' merge the specified labeledData'
@@ -327,35 +310,35 @@ paths:
           application/json:
             schema:
                 $ref: '#/components/schemas/labeledDataMergeBody'
-  /labeledData/loadBigFile:
+#  /labeledData/import/loadBigFile:
+#    post:
+#      summary: 获取大文件压缩包数据
+#      tags:
+#        - 样本管理
+#      responses:
+#        '200':
+#          description: ' load the specified labeledData'
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/result'
+#      requestBody:
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#                $ref: '#/components/schemas/labeledDataLoadBody'
+  /labeledData/exports:
     post:
-      summary: 获取大文件压缩包数据
+      summary: 导出标注样本压缩包
       tags:
-        - 样本服务-labeledData
-      responses:
-        '200':
-          description: ' load the specified labeledData'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
+        - 样本管理
       requestBody:
         required: true
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/labeledDataLoadBody'
-  /labeledData/{{id}}/exports:
-    post:
-      summary: 导出标注样本压缩包
-      tags:
-        - 样本服务-labeledData
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
+              $ref: '#/components/schemas/labeledDataExportBody'
       responses:
         '200':
           description: ' exports the specified labeledData'
@@ -364,30 +347,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/resultData'
 
-  /labeledData/add:
-    post:
-      summary: 添加标注样本
-      tags:
-        - 样本服务-labeledData
-      responses:
-        '200':
-          description: ' add the specified labeledData'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-                $ref: '#/components/schemas/labeledDataAddBody'
 
-  /datasets:
+  /datasets/list:
     get:
       summary:  查询数据集列表
       tags:
-        - 样本服务-datasets
+        - 数据集管理
       operationId: gets the list of datasets
       parameters:
         - in: query
@@ -401,21 +366,26 @@ paths:
           schema:
               type: integer
         - in: query
-          name: order
-          description: sort by field
+          name: gteCreatedAt
+          description: 秒级时间戳,创建时间大于等于
+          schema:
+              type: integer
+        - in: query
+          name: ltCreatedAt
+          description: 秒级时间戳,创建时间小于
+          schema:
+              type: integer
+        - in: query
+          name: name
+          description: 数据集名称,模糊匹配
           schema:
               type: string
         - in: query
-          name: filterName
+          name: id
+          description: 数据集id
           schema:
-            type: string
-        - in: query
-          name: filterScene
-          schema:
-            type: string
-            enum:
-              - detection
-              - classification
+              type: string
+
       responses:
         '200':
           description: got back the list of datasets
@@ -423,13 +393,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/datasets'
+  /datesets/save:
     post:
       summary: 创建数据集
       tags:
-        - 样本服务-datasets
+        - 数据集管理
       responses:
         '200':
-          description: ' create the specified dataset'
+          description: ' add the specified dataset'
           content:
             application/json:
               schema:
@@ -440,11 +411,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/datasetBody'
-  /datasets/{{id}}:
+  /datasets/get/{{id}}:
     get:
       summary: 获取数据集详细信息
       tags:
-        - 样本服务-datasets
+        - 数据集管理
       parameters:
         - in: path
           name: id
@@ -457,52 +428,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/dataset'
-    delete:
-        summary: 删除数据集
-        tags:
-            - 样本服务-datasets
-        parameters:
-            - in: path
-              required: true
-              name: id
+                $ref: '#/components/schemas/datasetGetBody'
+
+  /datesets/update/{{id}}:
+    post:
+      summary: 更新数据集
+      tags:
+        - 数据集管理
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ' update the specified dataset'
+          content:
+            application/json:
               schema:
-                  type: string
-        responses:
-            '200' :
-              description: ' delete the specified dataset'
-              content:
-                  application/json:
-                    schema:
-                        $ref: '#/components/schemas/result'
-    put:
-        summary: 更新数据集
-        tags:
-            - 样本服务-datasets
-        parameters:
-            - in: path
-              required: true
-              name: id
-              schema:
-                  type: string
-        responses:
-            '200' :
-              description: ' update the specified dataset'
-              content:
-                  application/json:
-                    schema:
-                      $ref: '#/components/schemas/result'
-        requestBody:
-            required: true
-            content:
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/datasetBody'
-  /datasets/{{datasetId}}/add/labeledData:
+                $ref: '#/components/schemas/result'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/datasetUpdateBody'
+  /datasets/addData:
     post:
       summary: 添加标注样本到数据集
       tags:
-        - 样本服务-datasets
+        - 数据集管理
       parameters:
         - in: path
           required: true
@@ -522,11 +478,11 @@ paths:
               application/json:
                 schema:
                     $ref: '#/components/schemas/result'
-  /datasets/{{id}}/remove/labeledData:
+  /datasets/removeData:
     post:
       summary: 从数据集中移除标注样本
       tags:
-        - 样本服务-datasets
+        - 数据集管理
       parameters:
         - in: path
           required: true
@@ -546,81 +502,146 @@ paths:
               application/json:
                 schema:
                     $ref: '#/components/schemas/result'
-  /datasets/{{id}}/exports:
+  /datasets/exports/{{id}}:
     get:
       summary: 导出数据集
       tags:
-        - 样本服务-datasets
+        - 数据集管理
       parameters:
         - in: path
           required: true
           name: id
           schema:
             type: string
-        - in: query
-          name: type
-          schema:
-            type: string
-            enum:
-              - json
-              - xml
-              - csv
-              - yaml
       responses:
         '200':
           description: ' export the specified dataset'
           content:
               application/json:
                 schema:
-                    $ref: '#/components/schemas/result'
+                    $ref: '#/components/schemas/resultData'
 
-  /validation-set:
-    get:
-          summary:  查询验证集列表
-          tags:
-            - 样本服务-validation-set
-          operationId: gets the list of validation-set
-          parameters:
-            - in: query
-              name : page
-              description: page number, default 1
-              schema:
-                type: integer
-            - in: query
-              name : limit
-              description: page size, default 10
-              schema:
-                  type: integer
-            - in: query
-              name: order
-              description: sort by field
-              schema:
-                  type: string
-            - in: query
-              name: filterName
-              schema:
-                type: string
-            - in: query
-              name: filterScene
-              schema:
-                type: string
-                enum:
-                  - detection
-                  - classification
-          responses:
-            '200':
-              description: got back the list of validation-set
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schemas/validation-set'
+  /models/import:
     post:
-      summary: 创建验证集
+      summary: 导入模型
       tags:
-        - 样本服务-validation-set
+        - 模型管理
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/modelImportBody'
       responses:
         '200':
-          description: ' create the specified validation-set'
+          description: ' import the specified model'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+  /models/exports/{{id}}:
+    get:
+      summary: 导出模型
+      tags:
+        - 模型管理
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ' export the specified model'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultData'
+  /models/list:
+    get:
+      summary: 查询模型列表
+      tags:
+        - 模型管理
+      operationId: gets the list of models
+      parameters:
+        - in: query
+          name : page
+          description: page number, default 1
+          schema:
+            type: integer
+        - in: query
+          name : limit
+          description: page size, default 10
+          schema:
+            type: integer
+        - in: query
+          name: gteCreatedAt
+          description: 秒级时间戳,创建时间大于等于
+          schema:
+            type: integer
+        - in: query
+          name: ltCreatedAt
+          description: 秒级时间戳,创建时间小于
+          schema:
+            type: integer
+        - in: query
+          name: name
+          description: 模型名称,模糊匹配
+          schema:
+            type: string
+        - in: query
+          name: status
+          description: 模型状态
+          schema:
+              type: string
+        - in: query
+          name: algorithmType
+          description: 算法类型
+          schema:
+            type: string
+        - in: query
+          name: chipType
+          description: 芯片类型/产品型号
+          schema:
+            type: string
+        - in: query
+          name: engineId
+          description: 算法厂家
+          schema:
+            type: string
+      responses:
+        '200':
+          description: got back the list of models
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modelList'
+  /models/get/{{id}}:
+    get:
+      summary: 获取模型详细信息
+      tags:
+        - 模型管理
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: got back model info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modelGetBody'
+  /models/update:
+    post:
+      summary: 更新模型
+      tags:
+        - 模型管理
+      responses:
+        '200':
+          description: ' update the specified model'
           content:
             application/json:
               schema:
@@ -630,113 +651,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/validation-setBody'
-  /validation-set/{{id}}:
-    get:
-      summary: 获取验证集详细信息
-      tags:
-        - 样本服务-validation-set
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: got back validation-set info
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/validation-set'
-    delete:
-        summary: 删除验证集
-        tags:
-            - 样本服务-validation-set
-        parameters:
-            - in: path
-              required: true
-              name: id
-              schema:
-                  type: string
-        responses:
-            '200' :
-              description: ' delete the specified validation-set'
-              content:
-                  application/json:
-                    schema:
-                        $ref: '#/components/schemas/result'
-    put:
-        summary: 更新验证集
-        tags:
-            - 样本服务-validation-set
-        parameters:
-            - in: path
-              required: true
-              name: id
-              schema:
-                  type: string
-        responses:
-            '200' :
-              description: ' update the specified validation-set'
-              content:
-                  application/json:
-                    schema:
-                      $ref: '#/components/schemas/result'
-        requestBody:
-            required: true
-            content:
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/validation-setBody'
-  /validation-set/{{validationSetId}}/add/labeledData:
-    post:
-      summary: 添加标注样本到验证集
-      tags:
-        - 样本服务-validation-set
-      parameters:
-        - in: path
-          required: true
-          name: id
-          schema:
-            type: string
-        - in: query
-          name: labeledDataIds
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        '200':
-          description: ' add the specified labeledDatas to validation-set'
-          content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
-  /validation-set/{{id}}/remove/labeledData:
-    post:
-      summary: 从验证集中移除标注样本
-      tags:
-        - 样本服务-validation-set
-      parameters:
-        - in: path
-          required: true
-          name: id
-          schema:
-            type: string
-        - in: query
-          name: labeledDataIds
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        '200':
-          description: ' remove the specified labeledDatas from validation-set'
-          content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
+              $ref: '#/components/schemas/modelUpdateBody'
   /data-engine/api/v1/model/list:
     get:
       summary: 获取模型列表
@@ -963,332 +878,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/result'
 
-  /rule/train/save:
-    post:
-      summary: 模型训练规则添加
-      tags:
-        - 规则服务
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-                $ref: '#/components/schemas/trainRuleBody'
-
-      responses:
-        '200':
-          description: ' train control'
-          content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
-  /rule/train/list:
-    get:
-      summary: 获取模型训练规则列表
-      tags:
-        - 规则服务
-      operationId: gets the list of trainRule
-      parameters:
-        - in: query
-          name : page
-          description: page number, default 1
-          schema:
-            type: integer
-        - in: query
-          name : limit
-          description: page size, default 10
-          schema:
-              type: integer
-#        - in: query
-#          name: name
-#          description: 规则名称
-#          schema:
-#              type: string
-#        - in: query
-#          name: target
-#          description: 训练目标,模糊匹配
-#          schema:
-#            type: string
-      responses:
-        '200':
-          description: got back the list of trainRule
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/trainRuleList'
-  /rule/train/id/{{id}}:
-    get:
-      summary: 获取单个模型训练规则详细信息
-      tags:
-        - 规则服务
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: got back trainRule info
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/trainRuleResponse'
-  /rule/train/remove:
-    post:
-      summary: 删除模型训练规则
-      tags:
-        - 规则服务
-      responses:
-        '200':
-          description: ' remove the specified trainRule'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-      parameters:
-        - in: query
-          name: id
-          description: 模型训练规则id
-          schema:
-              type: string
-  /rule/train/status:
-    post:
-      summary: 模型训练规则状态修改接口
-      tags:
-        - 规则服务
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/trainRuleStatusBody'
-      responses:
-        '200':
-          description: ' train control'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-
-  /rule/dataset/save:
-    post:
-      summary: 样本采集规则添加
-      tags:
-        - 规则服务
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-                $ref: '#/components/schemas/datasetRuleBody'
-
-      responses:
-        '200':
-          description: ' imageGather control'
-          content:
-              application/json:
-                schema:
-                    $ref: '#/components/schemas/result'
-  /rule/dataset/list:
-    get:
-      summary: 获取样本采集规则列表
-      tags:
-        - 规则服务
-      operationId: gets the list of datasetRule
-      parameters:
-        - in: query
-          name : page
-          description: page number, default 1
-          schema:
-            type: integer
-        - in: query
-          name : limit
-          description: page size, default 10
-          schema:
-              type: integer
-#        - in: query
-#          name: name
-#          description: 规则名称
-#          schema:
-#              type: string
-#        - in: query
-#          name: target
-#          description: 采集目标,模糊匹配
-#          schema:
-#            type: string
-      responses:
-        '200':
-          description: got back the list of datasetRule
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/datasetRuleList'
-  /rule/dataset/remove:
-    post:
-      summary: 删除样本采集规则
-      tags:
-        - 规则服务
-      responses:
-        '200':
-          description: ' remove the specified datasetRule'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-      parameters:
-        - in: query
-          name: id
-          description: 样本采集规则id
-          schema:
-              type: string
-  /rule/dataset/id/{{id}}:
-    get:
-      summary: 获取单个样本采集规则详细信息
-      tags:
-        - 规则服务
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: got back datasetRule info
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/datasetRuleResponse'
-
-  /modelInfos:
-    get:
-        summary: 查询/推送模型信息
-        tags:
-            - 应用测评服务-modelInfos
-        operationId: gets the list of modelInfos
-        parameters:
-            - in: query
-              name : page
-              description: page number, default 1
-              schema:
-                  type: integer
-            - in: query
-              name : limit
-              description: page size, default 10
-              schema:
-                  type: integer
-            - in: query
-              name: order
-              description: sort by field
-              schema:
-                  type: string
-            - in: query
-              name: filterName
-              schema:
-                  type: string
-            - in: query
-              name: filterScene
-              schema:
-                  type: string
-                  enum:
-                  - detection
-                  - classification
-        responses:
-            '200':
-              description: got back the list of modelInfos
-              content:
-                  application/json:
-                    schema:
-                        $ref: '#/components/schemas/modelInfos'
-  /models/import:
-    post:
-      summary: 导入模型
-      tags:
-        - 算法服务-models
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/modelImportBody'
-      responses:
-        '200':
-          description: ' import the specified model'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-  /models/{{id}}/exports:
-    get:
-      summary: 导出模型
-      tags:
-        - 算法服务-models
-      parameters:
-        - in: path
-          required: true
-          name: id
-          schema:
-            type: string
-        - in: query
-          name: type
-          schema:
-            type: string
-            enum:
-              - json
-              - xml
-              - csv
-              - yaml
-      responses:
-        '200':
-          description: ' export the specified model'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-
-  /devices:
-    get:
-        summary: 查询设备列表
-        tags:
-            - 设备管理服务-devices
-        operationId: gets the list of devices
-        parameters:
-            - in: query
-              name : page
-              description: page number, default 1
-              schema:
-                  type: integer
-            - in: query
-              name : limit
-              description: page size, default 10
-              schema:
-                  type: integer
-        responses:
-            '200':
-              description: got back the list of devices
-              content:
-                  application/json:
-                    schema:
-                        $ref: '#/components/schemas/devices'
-    post:
-        summary: 添加设备
-        tags:
-            - 设备管理服务-devices
-        requestBody:
-            required: true
-            content:
-              application/json:
-                  schema:
-                      $ref: '#/components/schemas/deviceBody'
-        responses:
-            '200':
-              description: ' create the specified device'
-              content:
-                  application/json:
-                      schema:
-                          $ref: '#/components/schemas/result'
-
 components:
   schemas:
     result:
@@ -1329,53 +918,32 @@ components:
       required:
         - id
         - name
-        - summary
-        - scene
-        - cover
         - image_count
         - class_count
-        - annotation_count
-        - size
-        - reason
-        - status
-        - created
-        - updated
+#        - imageInfoList
+        - labelInfoList
+        - createdAt
+        - updatedAt
       properties:
         id:
           type: string
         name:
           type: string
-        summary:
-          type: string
-        scene:
-          type: string
-          enum:
-              - detection
-              - classification
-        cover:
-          type: string
-          description: cover image url
         imageCount:
           type: number
         classCount:
           type: number
-        annotationCount:
+        labelInfoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/labelCategory'
+#        imageInfoList:
+#          type: array
+#          items:
+#            $ref: '#/components/schemas/labeledData'
+        createdAt:
           type: number
-        size:
-          type: number
-
-
-        reason:
-          type: string
-        status:
-          type: number
-          enum:
-            - 1
-            - 2
-            - 3
-        created:
-          type: number
-        updated:
+        updatedAt:
           type: number
     datasets:
       type: object
@@ -1396,233 +964,194 @@ components:
       type: object
       required:
         - name
-        - summary
-        - scene
-        - cover
+        - description
       properties:
         name:
           type: string
-        summary:
+        description:
           type: string
-        scene:
+    datasetUpdateBody:
+      type: object
+      required:
+        - name
+      properties:
+        name:
           type: string
-        cover:
-          type: string
-
-
-    validation-set:
+    datasetGetBody:
         type: object
         required:
-            - id
-            - name
-            - summary
-            - scene
-            - cover
-            - dataset
-            - reason
-            - status
-            - created
-            - updated
+            - code
+            - msg
+            - data
         properties:
-            id:
-              type: string
-            name:
-              type: string
-            summary:
-              type: string
-            scene:
-              type: string
-              enum:
-                - detection
-                - classification
-            cover:
-              type: string
-              description: cover image url
-            dataset:
-              type: object
-              required:
-                - id
-                - imageCount
-                - classCount
-                - annotationCount
-                - size
-              properties:
-                id:
-                  type: string
-                imageCount:
-                  type: number
-                classCount:
-                  type: number
-                annotationCount:
-                  type: number
-                size:
-                  type: number
-            reason:
-              type: string
-            status:
+            code:
               type: number
-              enum:
-                - 1
-                - 2
-                - 3
-            created:
-              type: number
-            updated:
-              type: number
-    validation-setBody:
-        type: object
-        required:
-            - name
-            - summary
-            - scene
-            - cover
-        properties:
-            name:
+            msg:
               type: string
-            summary:
-              type: string
-            scene:
-              type: string
-            cover:
-              type: string
-    rawData:
-        type: object
-        required:
-            - id
-            - width
-            - height
-            - size
-            - md5
-            - status
-            - sourceType
-            - sourceId
-            - createdAt
-            - updatedAt
-        properties:
-            id:
-              type: string
-            width:
-                type: integer
-            height:
-                type: integer
-            size:
-                type: integer
-            status:
-              type: string
-              enum:
-                - UNLABELED
-                - LABELED
-                - LOCKED
-            sourceId:
-                type: integer
-            sourceType:
-              type: string
-              enum:
-                - BOX
-                - MANUAL
-                - OTHER
-            createdAt:
-                type: string
-                format: date-time
-            updatedAt:
-                type: string
-                format: date-time
-
-    rawDatas:
+            data:
+              $ref: '#/components/schemas/dataset'
+    labelClasses:
       type: object
       required:
         - code
+        - msg
         - data
-        - count
       properties:
         code:
           type: number
+        msg:
+          type: string
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/rawData'
-        count:
-          type: integer
-    rawDataImportZipFileBody:
+          type: object
+          required:
+            - list
+            - count
+          properties:
+            list:
+              type: array
+              items:
+                $ref: '#/components/schemas/labelClassBody'
+            count:
+              type: number
+    labelClass:
+     type: object
+     required:
+       - id
+       - labelName
+       - labelKey
+       - labelColor
+       - description
+       - created
+       - updated
+     properties:
+       id:
+         type: string
+       labelName:
+         type: string
+       labelKey:
+         type: string
+       labelColor:
+         type: string
+       description:
+         type: string
+       created:
+         type: number
+       updated:
+         type: number
+    labelClassAddBody:
       type: object
       required:
-        - url
-        - size
-        - hash
+          - labelName
+          - labelKey
+          - labelColor
       properties:
-        filename:
-          type: string
-        url:
-          type: string
-        size:
-            type: number
-        hash:
+          labelName:
             type: string
-    rawDataAddBody:
+          labelKey:
+            type: string
+          labelColor:
+            type: string
+          description:
+            type: string
+    labelClassBody:
       type: object
       required:
-        - files
-        - sourceType
-        - sourceId
-        - sourceTaskId
-        - annotation
+          - code
+          - msg
+          - data
       properties:
-        files:
-            type: array
-            items:
-                type: string
-                format: binary
-        sourceType:
-            type: string
-            enum:
-                - BOX
-                - MANUAL
-                - OTHER
-        sourceId:
-            type: string
-        sourceTaskId:
-            type: integer
-        annotation:
-            type: string
+          code:
+              type: number
+          msg:
+              type: string
+          data:
+              type: object
+              required:
+                  - id
+                  - labelName
+                  - labelKey
+                  - labelColor
+                  - description
+                  - created
+                  - updated
+              properties:
+                  id:
+                    type: integer
+                  labelName:
+                    type: string
+                  labelKey:
+                    type: string
+                  labelColor:
+                    type: string
+                  description:
+                    type: string
+    labelClassRemoveBody:
+        type: object
+        required:
+            - labelClassIds
+        properties:
+            labelClassIds:
+              type: array
+              items:
+                  type: integer
+    labelClassUpdateBody:
+        type: object
+        required:
+            - id
+        properties:
+            id:
+              type: integer
+            labelName:
+              type: string
+            labelKey:
+              type: string
+            labelColor:
+              type: string
             description:
-              array of json string
-            example:
-                - [{"xMin": 1, "xMax": 2, "yMin": 3, "yMax": 4, "labelClassKey": "person"}, {"xMin": 2, "xMax": 2, "yMin": 3, "yMax": 4, "labelClassKey": "person"}]
+              type: string
+
+
     labeledData:
       type: object
       required:
         - id
-        - created
-        - updated
+        - createdAt
         - size
-        - collection
-        - source_type
-        - source_sn
+        - source
         - imageUrl
         - labelUrl
-        - labelCategoryList
+        - labelInfoList
         - labelAnnotationList
       properties:
         id:
           type: string
-        created:
-          type: number
-        updated:
-          type: number
+        createdAt:
+          type: integer
         size:
           type: number
-        sourceType:
+        source:
           type: string
-        sourceId:
+        imageUrl:
           type: string
-        labeledFilepath:
+        labelUrl:
           type: string
-        labeledImageFilepath:
-          type: string
-        labelCategoryList:
+        labelInfoList:
           type: array
           items:
             $ref: '#/components/schemas/labelCategory'
+        labelAnnotationList:
+          type: array
+          items:
+            $ref: '#/components/schemas/labelAnnotation'
+    labeledDataRemoveBody:
+      type: object
+      required:
+        - labeledDataIds
+      properties:
+        labeledDataIds:
+          type: array
+          items:
+            type: string
     labeledDataUpdateBody:
       type: object
       required:
@@ -1692,6 +1221,17 @@ components:
               type: string
             fileName:
               type: string
+    labeledDataExportBody:
+        type: object
+        properties:
+            labelClassName:
+              type: string
+            source:
+              type: string
+            gteCreatedAt:
+              type: integer
+            ltCreatedAt:
+              type: integer
     labeledDataAdd:
       type: object
       required:
@@ -1730,42 +1270,59 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/labeledDataAdd'
-
+    labeledDataGetBody:
+        type: object
+        required:
+            - code
+            - msg
+            - data
+        properties:
+            code:
+              type: number
+            msg:
+              type: string
+            data:
+                $ref: '#/components/schemas/labeledData'
     labeledDatas:
         type: object
         required:
         - code
         - data
-        - count
         properties:
             code:
               type: number
             data:
-              type: array
-              items:
-                  $ref: '#/components/schemas/labeledData'
-            count:
-              type: number
+              type: object
+              required:
+                  - list
+                  - count
+              properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/labeledData'
+                  count:
+                    type: number
     labelCategory:
       type: object
       required:
-        - id
+        - labelId
         - labelName
-        - color
+        - labelKey
+        - labelColor
+        - count
       properties:
-        id:
-
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        color:
-          type: string
-        created:
-          type: number
-        updated:
-          type: number
+        labelId:
+            type: integer
+        labelName:
+            type: string
+        labelKey:
+            type: string
+        labelColor:
+            type: string
+        count:
+            description: 标注数量
+            type: integer
     labelAnnotationList:
         type: array
         items:
@@ -1773,41 +1330,31 @@ components:
     labelAnnotation:
         type: object
         required:
-            - id
-            - category
-            - bbox
-            - created
-            - updated
+            - labelId
+            - labelKey
+            - labelName
+            - labelColor
+            - xMin
+            - yMin
+            - xMax
+            - yMax
         properties:
-            id:
-              type: string
-            category:
-              type: string
-            bbox:
-              type: object
-              required:
-                  - x
-                  - y
-                  - w
-                  - h
-              properties:
-                  x:
-                    type: number
-                  y:
-                    type: number
-                  w:
-                    type: number
-                  h:
-                    type: number
-            created:
-              type: number
-            updated:
-              type: number
-            width:
-              type: number
-            height:
-              type: number
-
+            labelId:
+                type: string
+            labelKey:
+                type: string
+            labelName:
+                type: string
+            labelColor:
+                type: string
+            xMin:
+                type: number
+            yMin:
+                type: number
+            xMax:
+                type: number
+            yMax:
+                type: number
     trainRule:
       type: object
       required:
@@ -2649,6 +2196,7 @@ components:
         required:
             - id
             - name
+            - status
             - ruleId
             - iteratorNumber
             - createdAt
@@ -2661,10 +2209,13 @@ components:
             - evolutionSetObjInfo
             - downloadUrl
             - md5
+            - coverUrl
         properties:
                 id:
                     type: integer
                 name:
+                    type: string
+                status:
                     type: string
                 ruleId:
                     type: integer
@@ -2676,6 +2227,7 @@ components:
                     type: integer
                 chipType:
                     type: string
+                    description: 芯片类型
                     enum:
                         - Rockchip,1808,NPU
                         - SOPHGO,SE5,NPU
@@ -2687,6 +2239,7 @@ components:
                       - 0
                 algorithmType:
                     type: string
+                    description: 算法类型
                     enum:
                         - Detection
                         - Compare
@@ -2703,7 +2256,9 @@ components:
                 downloadUrl:
                     type: string
                     description: 模型下载地址
-
+                coverUrl:
+                    type: string
+                    description: 模型封面地址
                 labelClassSetObjInfo:
                     type: array
                     description: 训练标签类别信息
@@ -2768,8 +2323,6 @@ components:
                                     id:
                                         type: integer
                                         description: 标签类别Id
-
-
     modelInfos:
         type: object
         required:
@@ -2785,111 +2338,34 @@ components:
     modelImportBody:
       type: object
       required:
-        - filename
-        - url
-        - size
-        - hash
-        - chipset
-        - platform
-        - accuracy
-        - recall
-        - precision
-        - description
-        - categoryList
+        - md5
       properties:
-        filename:
+        md5:
           type: string
-        url:
-          type: string
-        size:
-            type: number
-        hash:
-            type: string
-        chipset:
-            type: string
-            enum:
-              - rk1808
-              - nvidia
-              - amd
-              - intel
-              - other
-        platform:
-            type: string
-            enum:
-              - tensorflow
-              - pytorch
-              - caffe
-              - mxnet
-              - darknet
-              - other
-        accuracy:
-            type: number
-        recall:
-            type: number
-        precision:
-            type: number
-        description:
-            type: string
-        categoryList:
-            type: array
-            items:
-              $ref: '#/components/schemas/labelCategory'
-
-    deviceBody:
+          description: 模型md5
+    modelUpdateBody:
       type: object
       required:
-        - sn
-        - productId
-        - type
-        - status
-        - subDeviceList
+        - id
+        - name
+        - description
       properties:
-        sn:
+        id:
+          type: integer
+        name:
           type: string
-        type:
+        description:
           type: string
-          enum:
-            - camera
-            - box
-            - other
-        chipset:
+    modelGetBody:
+      type: object
+      required:
+        - code
+        - msg
+        - data
+      properties:
+        code:
+          type: number
+        msg:
           type: string
-          enum:
-            - rk1808
-            - other
-        status:
-          type: string
-          enum:
-            - online
-            - offline
-            - other
-        subDeviceList:
-          type: array
-          items:
-            type: object
-            required:
-              - sn
-              - productId
-            properties:
-                sn:
-                    type: string
-                productId:
-                    type: string
-                status:
-                    type: string
-                    enum:
-                    - online
-                    - offline
-                    - other
-    devices:
-        type: object
-        required:
-            - items
-            - total
-        properties:
-            items:
-              type: array
-              items:
-                  $ref: '#/components/schemas/deviceBody'
-            total:
-              type: number
+        data:
+          $ref: '#/components/schemas/modelInfo'

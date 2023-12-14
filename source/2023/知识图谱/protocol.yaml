@@ -1072,8 +1072,8 @@ components:
                   - labelKey
                   - labelColor
                   - description
-                  - created
-                  - updated
+                  - createdAt
+                  - updatedAt
               properties:
                   id:
                     type: integer
@@ -1085,6 +1085,10 @@ components:
                     type: string
                   description:
                     type: string
+                  createdAt:
+                    type: integer
+                  updatedAt:
+                    type: integer
     labelClassRemoveBody:
         type: object
         required:

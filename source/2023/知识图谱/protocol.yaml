@@ -28,13 +28,13 @@ paths:
               type: integer
         - in: query
           name: gteCreatedAt
-          description: 标注类别创建时间
+          description: 标注类别创建开始时间(大于等于),秒级时间戳
           schema:
               type: integer
               description: 秒级时间戳,创建时间大于等于
         - in: query
           name: ltCreatedAt
-          description: 标注类别创建时间
+          description: 标注类别创建结束时间(小于),秒级时间戳
           schema:
               type: integer
               description: 秒级时间戳,创建时间小于

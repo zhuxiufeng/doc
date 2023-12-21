@@ -147,20 +147,25 @@ paths:
           schema:
               type: integer
         - in: query
-          name: source
-          description: 标注样本来源
+          name: sourceType
+          description: 标注样本来源,0:导入,1:采集
           schema:
               type: integer
+        - in: query
+          name: sourceId
+          description: 样本来源id(sourceType为1时表示采集摄像头sn,sourceType为0时无意义)
+          schema:
+              type: string
         - in: query
           name: datasetsId
           description: 标注样本所属数据集
           schema:
               type: integer
         - in: query
-          name: labelClassId
-          description: 根据标注类别的 id 过滤，支持数组同时过滤多个
+          name: labelClassIds
+          description: 根据标注类别的 id 过滤，支持数组同时过滤多个,逗号分隔
           schema:
-              type: string
+              type: integer
         - in: query
           name: gteCreatedAt
           description: 秒级时间戳,创建时间大于等于
@@ -521,7 +526,7 @@ paths:
                 schema:
                     $ref: '#/components/schemas/resultData'
 
-  /models/import:
+  /model/import:
     post:
       summary: 导入模型
       tags:
@@ -539,7 +544,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/result'
-  /models/exports/{{id}}:
+  /model/exports/{{id}}:
     get:
       summary: 导出模型
       tags:
@@ -557,7 +562,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/resultData'
-  /models/list:
+  /model/list:
     get:
       summary: 查询模型列表
       tags:
@@ -616,7 +621,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/modelList'
-  /models/get/{{id}}:
+  /model/get/{{id}}:
     get:
       summary: 获取模型详细信息
       tags:
@@ -634,7 +639,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/modelGetBody'
-  /models/update:
+  /model/update:
     post:
       summary: 更新模型
       tags:
@@ -652,6 +657,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/modelUpdateBody'
+
   /data-engine/api/v1/model/list:
     get:
       summary: 获取模型列表
@@ -918,8 +924,10 @@ components:
       required:
         - id
         - name
-        - image_count
-        - class_count
+        - description
+        - imageCount
+        - labelCount
+#        - classCount
 #        - imageInfoList
         - labelInfoList
         - createdAt
@@ -929,10 +937,14 @@ components:
           type: string
         name:
           type: string
+        description:
+          type: string
         imageCount:
           type: number
-        classCount:
+          description: 包含样本总数量(每个样本可能含多个标注)
+        labelCount:
           type: number
+          description: 包含标注总数量
         labelInfoList:
           type: array
           items:
@@ -1089,9 +1101,11 @@ components:
                   description:
                     type: string
                   createdAt:
-                    type: integer
+                    type: string
+                    description: 创建时间 yyyy-MM-dd HH:mm:ss
                   updatedAt:
-                    type: integer
+                    type: string
+                    description: 更新时间 yyyy-MM-dd HH:mm:ss
     labelClassRemoveBody:
         type: object
         required:
@@ -1123,8 +1137,13 @@ components:
       required:
         - id
         - createdAt
+        - updatedAt
         - size
-        - source
+        - width
+        - height
+#        - source
+        - sourceType
+        - sourceId
         - imageUrl
         - labelUrl
         - labelInfoList
@@ -1133,11 +1152,25 @@ components:
         id:
           type: string
         createdAt:
+          type: string
+          description: 创建时间 yyyy-MM-dd HH:mm:ss
+        updatedAt:
+            type: string
+            description: 更新时间 yyyy-MM-dd HH:mm:ss
+        width:
+          type: integer
+        height:
           type: integer
         size:
-          type: number
-        source:
-          type: string
+          type: integer
+#        source:
+#          type: string
+        sourceType:
+          type: integer
+          description: 样本来源 0:导入,1:采集
+        sourceId:
+            type: string
+            description: 样本来源id(sourceType为1时表示采集摄像头sn,sourceType为0时无意义)
         imageUrl:
           type: string
         labelUrl:
@@ -1317,7 +1350,8 @@ components:
         - labelName
         - labelKey
         - labelColor
-        - count
+        - labelCount
+        - imageCount
       properties:
         labelId:
             type: integer
@@ -1327,8 +1361,11 @@ components:
             type: string
         labelColor:
             type: string
-        count:
-            description: 标注数量
+        imageCount:
+            description: 含该标注样本数量(每个样本可能含多个标注)
+            type: integer
+        labelCount:
+            description: 该标注数量
             type: integer
     labelAnnotationList:
         type: array

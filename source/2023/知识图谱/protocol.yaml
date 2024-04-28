@@ -43,6 +43,12 @@ paths:
           description: 标注类别名称,模糊匹配
           schema:
             type: string
+        - in: query
+          name: labelKey
+          description: 标注类别key,模糊匹配
+          schema:
+            type: string
+
       responses:
         '200':
           description: got back the list of labelClass
@@ -261,97 +267,56 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/labeledDataAddBody'
-  /labeledData/import/checkBigFile:
-    post:
-      summary: 校验压缩包数据
-      tags:
-        - 样本管理
-      responses:
-        '200':
-          description: ' check the specified labeledData'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-                $ref: '#/components/schemas/labeledDataCheckBody'
-  /labeledData/import/uploadBigFile:
-    post:
-      summary: 上传压缩包切片数据
-      tags:
-        - 样本管理
-      responses:
-        '200':
-          description: ' upload the specified labeledData'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-                $ref: '#/components/schemas/labeledDataUploadBody'
-  /labeledData/import/mergeBigFile:
-    post:
-      summary: 合并压缩包切片数据
-      tags:
-        - 样本管理
-      responses:
-        '200':
-          description: ' merge the specified labeledData'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/result'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-                $ref: '#/components/schemas/labeledDataMergeBody'
-#  /labeledData/import/loadBigFile:
-#    post:
-#      summary: 获取大文件压缩包数据
-#      tags:
-#        - 样本管理
-#      responses:
-#        '200':
-#          description: ' load the specified labeledData'
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/result'
-#      requestBody:
-#        required: true
-#        content:
-#          application/json:
-#            schema:
-#                $ref: '#/components/schemas/labeledDataLoadBody'
   /labeledData/exports:
-    post:
+    get:
       summary: 导出标注样本压缩包
       tags:
         - 样本管理
       requestBody:
         required: true
         content:
-          application/json:
+          query:
             schema:
               $ref: '#/components/schemas/labeledDataExportBody'
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/labeledDataExportBody'
       responses:
         '200':
           description: ' exports the specified labeledData'
           content:
             application/json:
+                schema:
+                    $ref: '#/components/schemas/dataExportResult'
+  /labeledData/import:
+    post:
+      summary: 导入标注样本压缩包
+      tags:
+        - 样本管理
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+                - md5
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  maximum: 512000
+                md5:
+                    type: string
+                    description: 文件md5
+      responses:
+        '200':
+          description: ' import the specified labeledData'
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/resultData'
-
+                $ref: '#/components/schemas/result'
 
   /datasets/list:
     get:
@@ -522,21 +487,58 @@ paths:
         '200':
           description: ' export the specified dataset'
           content:
-              application/json:
+            application/json:
                 schema:
-                    $ref: '#/components/schemas/resultData'
+                    $ref: '#/components/schemas/dataExportResult'
 
   /model/import:
     post:
       summary: 导入模型
       tags:
         - 模型管理
+
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/modelImportBody'
+              type: object
+              required:
+                - file
+#                - chipType
+#                - engineId
+#                - algorithmType
+                - md5
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  maximum: 512000
+#                chipType:
+#                  type: string
+#                  description: 芯片类型
+#                  enum:
+#                    - Rockchip,1808,NPU
+#                    - SOPHGO,SE5,NPU
+#                engineId:
+#                  type: string
+#                  description: 引擎Id 1:共达地  0:7G
+#                  enum:
+#                    - 0
+#                    - 1
+#                algorithmType:
+#                    type: string
+#                    enum:
+#                      - Detection
+#                      - Compare
+#                      - Structuration
+                md5:
+                  type: string
+                  description: 文件md5
+#                duration:
+#                  type: integer
+#                  description: 模型训练时长,单位分钟
+
       responses:
         '200':
           description: ' import the specified model'
@@ -556,12 +558,15 @@ paths:
           schema:
             type: string
       responses:
+        #返回文件
         '200':
           description: ' export the specified model'
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/resultData'
+              application/zip:
+                schema:
+                    type: string
+                    format: binary
+
   /model/list:
     get:
       summary: 查询模型列表
@@ -919,6 +924,21 @@ components:
               type: string
             data:
                 type: object
+    dataExportResult:
+        type: object
+        required:
+            - status
+            - body
+        properties:
+            status:
+              type: number
+            body:
+              type: object
+              required:
+                  - url
+              properties:
+                  url:
+                    type: string
     dataset:
       type: object
       required:
@@ -1264,10 +1284,16 @@ components:
     labeledDataExportBody:
         type: object
         properties:
-            labelClassName:
+            sourceType:
+              type: integer
+            sourceId:
               type: string
-            source:
-              type: string
+            datasetsId:
+              type: integer
+            labelClassIds:
+                type: array
+                items:
+                    type: integer
             gteCreatedAt:
               type: integer
             ltCreatedAt:
@@ -2254,13 +2280,19 @@ components:
             - downloadUrl
             - md5
             - coverUrl
+            - status
+            - sampleQuantity
         properties:
                 id:
                     type: integer
                 name:
                     type: string
                 status:
-                    type: string
+                    type: integer
+                    description: 模型使用状态,0:未使用,1:使用中
+                    enum:
+                      - 0
+                      - 1
                 ruleId:
                     type: integer
                     description: 训练任务Id
@@ -2303,6 +2335,10 @@ components:
                 coverUrl:
                     type: string
                     description: 模型封面地址
+                sampleQuantity:
+                    type: integer
+                    description: 训练样本数量
+
                 labelClassSetObjInfo:
                     type: array
                     description: 训练标签类别信息
